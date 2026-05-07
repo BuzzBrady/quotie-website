@@ -78,9 +78,20 @@ export default function Showcase() {
   }, [tick]);
 
   return (
-    <section className="py-20 overflow-hidden" style={{ background: "#08080c" }}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
-        <div className="flex items-center justify-center gap-2 flex-wrap">
+    <section className="pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden" style={{ background: "#08080c" }}>
+      <div className="text-center mb-6 sm:mb-12 px-4">
+        <h2
+          className="text-2xl sm:text-3xl lg:text-5xl font-extrabold tracking-tight text-white mb-3 sm:mb-4 font-[family-name:var(--font-jakarta)]"
+        >
+          This is what your clients receive.
+        </h2>
+        <p className="text-sm sm:text-base lg:text-lg text-white/40 max-w-lg mx-auto">
+          Branded, detailed proposals — generated in seconds, not hours.
+        </p>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-6 sm:mb-10">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
           {INDUSTRIES.map((ind, i) => (
             <button
               key={ind.id}
@@ -125,17 +136,17 @@ export default function Showcase() {
         >
           {images.map((src, i) => (
             <div
-              key={i}
-              className="flex-shrink-0 rounded-xl overflow-hidden border border-white/[0.07] shadow-xl"
-              style={{ width: 240, height: 340 }}
+              key={`${industry.id}-${i}`}
+              className="flex-shrink-0 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/40 bg-white/[0.02]"
+              style={{ width: "clamp(220px, 22vw, 320px)", aspectRatio: "0.707" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt={`${industry.label} page ${i + 1}`}
-                className="w-full h-full object-cover"
-                style={{ filter: "blur(6px)", transform: "scale(1.05)" }}
-                loading="lazy"
+                className="w-full h-full object-cover block blur-[6px]"
+                loading="eager"
+                draggable={false}
               />
             </div>
           ))}
@@ -153,22 +164,29 @@ export default function Showcase() {
         >
           {images.map((src, i) => (
             <div
-              key={i}
-              className="flex-shrink-0 snap-center rounded-xl overflow-hidden border border-white/[0.07] shadow-xl"
-              style={{ width: 180, height: 260 }}
+              key={`${industry.id}-${i}`}
+              className="flex-shrink-0 snap-start rounded-lg overflow-hidden border border-white/[0.08] shadow-xl shadow-black/30 bg-white/[0.02]"
+              style={{ width: "55vw", maxWidth: "260px", aspectRatio: "0.707" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt={`${industry.label} page ${i + 1}`}
-                className="w-full h-full object-cover"
-                style={{ filter: "blur(6px)", transform: "scale(1.05)" }}
-                loading="lazy"
+                className="w-full h-full object-cover block blur-[6px]"
+                loading="eager"
+                draggable={false}
               />
             </div>
           ))}
         </div>
       </div>
+
+      <p className="text-center text-xs text-white/20 mt-4 hidden sm:block">
+        Hover the edges to browse
+      </p>
+      <p className="text-center text-xs text-white/20 mt-4 sm:hidden px-4">
+        Swipe to browse pages
+      </p>
     </section>
   );
 }
