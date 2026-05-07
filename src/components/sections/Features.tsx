@@ -1,269 +1,192 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  useScroll,
-  useTransform,
-  motion,
-  MotionValue,
-} from "framer-motion";
-import {
-  Layers,
-  Zap,
-  BarChart3,
-  LayoutDashboard,
-  FileText,
-} from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { Layers, Zap, Check } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
-const FEATURES = [
-  {
-    icon: Layers,
-    accent: "#f59e0b",
-    accentBg: "from-amber-500/20 to-orange-500/20",
-    title: "Multiple options. One proposal.",
-    description:
-      "Give clients a Bronze, Silver, and Gold option — all in a single, beautifully branded PDF. No more sending three separate quotes.",
-    visual: (
-      <div className="space-y-3">
-        {["Bronze — $4,200", "Silver — $6,800", "Gold — $9,500"].map(
-          (tier, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between p-3 rounded-xl bg-white/[0.04] border border-white/[0.06]"
-            >
-              <span className="text-sm text-white/70">{tier.split("—")[0].trim()}</span>
-              <span className="text-sm font-bold text-amber-400">
-                {tier.split("—")[1].trim()}
-              </span>
-            </div>
-          )
-        )}
-        <div className="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-center">
-          <span className="text-xs text-amber-400 font-semibold">
-            PDF GENERATED
-          </span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    icon: Zap,
-    accent: "#3b82f6",
-    accentBg: "from-blue-500/20 to-blue-700/20",
-    title: "Quote in under 30 seconds.",
-    description:
-      "Fill in the form — your pricing engine handles the rest. Every field, calculation, and option tier is pre-built and ready to fire.",
-    visual: (
-      <div className="space-y-3">
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-          <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-          <span className="text-sm text-white/60">Customer details filled</span>
-          <span className="ml-auto text-blue-400 text-xs font-bold">3s</span>
-        </div>
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-          <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: "0.2s" }} />
-          <span className="text-sm text-white/60">Options selected</span>
-          <span className="ml-auto text-blue-400 text-xs font-bold">8s</span>
-        </div>
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-          <div className="w-2 h-2 rounded-full bg-emerald-400" />
-          <span className="text-sm text-white/60">PDF sent to client</span>
-          <span className="ml-auto text-emerald-400 text-xs font-bold">28s</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    icon: BarChart3,
-    accent: "#8b5cf6",
-    accentBg: "from-indigo-500/20 to-violet-500/20",
-    title: "Every quote tracked. Every follow-up scheduled.",
-    description:
-      "Never lose a lead again. Your pipeline shows every quote's status, follow-up due dates, and revenue potential at a glance.",
-    visual: (
-      <div className="space-y-2">
-        {[
-          { label: "Sent", count: 12, color: "bg-blue-500" },
-          { label: "Opened", count: 9, color: "bg-indigo-500" },
-          { label: "Follow-up due", count: 4, color: "bg-violet-500" },
-          { label: "Won", count: 6, color: "bg-emerald-500" },
-        ].map((item) => (
-          <div key={item.label} className="flex items-center gap-3">
-            <span className="w-28 text-xs text-white/50">{item.label}</span>
-            <div className="flex-1 h-2 rounded-full bg-white/[0.05]">
-              <div
-                className={`h-full rounded-full ${item.color}`}
-                style={{ width: `${(item.count / 12) * 100}%` }}
-              />
-            </div>
-            <span className="w-6 text-xs text-white/40 text-right">
-              {item.count}
-            </span>
-          </div>
-        ))}
-      </div>
-    ),
-  },
-  {
-    icon: LayoutDashboard,
-    accent: "#10b981",
-    accentBg: "from-emerald-500/20 to-teal-500/20",
-    title: "Know your real numbers.",
-    description:
-      "See revenue closed, average deal size, conversion rate, and more — all in real time. No spreadsheets required.",
-    visual: (
-      <div className="grid grid-cols-2 gap-3">
-        {[
-          { label: "Revenue (MTD)", value: "$124k", color: "text-emerald-400" },
-          { label: "Avg deal", value: "$8,400", color: "text-teal-400" },
-          { label: "Conversion", value: "62%", color: "text-emerald-400" },
-          { label: "Open pipeline", value: "$340k", color: "text-teal-300" },
-        ].map((m) => (
-          <div
-            key={m.label}
-            className="p-3 rounded-xl bg-white/[0.04] border border-white/[0.06]"
-          >
-            <div className={`text-xl font-bold ${m.color}`}>{m.value}</div>
-            <div className="text-xs text-white/40 mt-0.5">{m.label}</div>
-          </div>
-        ))}
-      </div>
-    ),
-  },
-  {
-    icon: FileText,
-    accent: "#39b9e5",
-    accentBg: "from-cyan-500/20 to-blue-500/20",
-    title: "Your brand on every page.",
-    description:
-      "Logo, colours, cover pages, and custom fields — every quote looks like it came from a premium business. Not a template.",
-    visual: (
-      <div className="rounded-xl overflow-hidden border border-white/[0.08]">
-        <div
-          className="h-10 flex items-center px-4 gap-2"
-          style={{ background: "rgba(57,185,229,0.15)" }}
-        >
-          <div className="w-4 h-4 rounded-sm bg-cyan-400/60" />
-          <span className="text-xs text-cyan-300 font-bold">ACME SOLAR</span>
-          <span className="ml-auto text-xs text-white/30">QUOTE #1042</span>
-        </div>
-        <div className="p-3 space-y-2 bg-white/[0.02]">
-          <div className="h-2 rounded-full bg-white/[0.08] w-3/4" />
-          <div className="h-2 rounded-full bg-white/[0.05] w-full" />
-          <div className="h-2 rounded-full bg-white/[0.05] w-5/6" />
-          <div className="h-2 rounded-full bg-white/[0.05] w-2/3" />
-        </div>
-      </div>
-    ),
-  },
-] as const;
-
-function FeatureCard({
-  feature,
-  index,
-  progress,
-}: {
-  feature: (typeof FEATURES)[number];
-  index: number;
-  progress: MotionValue<number>;
-}) {
-  const Icon = feature.icon;
-
-  const scale = useTransform(
-    progress,
-    [index / FEATURES.length, (index + 1) / FEATURES.length],
-    [1, 0.94]
-  );
-  const opacity = useTransform(
-    progress,
-    [index / FEATURES.length, (index + 0.8) / FEATURES.length],
-    [1, 0.6]
-  );
-
+function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
   return (
     <motion.div
-      style={{
-        scale,
-        opacity,
-        top: `${80 + index * 24}px`,
-        zIndex: index,
-      }}
-      className="sticky"
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      className={className}
     >
-      <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-2xl shadow-black/40">
-        <div className="grid md:grid-cols-2 gap-0">
-          {/* Left: content */}
-          <div className="p-8 lg:p-10 flex flex-col justify-center">
-            <div
-              className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.accentBg} border border-white/[0.08] mb-5`}
-            >
-              <Icon className="w-6 h-6" style={{ color: feature.accent }} />
-            </div>
-            <h3 className="text-xl lg:text-2xl font-bold text-white mb-3 font-[family-name:var(--font-jakarta)]">
-              {feature.title}
-            </h3>
-            <p className="text-white/50 leading-relaxed">{feature.description}</p>
-          </div>
-
-          {/* Right: visual */}
-          <div className="p-8 lg:p-10 flex items-center border-l border-white/[0.05]">
-            <div className="w-full">{feature.visual}</div>
-          </div>
-        </div>
-      </div>
+      {children}
     </motion.div>
   );
 }
 
 export default function Features() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
   return (
-    <section
-      id="features"
-      className="py-24 lg:py-32"
-      style={{ background: "#08080c" }}
-    >
-      <Container>
-        <div className="mb-16">
-          <SectionHeader
-            badge="Why Quotie?"
-            badgeIcon={
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan" />
-              </span>
-            }
-            title="Everything between the enquiry and the handshake."
-            gradient="and the handshake."
-          />
-        </div>
-
-        <div
-          ref={containerRef}
-          style={{ height: `${FEATURES.length * 60}vh` }}
-          className="relative"
-        >
-          <div className="sticky top-0 pt-8 pb-32">
-            <div className="space-y-6">
-              {FEATURES.map((feature, index) => (
-                <FeatureCard
-                  key={index}
-                  feature={feature}
-                  index={index}
-                  progress={scrollYProgress}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+    <section id="features" style={{ background: "#08080c" }}>
+      {/* Section header */}
+      <Container className="pt-24 lg:pt-32 pb-16 text-center">
+        <SectionHeader
+          badge="Why Quotie?"
+          badgeIcon={
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan" />
+            </span>
+          }
+          title="Everything between the enquiry and the handshake."
+          gradient="and the handshake."
+        />
       </Container>
+
+      {/* Feature 1: Multi-option — full width */}
+      <div className="border-t border-white/[0.04]">
+        <Container className="py-20 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <FadeIn>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/20 bg-amber-500/10 text-amber-400 text-xs font-semibold mb-6">
+                <Layers className="w-3.5 h-3.5" />
+                Multi-Option Proposals
+              </div>
+              <h3
+                className="font-[family-name:var(--font-jakarta)] font-extrabold text-white mb-5"
+                style={{ fontSize: "clamp(26px, 5vw, 44px)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
+              >
+                One proposal.
+                <br />
+                <span className="text-white/40">Multiple ways to say yes.</span>
+              </h3>
+              <p className="text-white/45 leading-relaxed mb-6 max-w-md">
+                Send up to 4 options in a single quote group. Your client picks
+                what works — no more sending separate quotes and hoping they
+                open the right one.
+              </p>
+              <ul className="space-y-2.5">
+                {[
+                  "Up to 4 pricing tiers in one quote group",
+                  "Each option is a full branded PDF",
+                  "Bundle and send in one email",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-2.5 h-2.5 text-amber-400" />
+                    </div>
+                    <span className="text-white/50 text-sm">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </FadeIn>
+
+            <FadeIn delay={0.15}>
+              <div className="relative">
+                <div className="absolute -inset-8 bg-gradient-to-br from-amber-500/5 to-orange-500/5 rounded-3xl blur-2xl" />
+                <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { label: "Basic", price: "$18,400", items: ["13kW Solar", "10kW Inverter", "16kWh Battery"], rec: false },
+                    { label: "Recommended", price: "$23,100", items: ["13kW Solar", "10kW Inverter", "32kWh Battery"], rec: true },
+                    { label: "Premium", price: "$26,900", items: ["15kW Solar", "15kW Inverter", "32kWh Battery"], rec: false },
+                  ].map((tier, i) => (
+                    <div
+                      key={i}
+                      className={`rounded-2xl p-4 sm:p-5 border transition-all ${
+                        tier.rec
+                          ? "bg-gradient-to-b from-amber-500/10 to-orange-500/5 border-amber-500/30 shadow-xl shadow-amber-500/5 scale-[1.03] z-10"
+                          : "bg-white/[0.03] border-white/[0.07]"
+                      }`}
+                    >
+                      {tier.rec && (
+                        <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-2">Best Value</div>
+                      )}
+                      <div className={`text-xs font-semibold mb-1 ${tier.rec ? "text-white" : "text-white/50"}`}>{tier.label}</div>
+                      <div className={`text-xl sm:text-2xl font-extrabold mb-3 font-[family-name:var(--font-jakarta)] ${tier.rec ? "text-white" : "text-white/70"}`}>{tier.price}</div>
+                      <div className="space-y-1.5">
+                        {tier.items.map((item, j) => (
+                          <div key={j} className="flex items-center gap-2">
+                            <div className={`w-1.5 h-1.5 rounded-full ${tier.rec ? "bg-amber-400" : "bg-white/20"}`} />
+                            <span className={`text-[11px] ${tier.rec ? "text-white/70" : "text-white/35"}`}>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </Container>
+      </div>
+
+      {/* Feature 2: Speed — reversed, with timeline */}
+      <div className="border-t border-white/[0.04]">
+        <Container className="py-20 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Timeline visual — left on desktop */}
+            <FadeIn className="order-2 lg:order-1">
+              <div className="relative">
+                <div className="absolute -inset-8 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 rounded-3xl blur-2xl" />
+                <div className="relative space-y-0">
+                  {[
+                    { time: "0s", label: "Open Quotie", sub: "Select template, enter client", color: "bg-blue-500", line: true },
+                    { time: "8s", label: "Fill the form", sub: "Dropdowns, options, quantities", color: "bg-blue-400", line: true },
+                    { time: "12s", label: "PDF generated", sub: "Branded, calculated, ready", color: "bg-indigo-400", line: true },
+                    { time: "22s", label: "Email composed", sub: "Template + attachments", color: "bg-violet-400", line: true },
+                    { time: "28s", label: "Client has it", sub: "Branded proposal in their inbox", color: "bg-emerald-400", line: false },
+                  ].map((step, i) => (
+                    <div key={i} className="flex gap-5">
+                      <div className="flex flex-col items-center">
+                        <div className={`w-3 h-3 rounded-full ${step.color} shadow-lg ring-4 ring-white/[0.03]`} />
+                        {step.line && <div className="w-px h-12 bg-gradient-to-b from-white/10 to-transparent" />}
+                      </div>
+                      <div className="pb-6">
+                        <div className="flex items-baseline gap-3 mb-0.5">
+                          <span className="text-white/30 text-xs font-mono font-bold w-8">{step.time}</span>
+                          <span className="text-white font-semibold text-sm">{step.label}</span>
+                        </div>
+                        <span className="text-white/30 text-xs ml-11">{step.sub}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Copy — right on desktop */}
+            <FadeIn delay={0.15} className="order-1 lg:order-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-400 text-xs font-semibold mb-6">
+                <Zap className="w-3.5 h-3.5" />
+                Speed
+              </div>
+              <h3
+                className="font-[family-name:var(--font-jakarta)] font-extrabold text-white mb-5"
+                style={{ fontSize: "clamp(26px, 5vw, 44px)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
+              >
+                Under 30 seconds.
+                <br />
+                <span className="text-white/40">That&apos;s not a target. It&apos;s the average.</span>
+              </h3>
+              <p className="text-white/45 leading-relaxed mb-6 max-w-md">
+                Your pricing logic is pre-built. The template does the maths.
+                Fill in the details, generate, send. Done.
+              </p>
+              <ul className="space-y-2.5">
+                {[
+                  "Automatic calculations from your templates",
+                  "Branded PDFs generated in seconds",
+                  "Send from your own Gmail or Outlook",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full bg-blue-500/15 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-2.5 h-2.5 text-blue-400" />
+                    </div>
+                    <span className="text-white/50 text-sm">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </FadeIn>
+          </div>
+        </Container>
+      </div>
     </section>
   );
 }

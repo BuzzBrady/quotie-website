@@ -1,5 +1,6 @@
 import { createMetadata } from "@/lib/metadata";
 import Hero from "@/components/sections/Hero";
+import SocialProof from "@/components/sections/SocialProof";
 import Showcase from "@/components/sections/Showcase";
 import Features from "@/components/sections/Features";
 import WhatYouGet from "@/components/sections/WhatYouGet";
@@ -19,6 +20,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <SocialProof />
       <Showcase />
       <Features />
       <WhatYouGet />

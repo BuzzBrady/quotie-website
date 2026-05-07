@@ -36,7 +36,7 @@ const TESTIMONIALS = [
     metric: "100%",
     metricLabel: "Pipeline visibility",
     quote:
-      "I know exactly where every single quote is at, every single day. Who's opened it, who needs a follow-up, who's ready to go. Complete visibility into the pipeline for the first time ever.",
+      "I know exactly where every single quote is at, every single day. Who needs a follow-up, who's ready to go. Complete visibility into the pipeline for the first time ever.",
     avatar: "CK",
     color: "from-cyan-500 to-blue-600",
   },

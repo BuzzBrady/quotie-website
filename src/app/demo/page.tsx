@@ -46,7 +46,7 @@ export default function DemoPage() {
     <>
       {/* Main hero */}
       <section
-        className="relative min-h-screen flex items-center overflow-hidden pt-20"
+        className="relative flex items-center overflow-hidden pt-20"
         style={{ background: "#08080c" }}
       >
         <div className="absolute inset-0 pointer-events-none">
@@ -54,7 +54,7 @@ export default function DemoPage() {
           <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-cyan/8 rounded-full blur-[80px]" />
         </div>
 
-        <Container className="relative z-10 py-20">
+        <Container className="relative z-10 py-12 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left: copy */}
             <div>

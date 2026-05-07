@@ -41,7 +41,7 @@ export default async function IndustryPage({
     <>
       {/* Hero */}
       <section
-        className="relative min-h-[60vh] flex items-center pt-32 pb-20"
+        className="relative min-h-[50vh] flex items-center pt-24 sm:pt-32 pb-16 sm:pb-20"
         style={{ background: "#08080c" }}
       >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -103,10 +103,10 @@ export default async function IndustryPage({
 
           {/* Stats */}
           {industry.stats && (
-            <div className="mt-16 grid grid-cols-3 gap-6 max-w-xl">
+            <div className="mt-10 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-6 max-w-xl">
               {industry.stats.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-3xl font-extrabold text-white font-[family-name:var(--font-jakarta)] mb-1">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-white font-[family-name:var(--font-jakarta)] mb-1">
                     {stat.value}
                   </div>
                   <div className="text-xs text-white/30">{stat.label}</div>

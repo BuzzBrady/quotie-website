@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
@@ -44,89 +44,98 @@ const STATS = [
   },
 ] as const;
 
-function DesktopHowItWorks() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"],
-  });
-
-  return (
-    <div
-      ref={containerRef}
-      className="hidden lg:grid lg:grid-cols-2 gap-16"
-      style={{ minHeight: `${STATS.length * 40}vh` }}
-    >
-      {/* Left: scroll-driven list */}
-      <div className="sticky top-32 self-start space-y-4">
-        {STATS.map((stat, i) => {
-          return (
-            <ScrollStat
-              key={stat.label}
-              stat={stat}
-              index={i}
-              total={STATS.length}
-              progress={scrollYProgress}
-            />
-          );
-        })}
-      </div>
-
-      {/* Right: big card deck */}
-      <div className="space-y-8">
-        {STATS.map((stat) => (
-          <div
-            key={stat.label}
-            className={`p-8 rounded-2xl border ${stat.border} bg-gradient-to-br ${stat.accent} backdrop-blur-sm`}
-          >
-            <div
-              className={`text-5xl font-extrabold font-[family-name:var(--font-jakarta)] ${stat.color} mb-3`}
-            >
-              {stat.value}
-            </div>
-            <div className="text-white font-semibold text-lg mb-2">
-              {stat.label}
-            </div>
-            <div className="text-white/50 leading-relaxed">{stat.detail}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ScrollStat({
+function RightCard({
   stat,
   index,
-  total,
-  progress,
+  onVisible,
 }: {
   stat: (typeof STATS)[number];
   index: number;
-  total: number;
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  onVisible: (i: number) => void;
 }) {
-  const opacity = useTransform(
-    progress,
-    [index / total, (index + 0.5) / total, (index + 1) / total],
-    [0.3, 1, 0.3]
-  );
-  const x = useTransform(
-    progress,
-    [index / total, (index + 0.5) / total],
-    [-10, 0]
-  );
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { margin: "-40% 0px -40% 0px" });
+  const prevInView = useRef(false);
+
+  if (isInView && !prevInView.current) {
+    onVisible(index);
+  }
+  prevInView.current = isInView;
 
   return (
-    <motion.div style={{ opacity, x }} className="flex items-center gap-4">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5 }}
+      className={`p-8 rounded-2xl border ${stat.border} bg-gradient-to-br ${stat.accent} backdrop-blur-sm`}
+    >
       <div
-        className={`w-2 h-2 rounded-full flex-shrink-0 bg-gradient-to-b ${stat.accent}`}
-      />
-      <div>
-        <span className={`font-bold ${stat.color} mr-2`}>{stat.value}</span>
-        <span className="text-white/60 text-sm">{stat.label}</span>
+        className={`text-5xl font-extrabold font-[family-name:var(--font-jakarta)] ${stat.color} mb-3`}
+      >
+        {stat.value}
       </div>
+      <div className="text-white font-semibold text-lg mb-2">{stat.label}</div>
+      <div className="text-white/50 leading-relaxed">{stat.detail}</div>
     </motion.div>
+  );
+}
+
+function DesktopHowItWorks() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = STATS[activeIndex];
+
+  return (
+    <div className="hidden lg:grid lg:grid-cols-2 gap-16">
+      {/* Left: single active stat, centered */}
+      <div
+        className="sticky top-32 self-start flex items-center justify-center"
+        style={{ height: "calc(100vh - 200px)" }}
+      >
+        <div className="text-center transition-all duration-500">
+          <div
+            key={active.value}
+            className="animate-[fadeSlideIn_0.4s_ease-out]"
+          >
+            <div
+              className={`text-7xl font-extrabold font-[family-name:var(--font-jakarta)] ${active.color} mb-3`}
+            >
+              {active.value}
+            </div>
+            <div className="text-white/60 text-lg font-medium">
+              {active.label}
+            </div>
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex items-center justify-center gap-2 mt-8">
+            {STATS.map((_, i) => (
+              <div
+                key={i}
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeIndex
+                    ? "w-6 h-2 bg-gradient-to-r from-brand-blue to-brand-cyan"
+                    : "w-2 h-2 bg-white/10"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Right: cards that scroll naturally */}
+      <div className="space-y-8">
+        {STATS.map((stat, i) => (
+          <RightCard
+            key={stat.label}
+            stat={stat}
+            index={i}
+            onVisible={setActiveIndex}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 

@@ -22,33 +22,33 @@ interface ChangelogEntry {
 
 const entries: ChangelogEntry[] = [
   {
-    date: "December 2025",
-    version: "v2.4.0",
-    title: "Multi-Option Proposals & Client Portal",
+    date: "May 2026",
+    version: "v3.2.0",
+    title: "Automation Engine & Email Improvements",
     type: "feature",
     description:
-      "Clients can now select from Good, Better, Best pricing options directly from a mobile-friendly portal — no login required.",
+      "Build custom automations that trigger when quotes are sent, and send emails natively from Gmail or Outlook with CC/BCC and reply tracking.",
     changes: [
-      "New multi-option proposal view with side-by-side pricing tiers",
-      "Client-facing portal with branded header and acceptance flow",
-      "Automatic quote total recalculation when an option is selected",
-      "Option selection events trigger follow-up automation rules",
-      "PDF generation updated to include all option columns",
+      "Automation builder with module-grouped actions (GHL, Quotie, Webhook, HTTP)",
+      "Native Gmail and Outlook email sending from your own address",
+      "CC/BCC support with per-send overrides",
+      "Reply tracking — client responses appear in Quotie",
+      "Rich text email editor with merge variables",
     ],
   },
   {
-    date: "November 2025",
-    version: "v2.3.0",
-    title: "Live Pulse Email Tracking",
+    date: "April 2026",
+    version: "v3.1.0",
+    title: "Follow-Up Dashboard & Notifications",
     type: "feature",
     description:
-      "Know exactly when a client opens your quote. Live Pulse sends a notification the moment your email is read, so you can follow up at exactly the right time.",
+      "A dedicated follow-up dashboard that surfaces every outstanding quote ranked by urgency, plus real-time bell notifications.",
     changes: [
-      "Real-time open tracking for sent quotes",
-      "Push notifications on mobile when a quote is opened",
-      "Open history log per quote (timestamps, device type)",
-      "Follow-up dashboard now surfaces 'opened but not responded' quotes separately",
-      "Gmail and Outlook native send now supported alongside SMTP",
+      "Urgency-sorted follow-up view: overdue, due today, upcoming",
+      "Reschedule tracking with ordinal badges (1st, 2nd, 3rd follow-up)",
+      "Send history and notes on every quote group",
+      "Bell icon notifications with real-time updates",
+      "Daily digest email notifications",
     ],
   },
   {
@@ -112,7 +112,7 @@ export default function ChangelogPage() {
     <>
       {/* Hero */}
       <section
-        className="relative pt-32 pb-16 overflow-hidden"
+        className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
         style={{ background: "#08080c" }}
       >
         <div className="absolute inset-0 pointer-events-none">

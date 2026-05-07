@@ -9,7 +9,7 @@ import { TRADE_TYPES } from "@/lib/constants";
 const faqs = [
   {
     q: "How do I get support for my account?",
-    a: "Current customers can reach our support team via the in-app chat or by emailing hello@quotie.au. We aim to respond within a few hours during business hours (AWST).",
+    a: "Current customers can reach our support team via the in-app chat or by emailing hello@quotie.au. We aim to respond within a few hours during business hours (AEST).",
   },
   {
     q: "Do you offer onboarding help?",
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: "What are your business hours?",
-    a: "We're based in Perth, WA (AWST, UTC+8). Our team is available Monday to Friday, 8am–6pm AWST.",
+    a: "We're based in Central Coast, NSW (AEST, UTC+10). Our team is available Monday to Friday, 8am–6pm AEST.",
   },
 ];
 
@@ -92,7 +92,7 @@ export default function ContactClient() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 bg-slate-50 border-b border-slate-100">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-slate-50 border-b border-slate-100">
         <Container className="text-center">
           <h1
             className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900 mb-4"
@@ -105,7 +105,7 @@ export default function ContactClient() {
             Get in Touch
           </h1>
           <p className="text-slate-500 text-lg max-w-md mx-auto">
-            We&apos;re a small team based in Perth. We read every message and
+            We&apos;re a small team based on the Central Coast. We read every message and
             reply promptly.
           </p>
         </Container>
@@ -271,7 +271,7 @@ export default function ContactClient() {
                         Location
                       </p>
                       <p className="text-sm text-slate-500">
-                        Perth, WA, Australia
+                        Central Coast, NSW, Australia
                       </p>
                     </div>
                   </div>

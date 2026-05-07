@@ -100,7 +100,7 @@ Email: hello@quotie.au`,
 export default function PrivacyPage() {
   return (
     <>
-      <section className="pt-32 pb-12 bg-slate-50 border-b border-slate-100">
+      <section className="pt-24 sm:pt-32 pb-10 sm:pb-12 bg-slate-50 border-b border-slate-100">
         <Container>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-500 shadow-sm mb-6">

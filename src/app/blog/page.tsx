@@ -21,7 +21,7 @@ export default function BlogPage() {
     <>
       {/* Hero */}
       <section
-        className="relative pt-32 pb-16 overflow-hidden"
+        className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
         style={{ background: '#08080c' }}
       >
         <div className="absolute inset-0 pointer-events-none">

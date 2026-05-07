@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: Props) {
     <>
       {/* Article header — dark background */}
       <section
-        className="relative pt-32 pb-12 overflow-hidden"
+        className="relative pt-24 sm:pt-32 pb-10 sm:pb-12 overflow-hidden"
         style={{ background: '#08080c' }}
       >
         <div className="absolute inset-0 pointer-events-none">
@@ -94,10 +94,10 @@ export default async function BlogPostPage({ params }: Props) {
 
           <p className="text-white/50 text-lg leading-relaxed mb-8">{post.description}</p>
 
-          <div className="flex items-center gap-4 text-white/30 text-sm">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/30 text-sm">
             <span className="font-medium text-white/50">{post.author}</span>
-            <span>&middot;</span>
-            <span>{post.authorRole}</span>
+            <span className="hidden sm:inline">&middot;</span>
+            <span className="hidden sm:inline">{post.authorRole}</span>
             <span>&middot;</span>
             <time dateTime={post.date}>{formatDate(post.date)}</time>
             <span>&middot;</span>

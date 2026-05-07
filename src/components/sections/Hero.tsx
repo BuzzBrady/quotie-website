@@ -1,23 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
-
   return (
     <section
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ background: "#08080c" }}
     >
-      {/* Animated gradient orbs */}
+      {/* Ambient gradient orbs */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="animate-blob absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-20"
@@ -67,7 +58,7 @@ export default function Hero() {
               className="text-brand-muted max-w-[420px] mb-8"
               style={{
                 fontFamily: "var(--font-dm)",
-                fontSize: "clamp(14px, 1.1vw, 18px)",
+                fontSize: "clamp(15px, 2vw, 18px)",
                 lineHeight: 1.7,
               }}
             >
@@ -107,15 +98,16 @@ export default function Hero() {
                   "radial-gradient(ellipse, rgba(31,97,170,0.4) 0%, transparent 70%)",
               }}
             />
-            <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/50">
+            <div
+              className="relative w-full rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/50"
+              style={{ aspectRatio: "16 / 9" }}
+            >
               <video
-                ref={videoRef}
                 src="https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/QuotieExplainer3.mp4"
-                className="w-full h-auto block"
-                autoPlay
-                muted
-                loop
+                className="absolute inset-0 w-full h-full object-cover"
+                controls
                 playsInline
+                preload="auto"
               />
             </div>
           </div>

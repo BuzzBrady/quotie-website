@@ -108,7 +108,7 @@ export default function PricingClient() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 bg-slate-50">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-slate-50">
         <Container className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-600 shadow-sm mb-6">
             Simple, transparent pricing

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   FileText,
   Zap,
@@ -9,262 +12,356 @@ import {
   Briefcase,
   Calendar,
   Plug,
-  Check,
   ArrowRight,
+  Check,
+  ChevronRight,
 } from "lucide-react";
-import { createMetadata } from "@/lib/metadata";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
-import SectionHeader from "@/components/ui/SectionHeader";
+import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
 
-export const metadata = createMetadata({
-  title: "Features — Everything From Enquiry to Handshake",
-  description:
-    "Explore every Quotie feature: quote templates, PDF generation, multi-option proposals, email sending, follow-up dashboards, pipeline tracking, CRM, job handoff, calendar, and automations.",
-  path: "/features",
-});
+/* ═══════════════════════════════════════════════════════════════
+   FEATURE DEEP-DIVE GRID — detailed cards, mixed sizes
+   ═══════════════════════════════════════════════════════════════ */
 
 const features = [
   {
     icon: FileText,
-    id: "templates",
-    title: "Quote Templates & Pricing Engine",
-    description:
-      "Build your pricing system once and generate perfectly calculated quotes every time. Define your labour rates, materials, margins, and conditional logic — then let Quotie do the maths.",
-    benefits: [
-      "Conditional fields that show/hide based on selections",
-      "Automatic pricing calculations with configurable margins",
-      "Matrix pricing for complex multi-variable jobs",
-      "Reusable template library across your whole team",
-    ],
+    title: "Template Builder",
+    description: "Build your pricing logic once — conditional fields that show/hide based on selections, matrix pricing for complex multi-variable jobs, automatic calculations with configurable margins. Reusable across your whole team.",
+    color: "text-cyan-400",
+    border: "border-cyan-500/15",
+    bg: "from-cyan-500/8 to-cyan-600/3",
+    span: "lg:col-span-2",
+    bullets: ["Conditional fields & matrix pricing", "Automatic margin calculations", "Reusable template library"],
   },
   {
     icon: Zap,
-    id: "pdf",
     title: "Instant PDF Generation",
-    description:
-      "Every quote generates a polished, branded PDF in seconds. No more fiddling with Word docs or spreadsheets. Your logo, colours, and terms are baked in automatically.",
-    benefits: [
-      "Branded PDFs generated server-side via your HTML templates",
-      "Custom cover pages and terms sections",
-      "Automatic quote numbering and expiry dates",
-      "Download or send directly from within the app",
-    ],
+    description: "Branded PDFs generated server-side from your HTML templates. Cover pages, option tiers, totals, and custom fields — all automatic.",
+    color: "text-blue-400",
+    border: "border-blue-500/15",
+    bg: "from-blue-500/8 to-blue-600/3",
+    span: "lg:col-span-1",
+    bullets: ["Custom HTML templates", "Automatic quote numbering", "Download or send directly"],
   },
   {
     icon: Layers,
-    id: "proposals",
     title: "Multi-Option Proposals",
-    description:
-      "Send up to 4 options in a single quote group — different scopes, different price points. Your client picks what works for them without you sending separate quotes.",
-    benefits: [
-      "Up to 4 pricing tiers in one quote group",
-      "Each option is a full branded PDF",
-      "Bundle options together and send in one email",
-      "Track which options are sent and when",
-    ],
+    description: "Send up to 4 options in a single quote group. Each option is a full branded PDF. Bundle and send in one professional email.",
+    color: "text-amber-400",
+    border: "border-amber-500/15",
+    bg: "from-amber-500/8 to-amber-600/3",
+    span: "lg:col-span-1",
+    bullets: ["Up to 4 pricing tiers", "Full PDF per option", "Bundle in one email"],
   },
   {
     icon: Mail,
-    id: "email",
-    title: "Email Sending & Tracking",
-    description:
-      "Send quotes directly from Quotie using your own Gmail or Outlook account. Know when a client opens your quote, and reply tracking brings their responses into Quotie automatically.",
-    benefits: [
-      "Native Gmail and Outlook integration — sends from your address",
-      "Customisable email templates with merge variables",
-      "Reply tracking — client replies appear in Quotie",
-      "CC/BCC support with per-send overrides",
-    ],
+    title: "Email Sending & Reply Tracking",
+    description: "Send quotes directly from your own Gmail or Outlook account. Customisable email templates with merge variables. Client replies are tracked and appear in Quotie automatically.",
+    color: "text-rose-400",
+    border: "border-rose-500/15",
+    bg: "from-rose-500/8 to-rose-600/3",
+    span: "lg:col-span-2",
+    bullets: ["Native Gmail & Outlook sending", "Merge variable templates", "Reply tracking in-app", "CC/BCC with per-send overrides"],
   },
   {
     icon: Bell,
-    id: "followups",
     title: "Follow-Up Dashboard",
-    description:
-      "Never let a quote go cold. The follow-up dashboard surfaces every outstanding quote ranked by urgency, so you always know who to call next.",
-    benefits: [
-      "Urgency-sorted view: overdue, due today, upcoming",
-      "One-click reschedule with calendar picker",
-      "Reschedule tracking (1st, 2nd, 3rd follow-up badges)",
-      "Send history and notes on every quote group",
-    ],
+    description: "Every outstanding quote ranked by urgency — overdue, due today, upcoming. Reschedule tracking with ordinal badges. Send history and notes on every quote group.",
+    color: "text-violet-400",
+    border: "border-violet-500/15",
+    bg: "from-violet-500/8 to-violet-600/3",
+    span: "lg:col-span-1",
+    bullets: ["Urgency sorting", "One-click reschedule", "Reschedule badges (1st, 2nd, 3rd)"],
   },
   {
     icon: BarChart3,
-    id: "pipeline",
     title: "Pipeline & Analytics",
-    description:
-      "Get a clear view of your quote pipeline. See won revenue, conversion rates, and pipeline value — your business health on one screen.",
-    benefits: [
-      "Quote status tracking: draft, sent, won, lost",
-      "Won revenue and conversion rate metrics",
-      "Pipeline value and quote volume stats",
-      "Filter by date range, status, and user",
-    ],
-  },
-  {
-    icon: Users,
-    id: "crm",
-    title: "CRM & Contacts",
-    description:
-      "A lightweight CRM built for trades. Store your clients, their sites, and their full quoting history in one place — with optional sync to GoHighLevel.",
-    benefits: [
-      "Full contact history with linked quotes and jobs",
-      "Multi-address support per contact",
-      "GoHighLevel two-way contact sync",
-      "Import contacts from GHL or add manually",
-    ],
-  },
-  {
-    icon: Briefcase,
-    id: "jobs",
-    title: "Job Handoff",
-    description:
-      "When a quote is won, convert it to a job. Configurable pipeline columns, task tracking, and SOPs keep your team on track from acceptance to completion.",
-    benefits: [
-      "One-click quote-to-job conversion",
-      "Configurable pipeline with custom columns",
-      "SOPs with step-by-step checklists per job type",
-      "ServiceM8 integration for scheduling",
-    ],
-  },
-  {
-    icon: Calendar,
-    id: "calendar",
-    title: "Calendar & Scheduling",
-    description:
-      "View your follow-ups, site visits, and job schedules in one calendar. Day, week, and month views with drag-and-drop rescheduling.",
-    benefits: [
-      "Day, week, and month calendar views",
-      "Drag-and-drop event rescheduling",
-      "Link events to quotes and contacts",
-      "Team calendar for multi-user businesses",
-    ],
-  },
-  {
-    icon: Plug,
-    id: "integrations",
-    title: "Automations & Integrations",
-    description:
-      "Connect Quotie to the tools you already use. GoHighLevel, ServiceM8, and webhook-based automations let you trigger actions when quotes are sent or accepted.",
-    benefits: [
-      "GoHighLevel two-way contact and opportunity sync",
-      "ServiceM8 job creation integration",
-      "Automation triggers: quote sent, accepted, or custom",
-      "Webhook and HTTP request actions for any API",
-    ],
+    description: "Quote status tracking, won revenue, conversion rates, and pipeline value. Filter by date range, status, and user.",
+    color: "text-emerald-400",
+    border: "border-emerald-500/15",
+    bg: "from-emerald-500/8 to-emerald-600/3",
+    span: "lg:col-span-1",
+    bullets: ["Status tracking: draft, sent, won, lost", "Revenue & conversion metrics", "Date and user filters"],
   },
 ];
 
+const bottomFeatures = [
+  {
+    icon: Users,
+    title: "CRM & Contacts",
+    description: "Full contact history, multi-address support, GoHighLevel two-way sync. Import from GHL or add manually.",
+    color: "text-purple-400",
+    border: "border-purple-500/15",
+  },
+  {
+    icon: Briefcase,
+    title: "Job Handoff",
+    description: "One-click quote-to-job conversion. Configurable pipeline columns, SOPs with step-by-step checklists, ServiceM8 integration.",
+    color: "text-slate-300",
+    border: "border-slate-500/15",
+  },
+  {
+    icon: Calendar,
+    title: "Calendar & Scheduling",
+    description: "Day, week, and month views with drag-and-drop rescheduling. Link events to quotes and contacts.",
+    color: "text-blue-400",
+    border: "border-blue-500/15",
+  },
+  {
+    icon: Plug,
+    title: "Automations & Integrations",
+    description: "GoHighLevel, ServiceM8, webhook and HTTP actions. Trigger automations on quote events.",
+    color: "text-teal-400",
+    border: "border-teal-500/15",
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   INTERACTIVE FEATURE EXPLORER
+   ═══════════════════════════════════════════════════════════════ */
+
+const explorerFeatures = [
+  {
+    id: "template",
+    label: "Template Builder",
+    icon: FileText,
+    color: "text-cyan-400",
+    activeBg: "bg-cyan-500/10 border-cyan-500/25",
+    content: {
+      title: "How the template builder works",
+      steps: [
+        { label: "Define your fields", detail: "Dropdowns, text inputs, quantities, conditional sections" },
+        { label: "Set your pricing logic", detail: "Margins, labour rates, material costs, matrix pricing" },
+        { label: "Configure options", detail: "Up to 4 tiers per template — basic through premium" },
+        { label: "Generate quotes", detail: "Your team fills the form, the template does the maths" },
+      ],
+    },
+  },
+  {
+    id: "send",
+    label: "Quote → Client",
+    icon: Mail,
+    color: "text-rose-400",
+    activeBg: "bg-rose-500/10 border-rose-500/25",
+    content: {
+      title: "How sending works",
+      steps: [
+        { label: "Generate PDFs", detail: "Branded proposals built from your HTML templates" },
+        { label: "Compose email", detail: "Pick a template, merge variables auto-fill" },
+        { label: "Send from your email", detail: "Gmail or Outlook — clients see your address" },
+        { label: "Track replies", detail: "Client responses appear in Quotie automatically" },
+      ],
+    },
+  },
+  {
+    id: "followup",
+    label: "Follow-Up Flow",
+    icon: Bell,
+    color: "text-violet-400",
+    activeBg: "bg-violet-500/10 border-violet-500/25",
+    content: {
+      title: "How follow-ups work",
+      steps: [
+        { label: "Quote sent", detail: "Follow-up date is set (default or custom)" },
+        { label: "Dashboard surfaces it", detail: "Ranked by urgency — overdue first" },
+        { label: "Take action", detail: "Reschedule, send follow-up, mark won or lost" },
+        { label: "Track history", detail: "Every reschedule logged with ordinal badge" },
+      ],
+    },
+  },
+];
+
+function FeatureExplorer() {
+  const [activeId, setActiveId] = useState("template");
+  const active = explorerFeatures.find((f) => f.id === activeId)!;
+
+  return (
+    <section className="border-t border-white/[0.04]">
+      <Container className="py-14 lg:py-32">
+        <div className="text-center mb-10 lg:mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.03] text-white/40 text-xs font-semibold mb-6">
+            How It Works
+          </div>
+          <h2
+            className="font-[family-name:var(--font-jakarta)] font-extrabold text-white"
+            style={{ fontSize: "clamp(28px, 3vw, 44px)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
+          >
+            Follow the quote from build to close.
+          </h2>
+        </div>
+
+        {/* Tab bar */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
+          {explorerFeatures.map((f) => {
+            const Icon = f.icon;
+            const isActive = f.id === activeId;
+            return (
+              <button
+                key={f.id}
+                onClick={() => setActiveId(f.id)}
+                className={`flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-200 border ${
+                  isActive
+                    ? `${f.activeBg} text-white`
+                    : "border-transparent text-white/35 hover:text-white/60 hover:bg-white/[0.03]"
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? f.color : ""}`} />
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Content */}
+        <div className="max-w-2xl mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeId}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25 }}
+            >
+              <h3 className="text-lg font-bold text-white mb-8 text-center font-[family-name:var(--font-jakarta)]">
+                {active.content.title}
+              </h3>
+              <div className="space-y-0">
+                {active.content.steps.map((step, i) => (
+                  <div key={i} className="flex gap-5">
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-xs font-bold text-white/50">
+                        {i + 1}
+                      </div>
+                      {i < active.content.steps.length - 1 && (
+                        <div className="w-px flex-1 bg-gradient-to-b from-white/10 to-transparent min-h-[32px]" />
+                      )}
+                    </div>
+                    <div className="pb-8">
+                      <div className="text-white font-semibold text-sm mb-1">{step.label}</div>
+                      <div className="text-white/35 text-sm">{step.detail}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE
+   ═══════════════════════════════════════════════════════════════ */
+
 export default function FeaturesPage() {
   return (
-    <>
+    <div style={{ background: "#08080c" }}>
       {/* Hero */}
-      <section
-        className="relative min-h-[60vh] flex items-center overflow-hidden pt-20"
-        style={{ background: "#08080c" }}
-      >
+      <section className="relative overflow-hidden pt-20">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-brand-cyan/8 rounded-full blur-[80px]" />
+          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-brand-blue/8 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-brand-cyan/5 rounded-full blur-[100px]" />
         </div>
-        <Container className="relative z-10 py-24 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/50 mb-6">
+        <Container className="relative z-10 py-16 sm:py-24 lg:py-36 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/40 mb-6">
             Platform Features
           </div>
           <h1
-            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5"
+            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5 max-w-3xl mx-auto"
             style={{ fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1.06, letterSpacing: "-0.035em" }}
           >
-            Everything between the{" "}
+            Every tool your quoting{" "}
             <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              enquiry and the handshake.
+              workflow needs.
             </span>
           </h1>
           <p className="text-white/40 max-w-xl mx-auto text-lg leading-relaxed">
-            One platform that handles quoting, sending, tracking, follow-ups, and job handoff — so your team can focus on the work, not the admin.
+            Templates, PDFs, sending, tracking, follow-ups, jobs — one platform, no gaps.
           </p>
         </Container>
       </section>
 
-      {/* Feature sections */}
-      <section style={{ background: "#08080c" }} className="pb-8">
-        {features.map((feature, i) => {
-          const Icon = feature.icon;
-          const isEven = i % 2 === 0;
-          return (
-            <div
-              key={feature.id}
-              id={feature.id}
-              className="border-t border-white/[0.06] py-20"
-            >
-              <Container>
+      {/* Main feature grid */}
+      <section className="border-t border-white/[0.04]">
+        <Container className="py-24 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {features.map((f) => {
+              const Icon = f.icon;
+              return (
                 <div
-                  className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${
-                    isEven ? "" : "lg:flex-row-reverse"
-                  }`}
+                  key={f.title}
+                  className={`${f.span} group rounded-2xl border ${f.border} bg-gradient-to-br ${f.bg} p-7 sm:p-8 transition-all duration-300 hover:border-white/[0.15]`}
                 >
-                  {/* Text */}
-                  <div className="flex-1">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/20 to-brand-cyan/20 border border-white/[0.08] mb-5">
-                      <Icon className="w-6 h-6 text-brand-cyan" />
+                  <div className="flex items-start gap-5 mb-5">
+                    <div className="w-11 h-11 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+                      <Icon className={`w-5 h-5 ${f.color}`} />
                     </div>
-                    <h2
-                      className="font-[family-name:var(--font-jakarta)] font-extrabold text-white mb-4"
-                      style={{ fontSize: "clamp(24px, 2.8vw, 40px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}
-                    >
-                      {feature.title}
-                    </h2>
-                    <p className="text-white/40 text-lg leading-relaxed mb-8">
-                      {feature.description}
-                    </p>
-                    <ul className="space-y-3">
-                      {feature.benefits.map((benefit) => (
-                        <li key={benefit} className="flex items-start gap-3">
-                          <div className="w-5 h-5 rounded-full bg-brand-cyan/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <Check className="w-3 h-3 text-brand-cyan" />
+                    <div>
+                      <h3 className="text-lg font-bold text-white font-[family-name:var(--font-jakarta)] mb-1">
+                        {f.title}
+                      </h3>
+                      <p className="text-white/40 text-sm leading-relaxed">
+                        {f.description}
+                      </p>
+                    </div>
+                  </div>
+                  {f.bullets && (
+                    <ul className="space-y-2 sm:ml-16">
+                      {f.bullets.map((b) => (
+                        <li key={b} className="flex items-center gap-2.5">
+                          <div className="w-4 h-4 rounded-full bg-white/[0.05] flex items-center justify-center flex-shrink-0">
+                            <Check className={`w-2.5 h-2.5 ${f.color}`} />
                           </div>
-                          <span className="text-white/60 text-sm leading-relaxed">{benefit}</span>
+                          <span className="text-white/45 text-xs">{b}</span>
                         </li>
                       ))}
                     </ul>
-                  </div>
-
-                  {/* Visual card */}
-                  <div className="flex-1 w-full">
-                    <div className="relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 min-h-[280px] flex items-center justify-center overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-cyan/5" />
-                      <div className="relative z-10 flex flex-col items-center gap-4">
-                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-blue/20 to-brand-cyan/20 border border-white/[0.1] flex items-center justify-center">
-                          <Icon className="w-10 h-10 text-brand-cyan" />
-                        </div>
-                        <p className="text-white/20 text-sm text-center max-w-xs">
-                          {feature.title}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              </Container>
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+
+          {/* Bottom row — 4 compact cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+            {bottomFeatures.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={f.title}
+                  className={`rounded-2xl border ${f.border} bg-white/[0.02] p-6 transition-all duration-300 hover:border-white/[0.15] hover:bg-white/[0.03]`}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center mb-4">
+                    <Icon className={`w-5 h-5 ${f.color}`} />
+                  </div>
+                  <h3 className="text-[15px] font-bold text-white mb-1.5 font-[family-name:var(--font-jakarta)]">{f.title}</h3>
+                  <p className="text-white/40 text-xs leading-relaxed">{f.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
       </section>
 
+      {/* Interactive explorer */}
+      <FeatureExplorer />
+
       {/* Bottom CTA */}
-      <section
-        className="py-24 border-t border-white/[0.06]"
-        style={{ background: "#08080c" }}
-      >
-        <Container className="text-center">
-          <SectionHeader
-            badge="Ready to get started?"
-            title="See Quotie in action"
-            gradient="Quotie"
-            subtitle="Book a free personalised demo and we'll show you how Quotie works for your trade."
-            dark
-            className="mb-10"
-          />
+      <section className="border-t border-white/[0.04]">
+        <Container className="py-24 lg:py-32 text-center">
+          <h2
+            className="font-[family-name:var(--font-jakarta)] font-extrabold text-white mb-5"
+            style={{ fontSize: "clamp(28px, 3vw, 48px)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
+          >
+            See it for yourself.
+          </h2>
+          <p className="text-white/40 text-lg max-w-md mx-auto mb-10">
+            Book a free demo and we&apos;ll walk you through Quotie — personalised for your trade.
+          </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="/demo"
@@ -282,6 +379,6 @@ export default function FeaturesPage() {
           </div>
         </Container>
       </section>
-    </>
+    </div>
   );
 }
