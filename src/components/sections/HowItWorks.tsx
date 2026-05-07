@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -55,12 +55,10 @@ function RightCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { margin: "-40% 0px -40% 0px" });
-  const prevInView = useRef(false);
 
-  if (isInView && !prevInView.current) {
-    onVisible(index);
-  }
-  prevInView.current = isInView;
+  useEffect(() => {
+    if (isInView) onVisible(index);
+  }, [isInView, index, onVisible]);
 
   return (
     <motion.div
