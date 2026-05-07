@@ -228,7 +228,7 @@ export const industries: Industry[] = [
       "Quote painting jobs with configurable pricing, branded proposals, and a follow-up system that keeps your pipeline full.",
     heroHeadline: "Professional painting quotes. Every time.",
     heroSubheadline:
-      "Build your pricing logic once and generate branded proposals in seconds — with multiple options for different scopes.",
+      "We build your pricing logic. You generate branded proposals in seconds — with multiple options for different scopes.",
     painPoints: [
       "Quoting different scopes and finishes is time-consuming",
       "Pricing is inconsistent when done from scratch each time",
@@ -257,7 +257,7 @@ export const industries: Industry[] = [
       "Quote landscaping projects with configurable pricing, multiple options, and professional proposals — from small gardens to large earthmoving jobs.",
     heroHeadline: "Quote any landscaping job. In seconds.",
     heroSubheadline:
-      "From small garden makeovers to large projects — build your pricing once and generate professional proposals instantly.",
+      "From small garden makeovers to large projects — get your pricing built once and generate professional proposals instantly.",
     painPoints: [
       "Complex projects with materials and labour to calculate",
       "Multiple scope options that are hard to present clearly",
@@ -286,7 +286,7 @@ export const industries: Industry[] = [
       "Generate professional building quotes with configurable pricing templates, multi-option proposals, and a pipeline to track every job.",
     heroHeadline: "Professional building quotes. Every time.",
     heroSubheadline:
-      "Build your pricing system once and generate consistent, branded proposals — with multiple options for different scopes.",
+      "Get your pricing system built once and generate consistent, branded proposals — with multiple options for different scopes.",
     painPoints: [
       "Quoting is slow and inconsistent across your team",
       "No clear way to present different scope options",

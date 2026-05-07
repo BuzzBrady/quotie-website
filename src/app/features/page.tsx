@@ -28,7 +28,7 @@ const features = [
   {
     icon: FileText,
     title: "Template Builder",
-    description: "Build your pricing logic once — conditional fields that show/hide based on selections, matrix pricing for complex multi-variable jobs, automatic calculations with configurable margins. Reusable across your whole team.",
+    description: "We build your pricing logic during onboarding — conditional fields, matrix pricing, automatic calculations. Your team just fills in the form and hits generate. Come back to us for price changes or new materials.",
     color: "text-cyan-400",
     border: "border-cyan-500/15",
     bg: "from-cyan-500/8 to-cyan-600/3",
@@ -132,10 +132,10 @@ const explorerFeatures = [
     content: {
       title: "How the template builder works",
       steps: [
-        { label: "Define your fields", detail: "Dropdowns, text inputs, quantities, conditional sections" },
-        { label: "Set your pricing logic", detail: "Margins, labour rates, material costs, matrix pricing" },
-        { label: "Configure options", detail: "Up to 4 tiers per template — basic through premium" },
-        { label: "Generate quotes", detail: "Your team fills the form, the template does the maths" },
+        { label: "We build your template", detail: "Dropdowns, conditional fields, quantities — tailored to your trade" },
+        { label: "We configure your pricing", detail: "Margins, labour rates, material costs, matrix pricing — all pre-built" },
+        { label: "We set up your options", detail: "Up to 4 tiers per template — basic through premium" },
+        { label: "Your team generates quotes", detail: "Fill the form, hit generate. The template does the maths." },
       ],
     },
   },

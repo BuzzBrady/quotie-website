@@ -62,7 +62,7 @@ export default function Hero() {
                 lineHeight: 1.7,
               }}
             >
-              Build your pricing system once. Generate branded quotes instantly
+              We build your pricing system. You generate branded quotes instantly
               — with multiple options, automatic calculations, and everything
               your client needs to say yes.
             </p>

@@ -6,7 +6,7 @@ import Container from "@/components/ui/Container";
 
 const TRUST_SIGNALS = [
   "No credit card required",
-  "Setup in 5 minutes",
+  "We handle the setup",
   "Cancel anytime",
 ];
 

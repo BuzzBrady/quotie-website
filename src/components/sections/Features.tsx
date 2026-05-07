@@ -166,12 +166,12 @@ export default function Features() {
                 <span className="text-white/40">That&apos;s not a target. It&apos;s the average.</span>
               </h3>
               <p className="text-white/45 leading-relaxed mb-6 max-w-md">
-                Your pricing logic is pre-built. The template does the maths.
-                Fill in the details, generate, send. Done.
+                We pre-build your pricing logic. The template does the maths.
+                Your team fills in the details, generates, and sends. Done.
               </p>
               <ul className="space-y-2.5">
                 {[
-                  "Automatic calculations from your templates",
+                  "Automatic calculations from pre-built templates",
                   "Branded PDFs generated in seconds",
                   "Send from your own Gmail or Outlook",
                 ].map((item) => (

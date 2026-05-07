@@ -8,7 +8,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 const FAQS = [
   {
     q: "What is Quotie?",
-    a: "Quotie is a quoting platform built for trades businesses. It lets you build your pricing logic once, then generate branded proposals in under 30 seconds — with multiple tier options, automatic calculations, and a built-in follow-up pipeline.",
+    a: "Quotie is a done-for-you quoting platform built for trades businesses. We build your pricing system and templates during onboarding — then your team generates branded proposals in under 30 seconds, with multiple tier options, automatic calculations, and a built-in follow-up pipeline.",
   },
   {
     q: "How long does it take to set up?",
@@ -16,7 +16,7 @@ const FAQS = [
   },
   {
     q: "Can I customise my quote templates?",
-    a: "Absolutely. Build your pricing logic with dropdowns, conditional fields, matrix pricing, and calculated totals. Every field, label, and layout can be tailored to exactly how your business works.",
+    a: "Absolutely. We build your templates during onboarding — dropdowns, conditional fields, matrix pricing, calculated totals. Every field, label, and layout is tailored to exactly how your business works. After that, you just come to us for price changes or new materials.",
   },
   {
     q: "Does Quotie integrate with other tools?",
@@ -36,7 +36,7 @@ const FAQS = [
   },
   {
     q: "What if I need help getting started?",
-    a: "We offer hands-on onboarding for every customer. That means a real person from the Quotie team will work with you to set up your templates, map your pricing, and make sure you're confident before going live.",
+    a: "Every customer gets full onboarding. We build your templates, configure your pricing logic, set up your branding, and train your team. You don't need to figure anything out yourself — we handle the hard part so you can start quoting from day one.",
   },
 ] as const;
 

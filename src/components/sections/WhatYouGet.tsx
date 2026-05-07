@@ -19,7 +19,7 @@ const items = [
   {
     icon: FileText,
     title: "Template Builder",
-    description: "Build your pricing logic once — conditional fields, matrix pricing, automatic calculations. Reusable across your whole team.",
+    description: "We build your pricing logic — conditional fields, matrix pricing, automatic calculations. Your team just fills in the form.",
     color: "text-cyan-400",
     border: "border-cyan-500/15",
     bg: "from-cyan-500/8 to-cyan-600/3",

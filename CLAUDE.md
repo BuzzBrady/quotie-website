@@ -1,6 +1,22 @@
 # Quotie Marketing Website
 
-SEO-optimized Next.js marketing site for Quotie — a B2B SaaS quoting platform for trades businesses.
+SEO-optimized Next.js marketing site for Quotie — a done-for-you (DFY) B2B SaaS quoting platform for trades businesses.
+
+## Business Model — IMPORTANT
+
+Quotie is **done-for-you**, not self-serve. This is critical for all copy:
+
+- **Admins (Quotie team) build and manage templates** for each company. Users don't build their own templates.
+- The quote form + template + pricing engine is the hardest part of setup — Quotie handles it all during onboarding.
+- After setup, companies only come back for one-off price changes or to introduce new materials/products.
+- The setup fee ($3k-$5k) covers template building, pricing logic configuration, branding, and training.
+- Users just fill in the form and hit generate — the system does the rest.
+
+**Copy implications:**
+- Don't say "build your own templates" — say "we build your pricing system for you"
+- Don't say "set up in minutes" — say "we handle the setup, you start quoting"
+- Don't position it as DIY software — position it as a managed service with powerful software
+- Emphasise that onboarding includes template builds, pricing logic, and training
 
 ## Quick Start
 
