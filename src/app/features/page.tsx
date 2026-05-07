@@ -17,9 +17,9 @@ import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
 export const metadata = createMetadata({
-  title: "Features — Everything From Enquiry to Invoice | Quotie",
+  title: "Features — Everything From Enquiry to Handshake",
   description:
-    "Explore every capability Quotie offers: quote templates, PDF generation, multi-option proposals, email tracking, follow-up dashboards, pipeline analytics, CRM, job handoff, calendar, and automations.",
+    "Explore every Quotie feature: quote templates, PDF generation, multi-option proposals, email sending, follow-up dashboards, pipeline tracking, CRM, job handoff, calendar, and automations.",
   path: "/features",
 });
 
@@ -31,7 +31,7 @@ const features = [
     description:
       "Build your pricing system once and generate perfectly calculated quotes every time. Define your labour rates, materials, margins, and conditional logic — then let Quotie do the maths.",
     benefits: [
-      "Conditional fields that show/hide based on customer answers",
+      "Conditional fields that show/hide based on selections",
       "Automatic pricing calculations with configurable margins",
       "Matrix pricing for complex multi-variable jobs",
       "Reusable template library across your whole team",
@@ -42,9 +42,9 @@ const features = [
     id: "pdf",
     title: "Instant PDF Generation",
     description:
-      "Every quote generates a polished, branded PDF in seconds. No more fiddling with Word docs or InDesign. Your logo, colours, and contact details are baked in automatically.",
+      "Every quote generates a polished, branded PDF in seconds. No more fiddling with Word docs or spreadsheets. Your logo, colours, and terms are baked in automatically.",
     benefits: [
-      "Pixel-perfect branded PDFs generated server-side",
+      "Branded PDFs generated server-side via your HTML templates",
       "Custom cover pages and terms sections",
       "Automatic quote numbering and expiry dates",
       "Download or send directly from within the app",
@@ -55,12 +55,12 @@ const features = [
     id: "proposals",
     title: "Multi-Option Proposals",
     description:
-      "Let clients choose from Good, Better, Best options in a single professional proposal. More choices means higher average job values and fewer back-and-forth emails.",
+      "Send up to 4 options in a single quote group — different scopes, different price points. Your client picks what works for them without you sending separate quotes.",
     benefits: [
-      "Present up to three pricing tiers in one document",
-      "Client-facing selection interface that looks great on mobile",
-      "Automatic total recalculation when an option is selected",
-      "Track which option was chosen and when",
+      "Up to 4 pricing tiers in one quote group",
+      "Each option is a full branded PDF",
+      "Bundle options together and send in one email",
+      "Track which options are sent and when",
     ],
   },
   {
@@ -68,12 +68,12 @@ const features = [
     id: "email",
     title: "Email Sending & Tracking",
     description:
-      "Send quotes directly from Quotie using your own Gmail or Outlook account. Know exactly when a client opens your quote and stop guessing whether it landed.",
+      "Send quotes directly from Quotie using your own Gmail or Outlook account. Know when a client opens your quote, and reply tracking brings their responses into Quotie automatically.",
     benefits: [
       "Native Gmail and Outlook integration — sends from your address",
-      "Open tracking so you know when to follow up",
-      "Threaded reply tracking — client replies land in your inbox",
-      "Customisable email templates with merge fields",
+      "Customisable email templates with merge variables",
+      "Reply tracking — client replies appear in Quotie",
+      "CC/BCC support with per-send overrides",
     ],
   },
   {
@@ -83,10 +83,10 @@ const features = [
     description:
       "Never let a quote go cold. The follow-up dashboard surfaces every outstanding quote ranked by urgency, so you always know who to call next.",
     benefits: [
-      "Urgency scoring based on quote age and client behaviour",
-      "One-click follow-up email or SMS from the dashboard",
-      "Reschedule follow-ups with a single tap",
-      "Daily digest notifications so nothing slips through the cracks",
+      "Urgency-sorted view: overdue, due today, upcoming",
+      "One-click reschedule with calendar picker",
+      "Reschedule tracking (1st, 2nd, 3rd follow-up badges)",
+      "Send history and notes on every quote group",
     ],
   },
   {
@@ -94,12 +94,12 @@ const features = [
     id: "pipeline",
     title: "Pipeline & Analytics",
     description:
-      "Get a real-time view of your entire quote pipeline. See conversion rates, average job values, and which team members are closing the most work.",
+      "Get a clear view of your quote pipeline. See won revenue, conversion rates, and pipeline value — your business health on one screen.",
     benefits: [
-      "Kanban-style pipeline with drag-and-drop status updates",
-      "Win rate and conversion analytics by template and trade type",
-      "Revenue forecasting based on outstanding quotes",
-      "Export reports for your accountant or business coach",
+      "Quote status tracking: draft, sent, won, lost",
+      "Won revenue and conversion rate metrics",
+      "Pipeline value and quote volume stats",
+      "Filter by date range, status, and user",
     ],
   },
   {
@@ -107,12 +107,12 @@ const features = [
     id: "crm",
     title: "CRM & Contacts",
     description:
-      "A lightweight CRM built for trades. Store your clients, their sites, and their full quoting history in one place — with optional two-way sync to GoHighLevel.",
+      "A lightweight CRM built for trades. Store your clients, their sites, and their full quoting history in one place — with optional sync to GoHighLevel.",
     benefits: [
       "Full contact history with linked quotes and jobs",
-      "Site addresses and access notes per client",
-      "Two-way GoHighLevel contact sync",
-      "Tag contacts by trade type, source, or any custom label",
+      "Multi-address support per contact",
+      "GoHighLevel two-way contact sync",
+      "Import contacts from GHL or add manually",
     ],
   },
   {
@@ -120,12 +120,12 @@ const features = [
     id: "jobs",
     title: "Job Handoff",
     description:
-      "When a quote is accepted, convert it to a job instantly. Field techs get everything they need — scope, photos, site notes — without a single phone call.",
+      "When a quote is won, convert it to a job. Configurable pipeline columns, task tracking, and SOPs keep your team on track from acceptance to completion.",
     benefits: [
       "One-click quote-to-job conversion",
-      "Job checklists and SOP steps attached per trade type",
-      "Field-friendly mobile view for on-site teams",
-      "ServiceM8 integration for scheduling and invoicing",
+      "Configurable pipeline with custom columns",
+      "SOPs with step-by-step checklists per job type",
+      "ServiceM8 integration for scheduling",
     ],
   },
   {
@@ -133,12 +133,12 @@ const features = [
     id: "calendar",
     title: "Calendar & Scheduling",
     description:
-      "Book site visits, quote appointments, and job starts directly from Quotie. Everything stays in sync so your diary never gets double-booked.",
+      "View your follow-ups, site visits, and job schedules in one calendar. Day, week, and month views with drag-and-drop rescheduling.",
     benefits: [
-      "Day, week, and month views with drag-and-drop rescheduling",
-      "Link calendar events directly to quotes and contacts",
-      "Google Calendar sync (coming soon)",
-      "Team availability view for multi-technician businesses",
+      "Day, week, and month calendar views",
+      "Drag-and-drop event rescheduling",
+      "Link events to quotes and contacts",
+      "Team calendar for multi-user businesses",
     ],
   },
   {
@@ -146,12 +146,12 @@ const features = [
     id: "integrations",
     title: "Automations & Integrations",
     description:
-      "Connect Quotie to the tools you already use. GoHighLevel, ServiceM8, Google Drive, and more — with a workflow engine that automates repetitive tasks.",
+      "Connect Quotie to the tools you already use. GoHighLevel, ServiceM8, and webhook-based automations let you trigger actions when quotes are sent or accepted.",
     benefits: [
       "GoHighLevel two-way contact and opportunity sync",
-      "ServiceM8 job creation on quote acceptance",
-      "Google Drive automatic quote PDF filing",
-      "Custom automation triggers: quote sent, opened, accepted",
+      "ServiceM8 job creation integration",
+      "Automation triggers: quote sent, accepted, or custom",
+      "Webhook and HTTP request actions for any API",
     ],
   },
 ];
@@ -176,13 +176,13 @@ export default function FeaturesPage() {
             className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5"
             style={{ fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1.06, letterSpacing: "-0.035em" }}
           >
-            Everything From{" "}
+            Everything between the{" "}
             <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              Enquiry to Invoice
+              enquiry and the handshake.
             </span>
           </h1>
           <p className="text-white/40 max-w-xl mx-auto text-lg leading-relaxed">
-            One platform that handles every step — from the first quote to the final invoice — so your team can focus on the work, not the admin.
+            One platform that handles quoting, sending, tracking, follow-ups, and job handoff — so your team can focus on the work, not the admin.
           </p>
         </Container>
       </section>
@@ -196,7 +196,7 @@ export default function FeaturesPage() {
             <div
               key={feature.id}
               id={feature.id}
-              className={`border-t border-white/[0.06] py-20 ${isEven ? "" : ""}`}
+              className="border-t border-white/[0.06] py-20"
             >
               <Container>
                 <div
@@ -261,7 +261,7 @@ export default function FeaturesPage() {
             badge="Ready to get started?"
             title="See Quotie in action"
             gradient="Quotie"
-            subtitle="Book a free personalised demo and we'll show you how to quote faster and close more work."
+            subtitle="Book a free personalised demo and we'll show you how Quotie works for your trade."
             dark
             className="mb-10"
           />

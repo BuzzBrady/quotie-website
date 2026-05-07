@@ -20,23 +20,23 @@ const expectations = [
 const testimonials = [
   {
     quote:
-      "We were sending quotes from Word documents. Now we send a branded PDF with three options in about 20 seconds. Our close rate went up immediately.",
-    author: "Jake T.",
-    role: "Electrical Contractor, Brisbane",
+      "We went from spending entire evenings rebuilding solar quotes in Excel to sending 8 different system options in minutes. Quotie paid for itself in the first week.",
+    author: "Jed Bolton",
+    role: "Director, Bolton EC",
     rating: 5,
   },
   {
     quote:
-      "The follow-up dashboard alone is worth it. I used to forget about quotes after sending. Now I know exactly who to call and when.",
-    author: "Sarah M.",
-    role: "Solar Installer, Perth",
+      "Our roofing proposals used to look like every other tradie's spreadsheet. Now clients tell us our quotes look more professional than companies ten times our size.",
+    author: "Jake Ruwhiu",
+    role: "Director, Virtue Roofing",
     rating: 5,
   },
   {
     quote:
-      "Setup took about an hour. The team helped me get my first template going on the demo call. Couldn't have been easier.",
-    author: "Dan R.",
-    role: "Plumber, Melbourne",
+      "I used to lose track of who I'd quoted and who needed a follow-up. Now everything's in one place — I know exactly where every job stands.",
+    author: "Cooper Kelly",
+    role: "Director, Coastal Cleans Co",
     rating: 5,
   },
 ];
@@ -49,11 +49,9 @@ export default function DemoPage() {
         className="relative min-h-screen flex items-center overflow-hidden pt-20"
         style={{ background: "#08080c" }}
       >
-        {/* Background blobs */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-brand-blue/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-cyan/8 rounded-full blur-[80px]" />
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[60px]" />
         </div>
 
         <Container className="relative z-10 py-20">
@@ -86,16 +84,15 @@ export default function DemoPage() {
               </ul>
 
               <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02]">
-                <div className="flex items-center gap-1 mb-2">
+                <div className="flex items-center gap-0.5 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
                   ))}
-                  <span className="text-white/40 text-xs ml-2">5.0 from trades across Australia</span>
                 </div>
                 <p className="text-white/50 text-sm italic">
-                  &ldquo;Best quoting tool we&apos;ve ever used. Setup in a day, paying for itself by the end of the week.&rdquo;
+                  &ldquo;Quotie paid for itself in the first week. We went from spending entire evenings on quotes to sending 8 options in minutes.&rdquo;
                 </p>
-                <p className="text-white/30 text-xs mt-2">— Mark B., Roofing Contractor, Sydney</p>
+                <p className="text-white/30 text-xs mt-2">— Jed Bolton, Director, Bolton EC</p>
               </div>
             </div>
 
@@ -132,7 +129,7 @@ export default function DemoPage() {
       >
         <Container>
           <p className="text-center text-white/25 text-sm uppercase tracking-widest font-semibold mb-10">
-            What trades businesses say
+            What our customers say
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t) => (

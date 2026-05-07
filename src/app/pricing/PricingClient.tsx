@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import {
   Check,
-  X,
   ArrowRight,
   Shield,
   Zap,
+  Users,
   Building2,
   HelpCircle,
 } from "lucide-react";
@@ -16,118 +15,94 @@ import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
 
 const tiers = [
   {
-    id: "starter",
-    name: "Starter",
+    id: "solo",
+    name: "1 Man Band",
     icon: Zap,
-    monthlyPrice: 29,
-    yearlyPrice: 24,
-    description: "Perfect for sole traders getting their quoting organised.",
+    setup: 3000,
+    monthly: 300,
+    description: "Everything you need to start quoting professionally as a sole trader.",
     cta: "Get Started",
     popular: false,
     features: [
-      "50 quotes per month",
-      "Basic quote templates",
-      "Email sending",
-      "PDF generation",
-      "1 user",
-      "Contact management",
-      "Email support",
-    ],
-    notIncluded: [
-      "Custom branding",
-      "Live Pulse tracking",
-      "GoHighLevel integration",
-      "Smart follow-ups",
+      "Full quote template builder",
+      "Instant branded PDF generation",
       "Multi-option proposals",
-      "Priority support",
+      "Email sending (Gmail / Outlook)",
+      "Follow-up dashboard",
+      "Contact management",
+      "Pipeline tracking",
+      "1 user",
     ],
   },
   {
-    id: "professional",
-    name: "Professional",
-    icon: Shield,
-    monthlyPrice: 79,
-    yearlyPrice: 66,
-    description: "For growing trades businesses that want to close more work.",
-    cta: "Start Free Trial",
+    id: "team",
+    name: "Small Team",
+    icon: Users,
+    setup: 5000,
+    monthly: 650,
+    description: "For growing businesses with a team that needs to quote consistently.",
+    cta: "Get Started",
     popular: true,
     features: [
-      "Unlimited quotes",
-      "Custom branding & logo",
-      "Live Pulse open tracking",
+      "Everything in 1 Man Band",
+      "2–5 users",
+      "Custom branding & cover pages",
       "GoHighLevel integration",
-      "Smart follow-up dashboard",
-      "Multi-option proposals",
-      "5 users",
-      "Priority support",
-      "PDF generation",
       "ServiceM8 integration",
-      "Advanced analytics",
+      "Automation workflows",
+      "Job handoff & SOPs",
       "Calendar & scheduling",
-    ],
-    notIncluded: [
-      "Unlimited users",
-      "Custom integrations",
-      "Dedicated account manager",
-      "SLA guarantee",
-      "API access",
+      "Priority support",
     ],
   },
   {
     id: "enterprise",
-    name: "Enterprise",
+    name: "6+ Users",
     icon: Building2,
-    monthlyPrice: null,
-    yearlyPrice: null,
-    description:
-      "For larger organisations with custom requirements and compliance needs.",
-    cta: "Talk to Sales",
+    setup: null,
+    monthly: null,
+    description: "For larger teams with custom requirements. Let's talk about what you need.",
+    cta: "Contact Us",
     popular: false,
     features: [
-      "Everything in Professional",
+      "Everything in Small Team",
       "Unlimited users",
-      "Custom integrations",
+      "Custom onboarding & training",
       "Dedicated account manager",
-      "SLA guarantee",
-      "API access",
-      "Custom onboarding",
-      "SSO / SAML",
-      "Custom contract",
-      "Volume discounts",
+      "Custom template builds",
+      "Volume pricing",
     ],
-    notIncluded: [],
   },
 ];
 
 const faqs = [
   {
-    q: "Can I change plans at any time?",
-    a: "Yes. You can upgrade or downgrade at any time. Upgrades take effect immediately; downgrades apply at the end of your current billing period.",
+    q: "What's included in the setup fee?",
+    a: "We build your first quote templates, map your pricing logic, set up your branding, and train your team. You're not left figuring it out alone — we do the heavy lifting so you can start quoting on day one.",
   },
   {
-    q: "Is there a free trial?",
-    a: "Professional comes with a 14-day free trial — no credit card required. Starter has a 7-day trial.",
+    q: "How long does onboarding take?",
+    a: "Most businesses are quoting within a day or two. We work with you to understand your pricing, build your templates, and make sure everything is right before you go live.",
   },
   {
-    q: "What counts as a quote?",
-    a: "Any quote generated and saved within Quotie. Drafts that are deleted before sending don't count against your limit.",
+    q: "Can I add more users later?",
+    a: "Yes. If you start as a sole trader and grow, we'll move you to the team plan. If your team grows past 5, we'll work out custom pricing that fits.",
   },
   {
-    q: "Do you offer discounts for yearly billing?",
-    a: "Yes — switching to annual billing gives you two months free (roughly 17% off the monthly rate).",
+    q: "Is GST included in the pricing?",
+    a: "No — all prices shown are exclusive of GST. GST is added on top at 10%.",
   },
   {
     q: "Is my data safe?",
-    a: "All data is encrypted at rest and in transit. We use Australian data centres where possible and comply with the Australian Privacy Act.",
+    a: "All data is encrypted at rest and in transit, hosted on Supabase with row-level security. Each business's data is completely isolated — no cross-tenant access is possible.",
   },
   {
     q: "What integrations are included?",
-    a: "GoHighLevel and ServiceM8 integrations are included on Professional and above. Google Drive and Dropbox are available on all plans.",
+    a: "GoHighLevel and ServiceM8 integrations are included on the Small Team plan and above. Email sending via Gmail or Outlook is available on all plans.",
   },
 ];
 
 export default function PricingClient() {
-  const [yearly, setYearly] = useState(false);
   const { openLeadModal } = useLeadModal();
 
   return (
@@ -146,43 +121,16 @@ export default function PricingClient() {
               lineHeight: 1.08,
             }}
           >
-            Pay for what you need.
-            <br />
+            Setup once.{" "}
             <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              Scale as you grow.
+              Quote forever.
             </span>
           </h1>
-          <p className="text-slate-500 max-w-lg mx-auto text-lg leading-relaxed mb-10">
-            All plans include a free trial. No credit card required to get
-            started.
+          <p className="text-slate-500 max-w-lg mx-auto text-lg leading-relaxed mb-4">
+            One-time setup fee to get your templates built and your team trained,
+            then a flat monthly rate. No per-quote fees. No surprises.
           </p>
-
-          {/* Toggle */}
-          <div className="inline-flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-            <button
-              onClick={() => setYearly(false)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                !yearly
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setYearly(true)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
-                yearly
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              Yearly
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">
-                Save 17%
-              </span>
-            </button>
-          </div>
+          <p className="text-slate-400 text-sm">All prices + GST</p>
         </Container>
       </section>
 
@@ -192,7 +140,6 @@ export default function PricingClient() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
             {tiers.map((tier) => {
               const Icon = tier.icon;
-              const price = yearly ? tier.yearlyPrice : tier.monthlyPrice;
               return (
                 <div
                   key={tier.id}
@@ -227,22 +174,24 @@ export default function PricingClient() {
                       </h3>
                     </div>
 
-                    <div className="mb-4">
-                      {price !== null ? (
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
-                            ${price}
-                          </span>
-                          <span className="text-slate-500 text-sm">/mo</span>
-                          {yearly && (
-                            <span className="text-xs text-slate-400 ml-1">
-                              billed annually
+                    <div className="mb-6">
+                      {tier.setup !== null ? (
+                        <div>
+                          <div className="flex items-baseline gap-1 mb-1">
+                            <span className="text-4xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
+                              ${tier.setup.toLocaleString()}
                             </span>
-                          )}
+                            <span className="text-slate-500 text-sm">setup</span>
+                          </div>
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-lg font-bold text-slate-700">
+                              + ${tier.monthly}/mo
+                            </span>
+                          </div>
                         </div>
                       ) : (
                         <div className="text-3xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
-                          Custom
+                          Let&apos;s Talk
                         </div>
                       )}
                     </div>
@@ -269,15 +218,6 @@ export default function PricingClient() {
                           <span className="text-slate-700">{f}</span>
                         </li>
                       ))}
-                      {tier.notIncluded.map((f) => (
-                        <li
-                          key={f}
-                          className="flex items-start gap-3 text-sm opacity-40"
-                        >
-                          <X className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-                          <span className="text-slate-500">{f}</span>
-                        </li>
-                      ))}
                     </ul>
                   </div>
                 </div>
@@ -290,8 +230,9 @@ export default function PricingClient() {
             <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-sm text-emerald-800">
               <Shield className="w-5 h-5 text-emerald-600 flex-shrink-0" />
               <span>
-                <strong>30-day money-back guarantee.</strong> Not happy?
-                We&apos;ll refund you, no questions asked.
+                <strong>Hands-on onboarding included.</strong> We build your
+                templates, train your team, and make sure you&apos;re confident
+                before going live.
               </span>
             </div>
           </div>
@@ -317,7 +258,9 @@ export default function PricingClient() {
                 className="rounded-xl border border-slate-200 bg-slate-50 p-6"
               >
                 <h3 className="font-semibold text-slate-900 mb-2">{faq.q}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{faq.a}</p>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  {faq.a}
+                </p>
               </div>
             ))}
           </div>
@@ -328,9 +271,9 @@ export default function PricingClient() {
       <section className="py-24" style={{ background: "#08080c" }}>
         <Container className="text-center">
           <SectionHeader
-            title="Still not sure which plan?"
-            gradient="which plan?"
-            subtitle="Book a free 20-minute demo and we'll recommend the right plan for your business."
+            title="Not sure which plan fits?"
+            gradient="which plan fits?"
+            subtitle="Book a free 20-minute demo and we'll recommend the right setup for your business."
             dark
             className="mb-10"
           />
@@ -346,7 +289,7 @@ export default function PricingClient() {
               href="/contact"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/[0.1] text-sm font-medium text-white/60 hover:text-white hover:border-white/20 transition-all duration-300"
             >
-              Talk to Sales
+              Get in Touch
             </a>
           </div>
         </Container>
