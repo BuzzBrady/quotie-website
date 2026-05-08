@@ -82,7 +82,7 @@ export default function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="py-24 lg:py-32" style={{ background: "#08080c" }}>
+    <section className="py-16 lg:py-24" style={{ background: "#08080c" }}>
       <Container>
         <div className="max-w-2xl mx-auto">
           <div className="mb-12">

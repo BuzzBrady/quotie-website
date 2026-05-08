@@ -144,7 +144,8 @@ export default function Showcase() {
               <img
                 src={src}
                 alt={`${industry.label} page ${i + 1}`}
-                className="w-full h-full object-cover block blur-[6px]"
+                className="w-full h-full object-contain block"
+                style={{ filter: "blur(6px)", transform: "scale(1.08)" }}
                 loading="eager"
                 draggable={false}
               />
@@ -172,7 +173,8 @@ export default function Showcase() {
               <img
                 src={src}
                 alt={`${industry.label} page ${i + 1}`}
-                className="w-full h-full object-cover block blur-[6px]"
+                className="w-full h-full object-contain block"
+                style={{ filter: "blur(6px)", transform: "scale(1.08)" }}
                 loading="eager"
                 draggable={false}
               />

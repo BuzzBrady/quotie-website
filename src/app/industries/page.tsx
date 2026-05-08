@@ -51,13 +51,13 @@ export default function IndustriesPage() {
   return (
     <div style={{ background: "#08080c" }} className="min-h-screen">
       {/* Hero */}
-      <section className="relative overflow-hidden pt-20">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-15 blur-[150px]"
+      <section className="relative pt-20">
+        <div className="absolute inset-0 pointer-events-none overflow-visible">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-15 blur-[150px]"
             style={{ background: `radial-gradient(circle, ${active?.color || "rgba(59,130,246,0.4)"} 0%, transparent 70%)`, transition: "background 0.5s ease" }}
           />
         </div>
-        <Container className="relative z-10 py-16 sm:py-24 lg:py-36 text-center">
+        <Container className="relative z-10 pt-16 sm:pt-24 lg:pt-36 pb-8 sm:pb-12 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/40 mb-6">
             Built for Trades
           </div>

@@ -87,7 +87,7 @@ export default function Testimonials() {
   const t = TESTIMONIALS[active];
 
   return (
-    <section className="py-24 lg:py-32 bg-white">
+    <section className="py-16 lg:py-24 bg-white">
       <Container>
         <div className="mb-14">
           <SectionHeader

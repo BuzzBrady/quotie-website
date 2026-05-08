@@ -12,7 +12,7 @@ const TRUST_SIGNALS = [
 
 export default function CTA() {
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden">
+    <section className="relative py-16 lg:py-24 overflow-hidden">
       {/* Gradient bg */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700" />
 

@@ -26,7 +26,7 @@ export default function Features() {
   return (
     <section id="features" style={{ background: "#08080c" }}>
       {/* Section header */}
-      <Container className="pt-24 lg:pt-32 pb-16 text-center">
+      <Container className="pt-16 lg:pt-24 pb-8 text-center">
         <SectionHeader
           badge="Why Quotie?"
           badgeIcon={
@@ -42,7 +42,7 @@ export default function Features() {
 
       {/* Feature 1: Multi-option — full width */}
       <div className="border-t border-white/[0.04]">
-        <Container className="py-20 lg:py-28">
+        <Container className="py-14 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <FadeIn>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/20 bg-amber-500/10 text-amber-400 text-xs font-semibold mb-6">
@@ -119,7 +119,7 @@ export default function Features() {
 
       {/* Feature 2: Speed — reversed, with timeline */}
       <div className="border-t border-white/[0.04]">
-        <Container className="py-20 lg:py-28">
+        <Container className="py-14 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Timeline visual — left on desktop */}
             <FadeIn className="order-2 lg:order-1">

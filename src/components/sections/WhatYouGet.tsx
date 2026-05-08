@@ -128,7 +128,7 @@ function BentoCard({ item, index }: { item: (typeof items)[number]; index: numbe
 
 export default function WhatYouGet() {
   return (
-    <section className="py-24 lg:py-32 border-t border-white/[0.04]" style={{ background: "#08080c" }}>
+    <section className="py-16 lg:py-20 border-t border-white/[0.04]" style={{ background: "#08080c" }}>
       <Container>
         <div className="mb-14">
           <SectionHeader

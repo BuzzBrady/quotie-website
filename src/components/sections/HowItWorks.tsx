@@ -89,7 +89,7 @@ function DesktopHowItWorks() {
       {/* Left: single active stat, centered */}
       <div
         className="sticky top-32 self-start flex items-center justify-center"
-        style={{ height: "calc(100vh - 200px)" }}
+        style={{ height: "360px" }}
       >
         <div className="text-center transition-all duration-500">
           <div
@@ -166,7 +166,7 @@ function MobileHowItWorks() {
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 lg:py-32" style={{ background: "#08080c" }}>
+    <section className="py-16 lg:py-24" style={{ background: "#08080c" }}>
       <Container>
         <div className="mb-16">
           <SectionHeader
