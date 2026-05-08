@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
       </div>
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-16 lg:py-20">
+      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="col-span-2">
