@@ -90,7 +90,7 @@ export default function Showcase() {
         </p>
       </div>
 
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 xl:px-12 mb-6 sm:mb-10">
+      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-20 mb-6 sm:mb-10">
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
           {INDUSTRIES.map((ind, i) => (
             <button
