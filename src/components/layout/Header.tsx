@@ -51,7 +51,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
               return (
@@ -71,7 +71,7 @@ export default function Header() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href={`${APP_URL}/login`}
               className="px-4 py-2 text-sm font-medium transition-colors duration-300 text-white/40 hover:text-white"
@@ -90,7 +90,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg transition-colors text-white/70 hover:text-white hover:bg-white/10"
+            className="lg:hidden p-2 rounded-lg transition-colors text-white/70 hover:text-white hover:bg-white/10"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -99,7 +99,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden absolute top-full left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/[0.06] shadow-xl transition-all duration-300 ${
+          className={`lg:hidden absolute top-full left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/[0.06] shadow-xl transition-all duration-300 ${
             isMobileMenuOpen
               ? "opacity-100 translate-y-0 pointer-events-auto"
               : "opacity-0 -translate-y-4 pointer-events-none"
