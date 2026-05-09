@@ -116,3 +116,26 @@ body {
 .animate-draw {
   animation: draw 1s ease-out forwards;
 }
+
+/* Showcase */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+.showcase-fade-in > * {
+  animation: fadeSlideIn 400ms ease-out both;
+}
+.showcase-fade-in > *:nth-child(1) { animation-delay: 0ms; }
+.showcase-fade-in > *:nth-child(2) { animation-delay: 40ms; }
+.showcase-fade-in > *:nth-child(3) { animation-delay: 80ms; }
+.showcase-fade-in > *:nth-child(4) { animation-delay: 120ms; }
+.showcase-fade-in > *:nth-child(5) { animation-delay: 160ms; }
+.showcase-fade-in > *:nth-child(6) { animation-delay: 200ms; }
+.showcase-fade-in > *:nth-child(7) { animation-delay: 240ms; }
+.showcase-fade-in > *:nth-child(8) { animation-delay: 280ms; }
+.showcase-fade-in > *:nth-child(9) { animation-delay: 320ms; }
+.showcase-fade-in > *:nth-child(n+10) { animation-delay: 360ms; }

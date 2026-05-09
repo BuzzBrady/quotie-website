@@ -35,7 +35,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20 2xl:px-32 pt-32 pb-20">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-8 xl:px-12 pt-32 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           {/* Left: copy */}
           <div>

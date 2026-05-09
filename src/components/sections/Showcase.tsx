@@ -1,38 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const INDUSTRIES = [
-  {
-    id: "solar",
-    label: "Solar",
-    pages: 12,
-    pad: true,
-  },
-  {
-    id: "solar2",
-    label: "Solar & Electrical",
-    pages: 17,
-    pad: true,
-  },
-  {
-    id: "roofing",
-    label: "Roofing",
-    pages: 18,
-    pad: true,
-  },
-  {
-    id: "roofing2",
-    label: "Metal Roofing",
-    pages: 3,
-    pad: false,
-  },
-  {
-    id: "cleaning",
-    label: "Cleaning",
-    pages: 9,
-    pad: false,
-  },
+  { id: "solar", label: "Solar", pages: 12, pad: true },
+  { id: "solar2", label: "Solar & Electrical", pages: 17, pad: true },
+  { id: "roofing", label: "Roofing", pages: 18, pad: true },
+  { id: "roofing2", label: "Metal Roofing", pages: 3, pad: false },
+  { id: "cleaning", label: "Cleaning", pages: 9, pad: false },
 ] as const;
 
 function getImages(industry: (typeof INDUSTRIES)[number]) {
@@ -45,13 +21,23 @@ function getImages(industry: (typeof INDUSTRIES)[number]) {
 
 export default function Showcase() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [fadeKey, setFadeKey] = useState(0);
   const stripRef = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
   const raf = useRef<number | null>(null);
-  const hoverDir = useRef<number>(0); // -1 left, 0 none, 1 right
+  const paused = useRef(false);
+  const autoSpeed = useRef(0.5);
 
   const industry = INDUSTRIES[activeIdx];
   const images = getImages(industry);
+
+  // Switch industry with fade
+  const switchIndustry = (idx: number) => {
+    if (idx === activeIdx) return;
+    setActiveIdx(idx);
+    setFadeKey((k) => k + 1);
+  };
 
   // Reset strip scroll on tab change
   useEffect(() => {
@@ -59,14 +45,17 @@ export default function Showcase() {
     if (mobileRef.current) mobileRef.current.scrollLeft = 0;
   }, [activeIdx]);
 
+  // Auto-scroll loop — pauses on hover
   const tick = useCallback(() => {
     const el = stripRef.current;
-    if (!el || hoverDir.current === 0) {
-      raf.current = requestAnimationFrame(tick);
-      return;
+    if (el && !paused.current) {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScroll) {
+        el.scrollLeft = 0;
+      } else {
+        el.scrollLeft += autoSpeed.current;
+      }
     }
-    const speed = 3;
-    el.scrollLeft += hoverDir.current * speed;
     raf.current = requestAnimationFrame(tick);
   }, []);
 
@@ -77,12 +66,27 @@ export default function Showcase() {
     };
   }, [tick]);
 
+  // Lightbox keyboard nav
+  useEffect(() => {
+    if (lightboxIdx === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxIdx(null);
+      if (e.key === "ArrowRight") setLightboxIdx((i) => i !== null ? Math.min(i + 1, images.length - 1) : null);
+      if (e.key === "ArrowLeft") setLightboxIdx((i) => i !== null ? Math.max(i - 1, 0) : null);
+    };
+    window.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxIdx, images.length]);
+
   return (
     <section className="pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden" style={{ background: "#08080c" }}>
+      {/* Header */}
       <div className="text-center mb-6 sm:mb-12 px-4">
-        <h2
-          className="text-2xl sm:text-3xl lg:text-5xl font-extrabold tracking-tight text-white mb-3 sm:mb-4 font-[family-name:var(--font-jakarta)]"
-        >
+        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold tracking-tight text-white mb-3 sm:mb-4 font-[family-name:var(--font-jakarta)]">
           This is what your clients receive.
         </h2>
         <p className="text-sm sm:text-base lg:text-lg text-white/40 max-w-lg mx-auto">
@@ -90,15 +94,16 @@ export default function Showcase() {
         </p>
       </div>
 
-      <div className="w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-32 mb-6 sm:mb-10">
+      {/* Industry tabs */}
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 xl:px-12 mb-6 sm:mb-10">
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
           {INDUSTRIES.map((ind, i) => (
             <button
               key={ind.id}
-              onClick={() => setActiveIdx(i)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              onClick={() => switchIndustry(i)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 i === activeIdx
-                  ? "bg-white/[0.1] text-white border border-white/[0.15]"
+                  ? "bg-white/[0.12] text-white border border-white/[0.2] shadow-lg shadow-white/[0.03]"
                   : "text-white/40 hover:text-white/70 border border-transparent hover:border-white/[0.08]"
               }`}
             >
@@ -109,47 +114,47 @@ export default function Showcase() {
         </div>
       </div>
 
-      {/* Desktop infinite scroll strip */}
+      {/* Desktop auto-scroll strip */}
       <div className="relative hidden md:block">
-        {/* Fade left */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-[#08080c] to-transparent" />
-        {/* Fade right */}
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-[#08080c] to-transparent" />
-
-        {/* Left hover zone */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-1/4 z-20 cursor-w-resize"
-          onMouseEnter={() => (hoverDir.current = -1)}
-          onMouseLeave={() => (hoverDir.current = 0)}
-        />
-        {/* Right hover zone */}
-        <div
-          className="absolute right-0 top-0 bottom-0 w-1/4 z-20 cursor-e-resize"
-          onMouseEnter={() => (hoverDir.current = 1)}
-          onMouseLeave={() => (hoverDir.current = 0)}
-        />
+        {/* Edge fades */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-40 z-10 bg-gradient-to-r from-[#08080c] via-[#08080c]/80 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-40 z-10 bg-gradient-to-l from-[#08080c] via-[#08080c]/80 to-transparent" />
 
         <div
           ref={stripRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide px-16 py-4"
+          key={fadeKey}
+          className="flex gap-5 overflow-x-auto scrollbar-hide px-20 py-6 showcase-fade-in"
           style={{ scrollBehavior: "auto" }}
+          onMouseEnter={() => { paused.current = true; }}
+          onMouseLeave={() => { paused.current = false; }}
         >
           {images.map((src, i) => (
-            <div
+            <button
               key={`${industry.id}-${i}`}
-              className="flex-shrink-0 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/40 bg-white/[0.02]"
-              style={{ width: "clamp(220px, 22vw, 320px)", aspectRatio: "0.707" }}
+              onClick={() => setLightboxIdx(i)}
+              className="group flex-shrink-0 rounded-xl overflow-hidden border border-white/[0.08] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.2] hover:shadow-[0_0_40px_rgba(59,130,246,0.12)] hover:scale-[1.04] hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+              style={{
+                width: "clamp(220px, 22vw, 320px)",
+                aspectRatio: "0.707",
+                animationDelay: `${i * 40}ms`,
+              }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt={`${industry.label} page ${i + 1}`}
-                className="w-full h-full object-contain block"
+                className="w-full h-full object-contain block transition-all duration-300 group-hover:brightness-110"
                 style={{ filter: "blur(6px)", transform: "scale(1.08)" }}
                 loading="eager"
                 draggable={false}
               />
-            </div>
+              {/* Hover overlay */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[1px]">
+                <span className="px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-white text-xs font-medium border border-white/20">
+                  Page {i + 1}
+                </span>
+              </div>
+            </button>
           ))}
         </div>
       </div>
@@ -161,12 +166,14 @@ export default function Showcase() {
 
         <div
           ref={mobileRef}
-          className="flex gap-3 overflow-x-auto scrollbar-hide px-6 py-4 snap-x snap-mandatory"
+          key={fadeKey}
+          className="flex gap-3 overflow-x-auto scrollbar-hide px-6 py-4 snap-x snap-mandatory showcase-fade-in"
         >
           {images.map((src, i) => (
-            <div
+            <button
               key={`${industry.id}-${i}`}
-              className="flex-shrink-0 snap-start rounded-lg overflow-hidden border border-white/[0.08] shadow-xl shadow-black/30 bg-white/[0.02]"
+              onClick={() => setLightboxIdx(i)}
+              className="flex-shrink-0 snap-start rounded-lg overflow-hidden border border-white/[0.08] shadow-xl shadow-black/30 bg-white/[0.02] active:scale-95 transition-transform focus:outline-none relative"
               style={{ width: "55vw", maxWidth: "260px", aspectRatio: "0.707" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -178,17 +185,72 @@ export default function Showcase() {
                 loading="eager"
                 draggable={false}
               />
-            </div>
+            </button>
           ))}
         </div>
       </div>
 
-      <p className="text-center text-xs text-white/20 mt-4 hidden sm:block">
-        Hover the edges to browse
-      </p>
-      <p className="text-center text-xs text-white/20 mt-4 sm:hidden px-4">
-        Swipe to browse pages
-      </p>
+      {/* Hint text */}
+      <div className="text-center mt-4 px-4">
+        <p className="text-xs text-white/25">
+          <span className="hidden sm:inline">Click any page to preview</span>
+          <span className="sm:hidden">Tap any page to preview</span>
+        </p>
+      </div>
+
+      {/* Lightbox */}
+      {lightboxIdx !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md animate-[fadeIn_200ms_ease-out]"
+          onClick={() => setLightboxIdx(null)}
+        >
+          {/* Close */}
+          <button
+            onClick={() => setLightboxIdx(null)}
+            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          {/* Nav arrows */}
+          {lightboxIdx > 0 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightboxIdx(lightboxIdx - 1); }}
+              className="absolute left-4 sm:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          )}
+          {lightboxIdx < images.length - 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightboxIdx(lightboxIdx + 1); }}
+              className="absolute right-4 sm:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
+
+          {/* Image */}
+          <div
+            className="relative max-h-[85vh] max-w-[90vw] sm:max-w-[600px] animate-[scaleIn_200ms_ease-out]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={lightboxIdx}
+              src={images[lightboxIdx]}
+              alt={`${industry.label} page ${lightboxIdx + 1}`}
+              className="w-full h-full object-contain rounded-xl border border-white/[0.1] shadow-2xl"
+              style={{ filter: "blur(6px)", transform: "scale(1.03)" }}
+              draggable={false}
+            />
+            {/* Page indicator */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-medium border border-white/10">
+              {lightboxIdx + 1} / {images.length}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
