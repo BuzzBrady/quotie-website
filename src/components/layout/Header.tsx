@@ -34,7 +34,7 @@ export default function Header() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${navBg}`}
     >
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 xl:px-16 2xl:px-20">
+      <div className="w-full px-6 lg:px-12 xl:px-20 2xl:px-32">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
