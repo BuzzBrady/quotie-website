@@ -51,7 +51,7 @@ export default function RootLayout({
       lang="en"
       className={`${jakarta.variable} ${dmSans.variable} antialiased`}
     >
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-[#08080c]">
         <LeadModalProvider>
           <Header />
           <main className="flex-1">{children}</main>
