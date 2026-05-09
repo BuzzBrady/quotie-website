@@ -10,7 +10,7 @@ import FAQ from "@/components/sections/FAQ";
 import CTA from "@/components/sections/CTA";
 
 export const metadata = createMetadata({
-  title: "Quotie — Quote Faster. Close More. | Quoting Software for Trades",
+  title: "Quotie",
   description:
     "Build quotes in under 30 seconds. Send branded proposals with multiple options, track your pipeline, and close more work. Built for Australian & NZ trades businesses.",
   path: "/",
