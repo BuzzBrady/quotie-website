@@ -16,7 +16,7 @@ const FAQS = [
   },
   {
     q: "Can I customise my quote templates?",
-    a: "Absolutely. We build your templates during onboarding — dropdowns, conditional fields, matrix pricing, calculated totals. Every field, label, and layout is tailored to exactly how your business works. After that, you just come to us for price changes or new materials.",
+    a: "Absolutely. We build your quote forms and PDF templates during onboarding — every field, layout, and calculation is tailored to exactly how your business works. After that, you just come to us for price changes or new materials.",
   },
   {
     q: "Does Quotie integrate with other tools?",
@@ -32,11 +32,11 @@ const FAQS = [
   },
   {
     q: "Is my data secure?",
-    a: "All data is encrypted at rest and in transit, hosted on Supabase with row-level security enforced at the database level. Each business's data is completely isolated — no cross-tenant access is possible.",
+    a: "All data is encrypted at rest and in transit. Each business's data is completely isolated — your data is only visible to your team, no exceptions.",
   },
   {
     q: "What if I need help getting started?",
-    a: "Every customer gets full onboarding. We build your templates, configure your pricing logic, set up your branding, and train your team. You don't need to figure anything out yourself — we handle the hard part so you can start quoting from day one.",
+    a: "Every customer gets full onboarding. We build your quote forms, set up your PDF templates, configure your pricing, set up your branding, and train your team. You don't need to figure anything out yourself — we handle the hard part so you can start quoting from day one.",
   },
 ] as const;
 

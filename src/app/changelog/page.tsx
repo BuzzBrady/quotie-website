@@ -29,11 +29,11 @@ const entries: ChangelogEntry[] = [
     description:
       "Build custom automations that trigger when quotes are sent, and send emails natively from Gmail or Outlook with CC/BCC and reply tracking.",
     changes: [
-      "Automation builder with module-grouped actions (GHL, Quotie, Webhook, HTTP)",
+      "Automation builder — trigger actions in GoHighLevel, ServiceM8, and more when quotes are sent or won",
       "Native Gmail and Outlook email sending from your own address",
       "CC/BCC support with per-send overrides",
       "Reply tracking — client responses appear in Quotie",
-      "Rich text email editor with merge variables",
+      "Rich text email editor with auto-filled client details",
     ],
   },
   {
@@ -63,7 +63,7 @@ const entries: ChangelogEntry[] = [
       "GoHighLevel opportunity pipeline sync — moves opportunity stage on quote status change",
       "ServiceM8 job creation triggered automatically on quote acceptance",
       "Integration settings page with per-integration connection status",
-      "Webhook log viewer for debugging automation triggers",
+      "Integration connection status and diagnostics",
     ],
   },
   {
@@ -76,7 +76,7 @@ const entries: ChangelogEntry[] = [
     changes: [
       "Fixed quote list not refreshing after a status change without page reload",
       "Resolved PDF generation timeout for quotes with large image attachments",
-      "Fixed template conditional logic not evaluating correctly for nested conditions",
+      "Fixed quote form fields not showing correctly in certain configurations",
       "Improved calendar event loading speed by 40%",
       "Fixed mobile keyboard pushing form fields offscreen on iOS 18",
     ],
@@ -90,11 +90,11 @@ const entries: ChangelogEntry[] = [
       "A complete platform rebuild with a new design system, faster performance, and a revamped quoting engine that supports complex multi-variable pricing.",
     changes: [
       "New design system with three themes (light, moderate, dark)",
-      "Completely rewritten quote engine with matrix pricing support",
+      "Completely rewritten quote engine with advanced pricing support",
       "Follow-up dashboard with urgency scoring and one-click actions",
       "Contacts CRM with full quote and job history",
       "Calendar and scheduling module",
-      "Role-based access control with admin view-as functionality",
+      "Team access controls with user permissions",
       "Real-time notifications and daily digest emails",
     ],
   },

@@ -27,23 +27,23 @@ import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
 const features = [
   {
     icon: FileText,
-    title: "Template Builder",
-    description: "We build your pricing logic during onboarding — conditional fields, matrix pricing, automatic calculations. Your team just fills in the form and hits generate. Come back to us for price changes or new materials.",
+    title: "Smart Quote Forms",
+    description: "Your team sees a simple form tailored to your trade — dropdowns, quantities, and fields that adapt based on what you select. Fill it in, hit generate, and the system handles the rest. We build everything during onboarding so your team never touches a spreadsheet.",
     color: "text-cyan-400",
     border: "border-cyan-500/15",
     bg: "from-cyan-500/8 to-cyan-600/3",
     span: "lg:col-span-2",
-    bullets: ["Conditional fields & matrix pricing", "Automatic margin calculations", "Reusable template library"],
+    bullets: ["Tailored fields for your trade", "Automatic pricing & margin calculations", "Consistent quotes across your whole team"],
   },
   {
     icon: Zap,
     title: "Instant PDF Generation",
-    description: "Branded PDFs generated server-side from your HTML templates. Cover pages, multiple options, totals, and custom fields — all automatic.",
+    description: "Branded PDFs generated instantly from your custom-built company template. Cover pages, multiple options, totals, and custom fields — all automatic.",
     color: "text-blue-400",
     border: "border-blue-500/15",
     bg: "from-blue-500/8 to-blue-600/3",
     span: "lg:col-span-1",
-    bullets: ["Custom HTML templates", "Automatic quote numbering", "Download or send directly"],
+    bullets: ["Custom branded templates", "Automatic quote numbering", "Download or send directly"],
   },
   {
     icon: Layers,
@@ -58,12 +58,12 @@ const features = [
   {
     icon: Mail,
     title: "Email Sending & Reply Tracking",
-    description: "Send quotes directly from your own Gmail or Outlook account. Customisable email templates with merge variables. Client replies are tracked and appear in Quotie automatically.",
+    description: "Send quotes directly from your own Gmail or Outlook account. Email templates auto-fill client names, quote totals, and more. Client replies are tracked and appear in Quotie automatically.",
     color: "text-rose-400",
     border: "border-rose-500/15",
     bg: "from-rose-500/8 to-rose-600/3",
     span: "lg:col-span-2",
-    bullets: ["Native Gmail & Outlook sending", "Merge variable templates", "Reply tracking in-app", "CC/BCC with per-send overrides"],
+    bullets: ["Native Gmail & Outlook sending", "Auto-filled email templates", "Reply tracking in-app", "CC/BCC support"],
   },
   {
     icon: Bell,
@@ -98,7 +98,7 @@ const bottomFeatures = [
   {
     icon: Briefcase,
     title: "Job Handoff",
-    description: "One-click quote-to-job conversion. Configurable pipeline columns, SOPs with step-by-step checklists, ServiceM8 integration.",
+    description: "One-click quote-to-job conversion. Customisable pipeline, SOPs with step-by-step checklists, ServiceM8 integration.",
     color: "text-slate-300",
     border: "border-slate-500/15",
   },
@@ -112,7 +112,7 @@ const bottomFeatures = [
   {
     icon: Plug,
     title: "Automations & Integrations",
-    description: "GoHighLevel, ServiceM8, webhook and HTTP actions. Trigger automations on quote events.",
+    description: "GoHighLevel and ServiceM8 integrations built in. Automate actions when quotes are sent, won, or lost.",
     color: "text-teal-400",
     border: "border-teal-500/15",
   },
@@ -125,17 +125,17 @@ const bottomFeatures = [
 const explorerFeatures = [
   {
     id: "template",
-    label: "Template Builder",
+    label: "Quote Form",
     icon: FileText,
     color: "text-cyan-400",
     activeBg: "bg-cyan-500/10 border-cyan-500/25",
     content: {
-      title: "How the template builder works",
+      title: "How quoting works",
       steps: [
-        { label: "We build your template", detail: "Dropdowns, conditional fields, quantities — tailored to your trade" },
-        { label: "We configure your pricing", detail: "Margins, labour rates, material costs, matrix pricing — all pre-built" },
+        { label: "We build your quote form", detail: "Dropdowns, smart fields, quantities — tailored to your trade" },
+        { label: "We configure your pricing", detail: "Margins, labour rates, material costs — all pre-built into the form" },
         { label: "We set up your options", detail: "Up to 4 options per quote — tailored to however your business prices work" },
-        { label: "Your team generates quotes", detail: "Fill the form, hit generate. The template does the maths." },
+        { label: "Your team fills in the form", detail: "Pick the products, enter the quantities, hit generate. The system does the maths." },
       ],
     },
   },
@@ -148,8 +148,8 @@ const explorerFeatures = [
     content: {
       title: "How sending works",
       steps: [
-        { label: "Generate PDFs", detail: "Branded proposals built from your HTML templates" },
-        { label: "Compose email", detail: "Pick a template, merge variables auto-fill" },
+        { label: "Generate PDFs", detail: "Branded proposals built from your custom company template" },
+        { label: "Compose email", detail: "Pick a template — client name, totals, and details fill in automatically" },
         { label: "Send from your email", detail: "Gmail or Outlook — clients see your address" },
         { label: "Track replies", detail: "Client responses appear in Quotie automatically" },
       ],

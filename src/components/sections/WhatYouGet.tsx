@@ -18,8 +18,8 @@ import SectionHeader from "@/components/ui/SectionHeader";
 const items = [
   {
     icon: FileText,
-    title: "Template Builder",
-    description: "We build your pricing logic — conditional fields, matrix pricing, automatic calculations. Your team just fills in the form.",
+    title: "Smart Quote Forms",
+    description: "Your team sees a simple form tailored to your trade. Fill it in, hit generate — the pricing engine does the rest.",
     color: "text-cyan-400",
     border: "border-cyan-500/15",
     bg: "from-cyan-500/8 to-cyan-600/3",
@@ -28,7 +28,7 @@ const items = [
   {
     icon: Send,
     title: "Email Sending",
-    description: "Send from your own Gmail or Outlook. Customisable templates with merge variables. Replies tracked automatically.",
+    description: "Send from your own Gmail or Outlook. Email templates auto-fill client details. Replies tracked automatically.",
     color: "text-rose-400",
     border: "border-rose-500/15",
     bg: "from-rose-500/8 to-rose-600/3",
@@ -64,7 +64,7 @@ const items = [
   {
     icon: Briefcase,
     title: "Job Handoff",
-    description: "Won quotes become jobs. SOPs, task tracking, configurable pipeline.",
+    description: "Won quotes become jobs. SOPs, task tracking, customisable pipeline.",
     color: "text-slate-300",
     border: "border-slate-500/15",
     bg: "from-slate-500/8 to-slate-600/3",
@@ -82,7 +82,7 @@ const items = [
   {
     icon: Plug,
     title: "Automations",
-    description: "GoHighLevel, ServiceM8, webhooks. Trigger actions on quote events.",
+    description: "GoHighLevel and ServiceM8 built in. Automate actions when quotes are sent, won, or lost.",
     color: "text-teal-400",
     border: "border-teal-500/15",
     bg: "from-teal-500/8 to-teal-600/3",

@@ -24,7 +24,7 @@ const tiers = [
     cta: "Get Started",
     popular: false,
     features: [
-      "Full quote template builder",
+      "Custom-built quote form & pricing",
       "Instant branded PDF generation",
       "Multi-option proposals",
       "Email sending (Gmail / Outlook)",
@@ -69,7 +69,7 @@ const tiers = [
       "Unlimited users",
       "Custom onboarding & training",
       "Dedicated account manager",
-      "Custom template builds",
+      "Custom quote form builds",
       "Volume pricing",
     ],
   },
@@ -78,7 +78,7 @@ const tiers = [
 const faqs = [
   {
     q: "What's included in the setup fee?",
-    a: "We build your first quote templates, map your pricing logic, set up your branding, and train your team. You're not left figuring it out alone — we do the heavy lifting so you can start quoting on day one.",
+    a: "We build your quote forms, set up your branded PDF templates, configure your pricing, and train your team. You're not left figuring it out alone — we do the heavy lifting so you can start quoting on day one.",
   },
   {
     q: "How long does onboarding take?",
@@ -94,7 +94,7 @@ const faqs = [
   },
   {
     q: "Is my data safe?",
-    a: "All data is encrypted at rest and in transit, hosted on Supabase with row-level security. Each business's data is completely isolated — no cross-tenant access is possible.",
+    a: "All data is encrypted at rest and in transit. Each business's data is completely isolated — your data is only visible to your team, no exceptions.",
   },
   {
     q: "What integrations are included?",

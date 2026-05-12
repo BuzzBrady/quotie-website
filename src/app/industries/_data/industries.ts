@@ -35,8 +35,8 @@ export const industries: Industry[] = [
       "No visibility into which quotes are outstanding or overdue",
     ],
     features: [
-      "Conditional product options for panels, inverters, and batteries",
-      "Automatic pricing calculations with configurable margins",
+      "Smart dropdowns for panels, inverters, and batteries",
+      "Automatic pricing calculations built into your quote form",
       "Branded PDF proposals sent directly from your email",
       "Multi-option quotes so clients can choose their system size",
       "Follow-up dashboard to track every outstanding quote",
@@ -74,7 +74,7 @@ export const industries: Industry[] = [
     ],
     features: [
       "Multi-option proposals for different scopes and materials",
-      "Conditional fields for material types and roof sections",
+      "Smart fields for material types and roof sections",
       "Branded PDF proposals with your logo and colours",
       "Send quotes directly from your Gmail or Outlook",
       "Follow-up reminders so no quote goes cold",
@@ -100,7 +100,7 @@ export const industries: Industry[] = [
     name: "Electrical",
     title: "Electrical Quoting Software",
     description:
-      "Generate accurate electrical quotes with automatic calculations, conditional fields, and professional proposals — faster than rebuilding spreadsheets.",
+      "Generate accurate electrical quotes with automatic calculations and professional proposals — faster than rebuilding spreadsheets.",
     heroHeadline: "Accurate electrical quotes. In seconds.",
     heroSubheadline:
       "From switchboard upgrades to new builds — generate consistent, professional proposals without the manual calculations.",
@@ -111,8 +111,8 @@ export const industries: Industry[] = [
       "No system to track which quotes are outstanding",
     ],
     features: [
-      "Configurable pricing logic with automatic calculations",
-      "Conditional fields for job type and complexity",
+      "Automatic pricing calculations built into your quote form",
+      "Smart fields that adapt based on job type and complexity",
       "Multi-option proposals for different scope levels",
       "Branded PDFs sent from your own email",
       "Follow-up dashboard for outstanding quotes",
@@ -170,7 +170,7 @@ export const industries: Industry[] = [
       "Quote plumbing jobs on-site and send professional proposals before you leave the driveway. Fast, accurate, branded.",
     heroHeadline: "Quote on-site. Win the job before you leave.",
     heroSubheadline:
-      "Generate professional plumbing proposals in seconds — with your pricing logic, your branding, and your terms.",
+      "Generate professional plumbing proposals in seconds — with your pricing, your branding, and your terms.",
     painPoints: [
       "Quoting takes too long and jobs go to the first responder",
       "Pricing is inconsistent across your team",
@@ -178,10 +178,10 @@ export const industries: Industry[] = [
       "Proposals look unprofessional compared to bigger companies",
     ],
     features: [
-      "Configurable pricing templates for any plumbing job",
+      "Pre-built pricing for any plumbing job type",
       "Multi-option proposals for different scope levels",
       "Branded PDFs generated in seconds",
-      "Send from your own email, track opens and replies",
+      "Send from your own email with reply tracking",
       "Follow-up dashboard with urgency sorting",
       "Mobile-friendly — quote from any device",
     ],
@@ -208,7 +208,7 @@ export const industries: Industry[] = [
     ],
     features: [
       "Multi-option proposals for different system configurations",
-      "Conditional fields for installation complexity",
+      "Smart fields that adapt to installation complexity",
       "Automatic pricing calculations",
       "Branded proposals with technical specs",
       "Follow-up reminders and pipeline tracking",
@@ -225,10 +225,10 @@ export const industries: Industry[] = [
     name: "Painting",
     title: "Painting Quoting Software",
     description:
-      "Quote painting jobs with configurable pricing, branded proposals, and a follow-up system that keeps your pipeline full.",
+      "Quote painting jobs with accurate pricing, branded proposals, and a follow-up system that keeps your pipeline full.",
     heroHeadline: "Professional painting quotes. Every time.",
     heroSubheadline:
-      "We build your pricing logic. You generate branded proposals in seconds — with multiple options for different scopes.",
+      "We build your pricing system. You generate branded proposals in seconds — with multiple options for different scopes.",
     painPoints: [
       "Quoting different scopes and finishes is time-consuming",
       "Pricing is inconsistent when done from scratch each time",
@@ -236,7 +236,7 @@ export const industries: Industry[] = [
       "No system to follow up on outstanding quotes",
     ],
     features: [
-      "Configurable templates for interior, exterior, and commercial",
+      "Quote forms built for interior, exterior, and commercial jobs",
       "Multi-option proposals for different scopes",
       "Branded PDFs with your logo and terms",
       "Send and track quotes from your own email",
@@ -254,7 +254,7 @@ export const industries: Industry[] = [
     name: "Landscaping",
     title: "Landscaping Quoting Software",
     description:
-      "Quote landscaping projects with configurable pricing, multiple options, and professional proposals — from small gardens to large earthmoving jobs.",
+      "Quote landscaping projects with accurate pricing, multiple options, and professional proposals — from small gardens to large earthmoving jobs.",
     heroHeadline: "Quote any landscaping job. In seconds.",
     heroSubheadline:
       "From small garden makeovers to large projects — get your pricing built once and generate professional proposals instantly.",
@@ -265,7 +265,7 @@ export const industries: Industry[] = [
       "No visibility into your quote pipeline",
     ],
     features: [
-      "Configurable pricing logic for any job type",
+      "Pre-built pricing for any job type",
       "Multi-option proposals for different project scopes",
       "Branded PDFs with your logo and terms",
       "Send and track quotes from your own email",
@@ -283,7 +283,7 @@ export const industries: Industry[] = [
     name: "Building",
     title: "Building & Construction Quoting",
     description:
-      "Generate professional building quotes with configurable pricing templates, multi-option proposals, and a pipeline to track every job.",
+      "Generate professional building quotes with accurate pricing, multi-option proposals, and a pipeline to track every job.",
     heroHeadline: "Professional building quotes. Every time.",
     heroSubheadline:
       "Get your pricing system built once and generate consistent, branded proposals — with multiple options for different scopes.",
@@ -294,12 +294,12 @@ export const industries: Industry[] = [
       "Proposals don't look professional enough for larger jobs",
     ],
     features: [
-      "Configurable quote templates with automatic calculations",
+      "Quote forms with automatic calculations built in",
       "Multi-option proposals for different project scopes",
       "Branded PDFs with your company details and terms",
       "Send from your own email with reply tracking",
       "Follow-up dashboard and pipeline tracking",
-      "Job handoff with configurable pipeline columns",
+      "Job handoff with customisable pipeline",
     ],
     stats: [
       { value: "<30s", label: "Quote generation" },
