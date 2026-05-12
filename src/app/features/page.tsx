@@ -38,7 +38,7 @@ const features = [
   {
     icon: Zap,
     title: "Instant PDF Generation",
-    description: "Branded PDFs generated server-side from your HTML templates. Cover pages, option tiers, totals, and custom fields — all automatic.",
+    description: "Branded PDFs generated server-side from your HTML templates. Cover pages, multiple options, totals, and custom fields — all automatic.",
     color: "text-blue-400",
     border: "border-blue-500/15",
     bg: "from-blue-500/8 to-blue-600/3",
@@ -53,7 +53,7 @@ const features = [
     border: "border-amber-500/15",
     bg: "from-amber-500/8 to-amber-600/3",
     span: "lg:col-span-1",
-    bullets: ["Up to 4 pricing tiers", "Full PDF per option", "Bundle in one email"],
+    bullets: ["Up to 4 options per quote", "Full PDF per option", "Bundle in one email"],
   },
   {
     icon: Mail,
@@ -134,7 +134,7 @@ const explorerFeatures = [
       steps: [
         { label: "We build your template", detail: "Dropdowns, conditional fields, quantities — tailored to your trade" },
         { label: "We configure your pricing", detail: "Margins, labour rates, material costs, matrix pricing — all pre-built" },
-        { label: "We set up your options", detail: "Up to 4 tiers per template — basic through premium" },
+        { label: "We set up your options", detail: "Up to 4 options per quote — tailored to however your business prices work" },
         { label: "Your team generates quotes", detail: "Fill the form, hit generate. The template does the maths." },
       ],
     },

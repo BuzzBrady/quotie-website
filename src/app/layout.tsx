@@ -4,6 +4,7 @@ import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LeadModalProvider } from "@/components/lead-capture/LeadModalProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -58,6 +59,7 @@ export default function RootLayout({
       className={`${jakarta.variable} ${dmSans.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[#08080c]">
+        <SmoothScroll />
         <LeadModalProvider>
           <Header />
           <main className="flex-1">{children}</main>

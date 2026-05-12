@@ -70,10 +70,10 @@ export const industries: Industry[] = [
       "Calculating materials for complex roof sections manually",
       "Too many product options making quotes inconsistent",
       "Quotes that take hours to prepare and look unprofessional",
-      "No way to present multiple product tiers to clients",
+      "No way to present multiple product options to clients",
     ],
     features: [
-      "Multi-option proposals (good/better/best)",
+      "Multi-option proposals for different scopes and materials",
       "Conditional fields for material types and roof sections",
       "Branded PDF proposals with your logo and colours",
       "Send quotes directly from your Gmail or Outlook",
@@ -129,12 +129,12 @@ export const industries: Industry[] = [
     name: "Cleaning",
     title: "Cleaning Services Quoting",
     description:
-      "Quote commercial and residential cleaning jobs fast. Present multiple service tiers and send professional proposals that win the contract.",
+      "Quote commercial and residential cleaning jobs fast. Present multiple service options and send professional proposals that win the contract.",
     heroHeadline: "Close cleaning contracts faster.",
     heroSubheadline:
       "Quote different service levels and frequencies — with professional proposals that make your business stand out.",
     painPoints: [
-      "Presenting different service tiers without confusing clients",
+      "Presenting different service options without confusing clients",
       "Tracking which prospects have received quotes",
       "Following up on quotes without a system",
       "Quotes that don't look professional enough to win commercial work",

@@ -14,7 +14,7 @@ const TESTIMONIALS = [
     metric: "$360k+",
     metricLabel: "Closed in one month",
     quote:
-      "I couldn't believe how quickly we closed $360k in a single month once we had Quotie dialled in. The multi-option proposals are a game changer — clients love being able to choose their tier.",
+      "I couldn't believe how quickly we closed $360k in a single month once we had Quotie dialled in. The multi-option proposals are a game changer — clients love being able to choose what works for them.",
     avatar: "JB",
     color: "from-emerald-500 to-teal-600",
   },

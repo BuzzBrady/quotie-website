@@ -64,7 +64,7 @@ export default function Features() {
               </p>
               <ul className="space-y-2.5">
                 {[
-                  "Up to 4 pricing tiers in one quote group",
+                  "Up to 4 options in one quote group",
                   "Each option is a full branded PDF",
                   "Bundle and send in one email",
                 ].map((item) => (
@@ -83,9 +83,9 @@ export default function Features() {
                 <div className="absolute -inset-8 bg-gradient-to-br from-amber-500/5 to-orange-500/5 rounded-3xl blur-2xl" />
                 <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
-                    { label: "Basic", price: "$18,400", items: ["13kW Solar", "10kW Inverter", "16kWh Battery"], rec: false },
-                    { label: "Recommended", price: "$23,100", items: ["13kW Solar", "10kW Inverter", "32kWh Battery"], rec: true },
-                    { label: "Premium", price: "$26,900", items: ["15kW Solar", "15kW Inverter", "32kWh Battery"], rec: false },
+                    { label: "Option 1", price: "$18,400", items: ["13kW Solar", "10kW Inverter", "16kWh Battery"], rec: false },
+                    { label: "Option 2", price: "$23,100", items: ["13kW Solar", "10kW Inverter", "32kWh Battery"], rec: true },
+                    { label: "Option 3", price: "$26,900", items: ["15kW Solar", "15kW Inverter", "32kWh Battery"], rec: false },
                   ].map((tier, i) => (
                     <div
                       key={i}

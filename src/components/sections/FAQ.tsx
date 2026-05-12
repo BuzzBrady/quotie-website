@@ -8,7 +8,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 const FAQS = [
   {
     q: "What is Quotie?",
-    a: "Quotie is a done-for-you quoting platform built for trades businesses. We build your pricing system and templates during onboarding — then your team generates branded proposals in under 30 seconds, with multiple tier options, automatic calculations, and a built-in follow-up pipeline.",
+    a: "Quotie is a done-for-you quoting platform built for trades businesses. We build your pricing system and templates during onboarding — then your team generates branded proposals in under 30 seconds, with multiple options, automatic calculations, and a built-in follow-up pipeline.",
   },
   {
     q: "How long does it take to set up?",
@@ -24,7 +24,7 @@ const FAQS = [
   },
   {
     q: "How does the PDF generation work?",
-    a: "Fill in the quote form, hit generate. Quotie's engine builds a branded PDF from your template in seconds — complete with your logo, cover page, option tiers, totals, and any custom fields you've set up.",
+    a: "Fill in the quote form, hit generate. Quotie's engine builds a branded PDF from your template in seconds — complete with your logo, cover page, multiple options, totals, and any custom fields you've set up.",
   },
   {
     q: "Can I send quotes directly from Quotie?",

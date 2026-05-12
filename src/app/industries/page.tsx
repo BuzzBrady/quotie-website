@@ -21,7 +21,7 @@ const industryData = [
   { slug: "solar", name: "Solar", icon: Sun, color: "#f59e0b", desc: "Complex solar system configurations built into beautiful, branded proposals." },
   { slug: "roofing", name: "Roofing", icon: Home, color: "#ef4444", desc: "Multi-section roof measuring, material options, and instant proposals." },
   { slug: "electrical", name: "Electrical", icon: Zap, color: "#3b82f6", desc: "Accurate electrical quotes with automatic labour and materials calculations." },
-  { slug: "cleaning", name: "Cleaning", icon: Sparkles, color: "#8b5cf6", desc: "Service tiers and frequencies quoted professionally in under a minute." },
+  { slug: "cleaning", name: "Cleaning", icon: Sparkles, color: "#8b5cf6", desc: "Service options and frequencies quoted professionally in under a minute." },
   { slug: "plumbing", name: "Plumbing", icon: Droplets, color: "#06b6d4", desc: "On-site quoting with consistent pricing across your whole team." },
   { slug: "hvac", name: "HVAC", icon: Wind, color: "#10b981", desc: "System options, installation complexity, and warranty terms — one proposal." },
   { slug: "painting", name: "Painting", icon: Paintbrush, color: "#ec4899", desc: "Quote different scopes and finishes with proposals that match your quality." },
