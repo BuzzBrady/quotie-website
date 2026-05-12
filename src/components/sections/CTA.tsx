@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle } from "@phosphor-icons/react";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
 import Container from "@/components/ui/Container";
 
@@ -80,7 +80,7 @@ export default function CTA() {
                 key={signal}
                 className="flex items-center gap-2 text-sm text-blue-100/60"
               >
-                <CheckCircle2 className="w-4 h-4 text-blue-200/60" />
+                <CheckCircle weight="duotone" className="w-4 h-4 text-blue-200/60" />
                 {signal}
               </div>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CircleNotch, CheckCircle } from "@phosphor-icons/react";
 import { supabase } from "@/lib/supabase";
 import { TRADE_TYPES } from "@/lib/constants";
 
@@ -103,7 +103,7 @@ export default function LeadCaptureForm({
     return (
       <div className={`flex flex-col items-center gap-3 py-6 ${className}`}>
         <div className="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
-          <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+          <CheckCircle weight="duotone" className="w-7 h-7 text-emerald-400" />
         </div>
         <h3 className="text-xl font-bold text-white">We&apos;ll be in touch!</h3>
         <p className="text-blue-100/70 text-sm text-center max-w-sm">
@@ -214,13 +214,13 @@ export default function LeadCaptureForm({
         >
           {submitting ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <CircleNotch weight="duotone" className="w-4 h-4 animate-spin" />
               Submitting...
             </>
           ) : (
             <>
               Get Started
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight weight="duotone" className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </>
           )}
         </button>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { List, X, ArrowRight } from "@phosphor-icons/react";
 import { NAV_LINKS, APP_URL } from "@/lib/constants";
 import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
 
@@ -83,7 +83,7 @@ export default function Header() {
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300"
             >
               Get Started
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight weight="duotone" className="w-4 h-4" />
             </button>
           </div>
 
@@ -93,7 +93,7 @@ export default function Header() {
             className="lg:hidden p-2 rounded-lg transition-colors text-white/70 hover:text-white hover:bg-white/10"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X weight="duotone" size={24} /> : <List weight="duotone" size={24} />}
           </button>
         </div>
 

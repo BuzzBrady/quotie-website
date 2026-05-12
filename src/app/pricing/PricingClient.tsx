@@ -3,12 +3,12 @@
 import {
   Check,
   ArrowRight,
-  Shield,
-  Zap,
-  Users,
-  Building2,
-  HelpCircle,
-} from "lucide-react";
+  ShieldCheck,
+  Lightning,
+  UsersThree,
+  Buildings,
+  Question,
+} from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
@@ -17,7 +17,7 @@ const tiers = [
   {
     id: "solo",
     name: "1 Man Band",
-    icon: Zap,
+    icon: Lightning,
     setup: 3000,
     monthly: 300,
     description: "Everything you need to start quoting professionally as a sole trader.",
@@ -37,7 +37,7 @@ const tiers = [
   {
     id: "team",
     name: "Small Team",
-    icon: Users,
+    icon: UsersThree,
     setup: 5000,
     monthly: 650,
     description: "For growing businesses with a team that needs to quote consistently.",
@@ -58,7 +58,7 @@ const tiers = [
   {
     id: "enterprise",
     name: "6+ Users",
-    icon: Building2,
+    icon: Buildings,
     setup: null,
     monthly: null,
     description: "For larger teams with custom requirements. Let's talk about what you need.",
@@ -78,11 +78,11 @@ const tiers = [
 const faqs = [
   {
     q: "What's included in the setup fee?",
-    a: "We build your quote forms, set up your branded PDF templates, configure your pricing, and train your team. You're not left figuring it out alone — we do the heavy lifting so you can start quoting on day one.",
+    a: "We build your quote form, set up your branded PDF template, configure your pricing, and train your team. We refine the form with you over the first week until it matches exactly how your business quotes — then you're good to go.",
   },
   {
     q: "How long does onboarding take?",
-    a: "Most businesses are quoting within a day or two. We work with you to understand your pricing, build your templates, and make sure everything is right before you go live.",
+    a: "Most businesses are quoting within the first week. We work with you to understand your pricing, build your quote form, and refine it until it's dialled in. Expect a few rounds of tweaks as we nail down exactly how your business quotes.",
   },
   {
     q: "Can I add more users later?",
@@ -164,6 +164,7 @@ export default function PricingClient() {
                         }`}
                       >
                         <Icon
+                          weight="duotone"
                           className={`w-5 h-5 ${
                             tier.popular ? "text-white" : "text-slate-600"
                           }`}
@@ -214,7 +215,7 @@ export default function PricingClient() {
                     <ul className="space-y-3">
                       {tier.features.map((f) => (
                         <li key={f} className="flex items-start gap-3 text-sm">
-                          <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                          <Check weight="duotone" className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                           <span className="text-slate-700">{f}</span>
                         </li>
                       ))}
@@ -228,7 +229,7 @@ export default function PricingClient() {
           {/* Money-back badge */}
           <div className="mt-12 flex justify-center">
             <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-sm text-emerald-800">
-              <Shield className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+              <ShieldCheck weight="duotone" className="w-5 h-5 text-emerald-600 flex-shrink-0" />
               <span>
                 <strong>Hands-on onboarding included.</strong> We build your
                 templates, train your team, and make sure you&apos;re confident
@@ -244,7 +245,7 @@ export default function PricingClient() {
         <Container>
           <SectionHeader
             badge="Pricing FAQ"
-            badgeIcon={<HelpCircle className="w-4 h-4" />}
+            badgeIcon={<Question weight="duotone" className="w-4 h-4" />}
             title="Common questions"
             gradient="questions"
             subtitle="Everything you need to know about plans and billing."
@@ -283,7 +284,7 @@ export default function PricingClient() {
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
             >
               Schedule a Demo
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight weight="duotone" className="w-4 h-4" />
             </a>
             <a
               href="/contact"

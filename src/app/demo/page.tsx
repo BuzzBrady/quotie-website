@@ -1,7 +1,7 @@
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
-import { CheckCircle2, Star } from "lucide-react";
+import { CheckCircle, Star } from "@phosphor-icons/react/ssr";
 
 export const metadata = createMetadata({
   title: "Book a Free Demo — See Quotie in Action",
@@ -77,7 +77,7 @@ export default function DemoPage() {
               <ul className="space-y-4 mb-10">
                 {expectations.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                    <CheckCircle weight="duotone" className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
                     <span className="text-white/60 text-sm">{item}</span>
                   </li>
                 ))}
@@ -86,7 +86,7 @@ export default function DemoPage() {
               <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02]">
                 <div className="flex items-center gap-0.5 mb-2">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                    <Star key={i} weight="duotone" className="w-4 h-4 text-amber-400 fill-amber-400" />
                   ))}
                 </div>
                 <p className="text-white/50 text-sm italic">
@@ -139,7 +139,7 @@ export default function DemoPage() {
               >
                 <div className="flex items-center gap-0.5 mb-4">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                    <Star key={i} weight="duotone" className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                   ))}
                 </div>
                 <p className="text-white/50 text-sm leading-relaxed mb-5 italic">

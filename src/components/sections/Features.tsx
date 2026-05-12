@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Layers, Zap, Check } from "lucide-react";
+import { Stack, Lightning, Check } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
@@ -46,7 +46,7 @@ export default function Features() {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <FadeIn>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/20 bg-amber-500/10 text-amber-400 text-xs font-semibold mb-6">
-                <Layers className="w-3.5 h-3.5" />
+                <Stack weight="duotone" className="w-3.5 h-3.5" />
                 Multi-Option Proposals
               </div>
               <h3
@@ -58,19 +58,19 @@ export default function Features() {
                 <span className="text-white/40">Multiple ways to say yes.</span>
               </h3>
               <p className="text-white/45 leading-relaxed mb-6 max-w-md">
-                Send up to 4 options in a single quote group. Your client picks
+                Send up to 4 quotes at a time in one email. Your client picks
                 what works — no more sending separate quotes and hoping they
                 open the right one.
               </p>
               <ul className="space-y-2.5">
                 {[
-                  "Up to 4 options in one quote group",
+                  "Send up to 4 quotes in one email",
                   "Each option is a full branded PDF",
                   "Bundle and send in one email",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="w-4 h-4 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-2.5 h-2.5 text-amber-400" />
+                      <Check weight="duotone" className="w-2.5 h-2.5 text-amber-400" />
                     </div>
                     <span className="text-white/50 text-sm">{item}</span>
                   </li>
@@ -154,7 +154,7 @@ export default function Features() {
             {/* Copy — right on desktop */}
             <FadeIn delay={0.15} className="order-1 lg:order-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-400 text-xs font-semibold mb-6">
-                <Zap className="w-3.5 h-3.5" />
+                <Lightning weight="duotone" className="w-3.5 h-3.5" />
                 Speed
               </div>
               <h3
@@ -177,7 +177,7 @@ export default function Features() {
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="w-4 h-4 rounded-full bg-blue-500/15 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-2.5 h-2.5 text-blue-400" />
+                      <Check weight="duotone" className="w-2.5 h-2.5 text-blue-400" />
                     </div>
                     <span className="text-white/50 text-sm">{item}</span>
                   </li>

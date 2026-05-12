@@ -4,14 +4,14 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   FileText,
-  Send,
+  PaperPlaneTilt,
   Bell,
-  BarChart3,
-  Users,
+  ChartBar,
+  UsersThree,
   Briefcase,
-  Calendar,
-  Plug,
-} from "lucide-react";
+  CalendarBlank,
+  PlugsConnected,
+} from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
@@ -26,7 +26,7 @@ const items = [
     size: "lg" as const,
   },
   {
-    icon: Send,
+    icon: PaperPlaneTilt,
     title: "Email Sending",
     description: "Send from your own Gmail or Outlook. Email templates auto-fill client details. Replies tracked automatically.",
     color: "text-rose-400",
@@ -44,7 +44,7 @@ const items = [
     size: "md" as const,
   },
   {
-    icon: BarChart3,
+    icon: ChartBar,
     title: "Pipeline & Analytics",
     description: "Won revenue, conversion rates, pipeline value. Your business on one screen.",
     color: "text-emerald-400",
@@ -53,7 +53,7 @@ const items = [
     size: "sm" as const,
   },
   {
-    icon: Users,
+    icon: UsersThree,
     title: "CRM & Contacts",
     description: "Full contact history with GoHighLevel sync built in.",
     color: "text-purple-400",
@@ -71,7 +71,7 @@ const items = [
     size: "sm" as const,
   },
   {
-    icon: Calendar,
+    icon: CalendarBlank,
     title: "Calendar",
     description: "Day, week, month views. Drag-and-drop rescheduling.",
     color: "text-blue-400",
@@ -80,7 +80,7 @@ const items = [
     size: "sm" as const,
   },
   {
-    icon: Plug,
+    icon: PlugsConnected,
     title: "Automations",
     description: "GoHighLevel and ServiceM8 built in. Automate actions when quotes are sent, won, or lost.",
     color: "text-teal-400",
@@ -111,7 +111,7 @@ function BentoCard({ item, index }: { item: (typeof items)[number]; index: numbe
     >
       <div className={`flex ${item.size === "lg" ? "items-start gap-5" : "flex-col"}`}>
         <div className={`w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center flex-shrink-0 ${item.size !== "lg" ? "mb-4" : ""}`}>
-          <Icon className={`w-5 h-5 ${item.color}`} />
+          <Icon weight="duotone" className={`w-5 h-5 ${item.color}`} />
         </div>
         <div className="flex-1 min-w-0">
           <h3 className={`font-bold text-white font-[family-name:var(--font-jakarta)] mb-1.5 ${item.size === "lg" ? "text-lg" : "text-[15px]"}`}>

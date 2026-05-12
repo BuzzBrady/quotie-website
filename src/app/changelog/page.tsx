@@ -1,6 +1,6 @@
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
-import { Zap, Bug, Sparkles, Shield, ArrowRight } from "lucide-react";
+import { Lightning, Bug, Sparkle, ShieldCheck, ArrowRight } from "@phosphor-icons/react/ssr";
 
 export const metadata = createMetadata({
   title: "Changelog — What's New in Quotie",
@@ -46,7 +46,7 @@ const entries: ChangelogEntry[] = [
     changes: [
       "Urgency-sorted follow-up view: overdue, due today, upcoming",
       "Reschedule tracking with ordinal badges (1st, 2nd, 3rd follow-up)",
-      "Send history and notes on every quote group",
+      "Send history and notes on every job",
       "Bell icon notifications with real-time updates",
       "Daily digest email notifications",
     ],
@@ -101,10 +101,10 @@ const entries: ChangelogEntry[] = [
 ];
 
 const typeConfig: Record<EntryType, { icon: React.ElementType; label: string; color: string; bg: string }> = {
-  feature: { icon: Sparkles, label: "New Feature", color: "text-brand-cyan", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
-  improvement: { icon: Zap, label: "Improvement", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
+  feature: { icon: Sparkle, label: "New Feature", color: "text-brand-cyan", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
+  improvement: { icon: Lightning, label: "Improvement", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
   fix: { icon: Bug, label: "Bug Fix", color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-  security: { icon: Shield, label: "Security", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+  security: { icon: ShieldCheck, label: "Security", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
 };
 
 export default function ChangelogPage() {
@@ -167,7 +167,7 @@ export default function ChangelogPage() {
                               <span
                                 className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${config.bg} ${config.color}`}
                               >
-                                <TypeIcon className="w-3 h-3" />
+                                <TypeIcon weight="duotone" className="w-3 h-3" />
                                 {config.label}
                               </span>
                               <span className="text-xs text-white/25 font-mono">{entry.version}</span>
@@ -213,7 +213,7 @@ export default function ChangelogPage() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
           >
             Book a Demo
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight weight="duotone" className="w-4 h-4" />
           </a>
         </Container>
       </section>

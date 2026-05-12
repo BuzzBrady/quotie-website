@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 const INDUSTRIES = [
   { id: "solar", label: "Solar", pages: 12, pad: true },
@@ -209,7 +209,7 @@ export default function Showcase() {
             onClick={() => setLightboxIdx(null)}
             className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
           >
-            <X className="w-5 h-5" />
+            <X weight="duotone" className="w-5 h-5" />
           </button>
 
           {/* Nav arrows */}
@@ -218,7 +218,7 @@ export default function Showcase() {
               onClick={(e) => { e.stopPropagation(); setLightboxIdx(lightboxIdx - 1); }}
               className="absolute left-4 sm:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <CaretLeft weight="duotone" className="w-6 h-6" />
             </button>
           )}
           {lightboxIdx < images.length - 1 && (
@@ -226,7 +226,7 @@ export default function Showcase() {
               onClick={(e) => { e.stopPropagation(); setLightboxIdx(lightboxIdx + 1); }}
               className="absolute right-4 sm:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
             >
-              <ChevronRight className="w-6 h-6" />
+              <CaretRight weight="duotone" className="w-6 h-6" />
             </button>
           )}
 

@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin, Heart, Zap, Target } from "lucide-react";
+import { ArrowRight, MapPin, Heart, Lightning, Crosshair } from "@phosphor-icons/react/ssr";
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -12,13 +12,13 @@ export const metadata = createMetadata({
 
 const values = [
   {
-    icon: Zap,
+    icon: Lightning,
     title: "Speed",
     description:
       "Every second your team spends building a quote is a second not spent on the tools. We obsess over making quoting as fast as humanly possible.",
   },
   {
-    icon: Target,
+    icon: Crosshair,
     title: "Simplicity",
     description:
       "No endless settings menus. No training manuals. If your apprentice can't figure it out in five minutes, we've built it wrong.",
@@ -46,7 +46,7 @@ export default function AboutPage() {
         <Container className="relative z-10 py-24">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/50 mb-6">
-              <MapPin className="w-4 h-4" />
+              <MapPin weight="duotone" className="w-4 h-4" />
               Central Coast, NSW, Australia
             </div>
             <h1
@@ -185,7 +185,7 @@ export default function AboutPage() {
                   className="rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-sm"
                 >
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-cyan/10 border border-brand-blue/20 flex items-center justify-center mb-5">
-                    <Icon className="w-6 h-6 text-brand-blue" />
+                    <Icon weight="duotone" className="w-6 h-6 text-brand-blue" />
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3 font-[family-name:var(--font-jakarta)]">
                     {value.title}
@@ -207,7 +207,7 @@ export default function AboutPage() {
       >
         <Container className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-sm text-white/50 mb-6">
-            <MapPin className="w-4 h-4 text-brand-cyan" />
+            <MapPin weight="duotone" className="w-4 h-4 text-brand-cyan" />
             Built on the Central Coast — used across Australia &amp; New Zealand
           </div>
           <p className="text-white/30 text-sm max-w-md mx-auto">
@@ -233,7 +233,7 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
             >
               Schedule a Demo
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight weight="duotone" className="w-4 h-4" />
             </a>
             <a
               href="/contact"

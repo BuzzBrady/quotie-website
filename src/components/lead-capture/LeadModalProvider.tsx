@@ -7,7 +7,7 @@ import {
   useCallback,
   useEffect,
 } from "react";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react";
 import LeadCaptureForm from "./LeadCaptureForm";
 
 interface LeadModalContextValue {
@@ -139,7 +139,7 @@ function LeadCaptureModal({
             onClick={onClose}
             className="absolute top-4 right-4 z-10 p-2 rounded-xl text-white/30 hover:text-white/70 hover:bg-white/[0.08] transition-all duration-200"
           >
-            <X className="w-5 h-5" />
+            <X weight="duotone" className="w-5 h-5" />
           </button>
 
           <div className="px-6 sm:px-8 pt-8 pb-2">

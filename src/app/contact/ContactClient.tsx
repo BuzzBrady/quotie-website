@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, MapPin, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { EnvelopeSimple, MapPin, ArrowRight, CircleNotch, CheckCircle } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 import { supabase } from "@/lib/supabase";
 import { TRADE_TYPES } from "@/lib/constants";
@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     q: "Do you offer onboarding help?",
-    a: "Yes. Professional and Enterprise plans include a dedicated onboarding call to get your templates set up and your team trained.",
+    a: "Every plan includes full hands-on onboarding. We build your quote form, configure your pricing, and refine it with you over the first week until it's exactly right.",
   },
   {
     q: "Can I request a custom integration?",
@@ -128,7 +128,7 @@ export default function ContactClient() {
               {submitted ? (
                 <div className="flex flex-col items-center gap-4 py-12 text-center">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                    <CheckCircle weight="duotone" className="w-8 h-8 text-emerald-600" />
                   </div>
                   <h3 className="text-xl font-bold text-slate-900">
                     Message received!
@@ -225,13 +225,13 @@ export default function ContactClient() {
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <CircleNotch weight="duotone" className="w-4 h-4 animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
                         Send Message
-                        <ArrowRight className="w-4 h-4" />
+                        <ArrowRight weight="duotone" className="w-4 h-4" />
                       </>
                     )}
                   </button>
@@ -248,7 +248,7 @@ export default function ContactClient() {
                 <div className="space-y-5">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-5 h-5 text-slate-600" />
+                      <EnvelopeSimple weight="duotone" className="w-5 h-5 text-slate-600" />
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 mb-0.5">
@@ -264,7 +264,7 @@ export default function ContactClient() {
                   </div>
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-5 h-5 text-slate-600" />
+                      <MapPin weight="duotone" className="w-5 h-5 text-slate-600" />
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 mb-0.5">

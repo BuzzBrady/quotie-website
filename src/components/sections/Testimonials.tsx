@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, CaretLeft, CaretRight } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
@@ -53,7 +53,7 @@ function Stars() {
   return (
     <div className="flex gap-1">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+        <Star key={i} weight="duotone" className="w-4 h-4 text-amber-400 fill-amber-400" />
       ))}
     </div>
   );
@@ -92,7 +92,7 @@ export default function Testimonials() {
         <div className="mb-14">
           <SectionHeader
             badge="Trusted by real businesses"
-            badgeIcon={<Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />}
+            badgeIcon={<Star weight="duotone" className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />}
             title="Built with businesses. Backed by results."
             gradient="Backed by results."
             dark={false}
@@ -214,7 +214,7 @@ export default function Testimonials() {
               onClick={() => { prev(); resetTimer(); }}
               className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <CaretLeft weight="duotone" className="w-4 h-4" />
             </button>
             <div className="flex gap-2">
               {TESTIMONIALS.map((_, i) => (
@@ -231,7 +231,7 @@ export default function Testimonials() {
               onClick={() => { next(); resetTimer(); }}
               className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
             >
-              <ChevronRight className="w-4 h-4" />
+              <CaretRight weight="duotone" className="w-4 h-4" />
             </button>
           </div>
         </div>

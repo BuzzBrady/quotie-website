@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { CaretDown } from "@phosphor-icons/react";
 
 export default function Hero() {
   return (
@@ -119,7 +119,7 @@ export default function Hero() {
         <span className="text-xs text-white/20 tracking-widest uppercase">
           Scroll
         </span>
-        <ChevronDown className="w-4 h-4 text-white/20" />
+        <CaretDown weight="duotone" className="w-4 h-4 text-white/20" />
       </div>
     </section>
   );

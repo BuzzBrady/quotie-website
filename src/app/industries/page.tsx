@@ -5,28 +5,28 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   Sun,
-  Home,
-  Zap,
-  Sparkles,
-  Droplets,
+  House,
+  Lightning,
+  Sparkle,
+  Drop,
   Wind,
-  Paintbrush,
+  PaintBrush,
   Leaf,
-  HardHat,
+  Hammer,
   ArrowRight,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 
 const industryData = [
   { slug: "solar", name: "Solar", icon: Sun, color: "#f59e0b", desc: "Complex solar system configurations built into beautiful, branded proposals." },
-  { slug: "roofing", name: "Roofing", icon: Home, color: "#ef4444", desc: "Multi-section roof measuring, material options, and instant proposals." },
-  { slug: "electrical", name: "Electrical", icon: Zap, color: "#3b82f6", desc: "Accurate electrical quotes with automatic labour and materials calculations." },
-  { slug: "cleaning", name: "Cleaning", icon: Sparkles, color: "#8b5cf6", desc: "Service options and frequencies quoted professionally in under a minute." },
-  { slug: "plumbing", name: "Plumbing", icon: Droplets, color: "#06b6d4", desc: "On-site quoting with consistent pricing across your whole team." },
+  { slug: "roofing", name: "Roofing", icon: House, color: "#ef4444", desc: "Multi-section roof measuring, material options, and instant proposals." },
+  { slug: "electrical", name: "Electrical", icon: Lightning, color: "#3b82f6", desc: "Accurate electrical quotes with automatic labour and materials calculations." },
+  { slug: "cleaning", name: "Cleaning", icon: Sparkle, color: "#8b5cf6", desc: "Service options and frequencies quoted professionally in under a minute." },
+  { slug: "plumbing", name: "Plumbing", icon: Drop, color: "#06b6d4", desc: "On-site quoting with consistent pricing across your whole team." },
   { slug: "hvac", name: "HVAC", icon: Wind, color: "#10b981", desc: "System options, installation complexity, and warranty terms — one proposal." },
-  { slug: "painting", name: "Painting", icon: Paintbrush, color: "#ec4899", desc: "Quote different scopes and finishes with proposals that match your quality." },
+  { slug: "painting", name: "Painting", icon: PaintBrush, color: "#ec4899", desc: "Quote different scopes and finishes with proposals that match your quality." },
   { slug: "landscaping", name: "Landscaping", icon: Leaf, color: "#22c55e", desc: "Materials, labour, and project milestones in one professional quote." },
-  { slug: "building", name: "Building", icon: HardHat, color: "#f97316", desc: "Multi-stage builds with consistent pricing and professional proposals." },
+  { slug: "building", name: "Building", icon: Hammer, color: "#f97316", desc: "Multi-stage builds with consistent pricing and professional proposals." },
 ];
 
 export default function IndustriesPage() {
@@ -107,7 +107,7 @@ export default function IndustriesPage() {
                       style={{ color: active.color }}
                     >
                       Learn more
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight weight="duotone" className="w-4 h-4" />
                     </Link>
                   </motion.div>
                 </AnimatePresence>
@@ -150,6 +150,7 @@ export default function IndustriesPage() {
                     }}
                   >
                     <Icon
+                      weight="duotone"
                       className="w-5 h-5 mb-1 transition-colors duration-300"
                       style={{ color: isActive ? industry.color : "rgba(255,255,255,0.35)" }}
                     />
@@ -182,13 +183,13 @@ export default function IndustriesPage() {
                       borderColor: `${industry.color}25`,
                     }}
                   >
-                    <Icon className="w-5 h-5" style={{ color: industry.color }} />
+                    <Icon weight="duotone" className="w-5 h-5" style={{ color: industry.color }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-white font-semibold text-sm mb-0.5">{industry.name}</div>
                     <div className="text-white/35 text-xs truncate">{industry.desc}</div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-white/15 group-hover:text-white/40 transition-colors flex-shrink-0" />
+                  <ArrowRight weight="duotone" className="w-4 h-4 text-white/15 group-hover:text-white/40 transition-colors flex-shrink-0" />
                 </Link>
               );
             })}

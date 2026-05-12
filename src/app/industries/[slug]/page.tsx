@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
 import { industries, getIndustry } from "../_data/industries";
-import { CheckCircle2, Quote, Star } from "lucide-react";
+import { CheckCircle, Quotes, Star } from "@phosphor-icons/react/ssr";
 
 export function generateStaticParams() {
   return industries.map((industry) => ({ slug: industry.slug }));
@@ -163,7 +163,7 @@ export default async function IndustryPage({
                 key={i}
                 className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
               >
-                <CheckCircle2 className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                <CheckCircle weight="duotone" className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-white/70 leading-relaxed">
                   {feature}
                 </p>
@@ -252,12 +252,13 @@ export default async function IndustryPage({
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
+                    weight="duotone"
                     className="w-5 h-5 text-yellow-400 fill-yellow-400"
                   />
                 ))}
               </div>
 
-              <Quote className="w-8 h-8 text-white/10 mx-auto mb-4" />
+              <Quotes weight="duotone" className="w-8 h-8 text-white/10 mx-auto mb-4" />
 
               <blockquote className="text-xl sm:text-2xl font-medium text-white/80 leading-relaxed mb-8 font-[family-name:var(--font-jakarta)]">
                 &ldquo;{industry.testimonial.quote}&rdquo;
