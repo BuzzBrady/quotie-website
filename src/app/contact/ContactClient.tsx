@@ -64,14 +64,21 @@ export default function ContactClient() {
 
     setSubmitting(true);
     try {
+      const params = new URLSearchParams(window.location.search);
       const { error: insertError } = await supabase.from("leads").insert({
         full_name: form.full_name.trim(),
         email: form.email.trim().toLowerCase(),
         phone: form.phone.trim() || null,
         company_name: form.company_name.trim() || null,
         trade_type: form.trade_type || null,
+        message: form.message.trim() || null,
         source: "contact_page",
         page_url: "/contact",
+        utm_source: params.get("utm_source") || null,
+        utm_medium: params.get("utm_medium") || null,
+        utm_campaign: params.get("utm_campaign") || null,
+        utm_term: params.get("utm_term") || null,
+        referrer: document.referrer || null,
       });
 
       if (insertError) {

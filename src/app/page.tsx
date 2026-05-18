@@ -1,4 +1,6 @@
 import { createMetadata } from "@/lib/metadata";
+import { FAQSchema } from "@/components/seo/JsonLd";
+import { FAQS } from "@/lib/faqData";
 import Hero from "@/components/sections/Hero";
 import SocialProof from "@/components/sections/SocialProof";
 import Showcase from "@/components/sections/Showcase";
@@ -19,6 +21,7 @@ export const metadata = createMetadata({
 export default function HomePage() {
   return (
     <>
+      <FAQSchema items={FAQS.map((f) => ({ question: f.q, answer: f.a }))} />
       <Hero />
       <SocialProof />
       <Showcase />

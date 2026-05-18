@@ -1,10 +1,37 @@
 import { notFound } from "next/navigation";
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
-import SectionHeader from "@/components/ui/SectionHeader";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
 import { industries, getIndustry } from "../_data/industries";
-import { CheckCircle, Quotes, Star } from "@phosphor-icons/react/ssr";
+import Image from "next/image";
+import {
+  CheckCircle,
+  Quotes,
+  Star,
+  XCircle,
+  SunHorizon,
+  HouseLine,
+  Lightning,
+  Broom,
+  Drop,
+  Fan,
+  PaintRoller,
+  Tree,
+  HardHat,
+} from "@phosphor-icons/react/ssr";
+import type { Icon } from "@phosphor-icons/react";
+
+const INDUSTRY_ICONS: Record<string, Icon> = {
+  solar: SunHorizon,
+  roofing: HouseLine,
+  electrical: Lightning,
+  cleaning: Broom,
+  plumbing: Drop,
+  hvac: Fan,
+  painting: PaintRoller,
+  landscaping: Tree,
+  building: HardHat,
+};
 
 export function generateStaticParams() {
   return industries.map((industry) => ({ slug: industry.slug }));
@@ -39,14 +66,11 @@ export default async function IndustryPage({
 
   return (
     <>
-      {/* Hero */}
-      <section
-        className="relative min-h-[50vh] flex items-center pt-24 sm:pt-32 pb-16 sm:pb-20"
-        style={{ background: "#08080c" }}
-      >
+      {/* Hero — tighter, gets to content faster */}
+      <section className="relative pt-24 sm:pt-28 pb-8 sm:pb-10" style={{ background: "#08080c" }}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] opacity-25 blur-3xl"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] opacity-20 blur-3xl"
             style={{
               background:
                 "radial-gradient(ellipse, rgba(59,130,246,0.5) 0%, rgba(57,185,229,0.2) 50%, transparent 70%)",
@@ -55,18 +79,29 @@ export default async function IndustryPage({
         </div>
 
         <Container className="relative z-10">
+          {/* Decorative industry icon */}
+          {(() => {
+            const HeroIcon = INDUSTRY_ICONS[industry.slug];
+            return HeroIcon ? (
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none select-none" style={{ right: "clamp(40px, 5vw, 120px)" }}>
+                <HeroIcon
+                  weight="duotone"
+                  className="text-brand-cyan/[0.07]"
+                  style={{ width: "clamp(200px, 20vw, 320px)", height: "clamp(200px, 20vw, 320px)" }}
+                />
+              </div>
+            ) : null;
+          })()}
           <div className="max-w-3xl">
-            <div
-              className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-xs font-semibold text-white/50 mb-6"
-            >
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-xs font-semibold text-white/50 mb-5">
               {industry.name} Quoting Software
             </div>
 
             <h1
-              className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-6"
+              className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5"
               style={{
-                fontSize: "clamp(32px, 5vw, 68px)",
-                lineHeight: 1.06,
+                fontSize: "clamp(30px, 4.5vw, 58px)",
+                lineHeight: 1.08,
                 letterSpacing: "-0.035em",
               }}
             >
@@ -77,155 +112,161 @@ export default async function IndustryPage({
             </h1>
 
             <p
-              className="text-white/50 max-w-xl mb-10"
-              style={{ fontSize: "clamp(15px, 1.2vw, 19px)", lineHeight: 1.7 }}
+              className="text-white/50 max-w-xl mb-8"
+              style={{ fontSize: "clamp(15px, 1.15vw, 18px)", lineHeight: 1.7 }}
             >
               {industry.heroSubheadline}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href="/demo"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-[10px] text-[15px] font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,232,237,0.1)]"
-                style={{ background: "#e8e8ed", color: "#08080c" }}
-              >
-                Schedule a Demo
-              </a>
-              <a
-                href="/pricing"
-                className="text-[15px] transition-colors duration-300 hover:text-white/70"
-                style={{ color: "rgba(232,232,237,0.4)" }}
-              >
-                See Pricing →
-              </a>
-            </div>
           </div>
+        </Container>
+      </section>
 
-          {/* Stats */}
-          {industry.stats && (
-            <div className="mt-10 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-6 max-w-xl">
-              {industry.stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-white font-[family-name:var(--font-jakarta)] mb-1">
-                    {stat.value}
+      {/* Two-column: Pain Points + Features side by side */}
+      <section
+        className="py-12 sm:py-16 border-t border-white/[0.05]"
+        style={{ background: "#08080c" }}
+      >
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+            {/* Pain Points */}
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
+                The problem
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6 font-[family-name:var(--font-jakarta)]">
+                Sound familiar?
+              </h2>
+              <div className="space-y-3">
+                {industry.painPoints.map((point, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4"
+                  >
+                    <XCircle weight="duotone" className="w-5 h-5 text-red-400/70 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-white/50 leading-relaxed">{point}</p>
                   </div>
-                  <div className="text-xs text-white/30">{stat.label}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          )}
-        </Container>
-      </section>
 
-      {/* Pain Points */}
-      <section
-        className="py-20 border-t border-white/[0.05]"
-        style={{ background: "#08080c" }}
-      >
-        <Container>
-          <SectionHeader
-            badge="Sound familiar?"
-            title="The problems we solve"
-            subtitle={`Every ${industry.name.toLowerCase()} business faces these challenges. Quotie fixes them.`}
-          />
-
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-            {industry.painPoints.map((point, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-4 rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
-              >
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center mt-0.5">
-                  <span className="text-red-400 text-xs font-bold">✕</span>
-                </div>
-                <p className="text-sm text-white/60 leading-relaxed">{point}</p>
+            {/* Features */}
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
+                The fix
               </div>
-            ))}
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6 font-[family-name:var(--font-jakarta)]">
+                What Quotie gives you
+              </h2>
+              <div className="space-y-3">
+                {industry.features.map((feature, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4"
+                  >
+                    <CheckCircle weight="duotone" className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-white/60 leading-relaxed">{feature}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Features */}
-      <section
-        className="py-20 border-t border-white/[0.05]"
-        style={{ background: "#08080c" }}
-      >
-        <Container>
-          <SectionHeader
-            badge="Built for your trade"
-            title="Everything you need to quote faster"
-            gradient="quote faster"
-          />
-
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {industry.features.map((feature, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
-              >
-                <CheckCircle weight="duotone" className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-white/70 leading-relaxed">
-                  {feature}
-                </p>
+      {/* Industry Content — detailed paragraphs */}
+      {industry.content && industry.content.length > 0 && (
+        <section
+          className="py-16 sm:py-20 border-t border-white/[0.05]"
+          style={{ background: "#08080c" }}
+        >
+          <Container>
+            <div className="max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
+                Quotie for {industry.name}
               </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-10 font-[family-name:var(--font-jakarta)]">
+                How it works for{" "}
+                <span className="bg-gradient-to-r from-[#3b82f6] to-brand-cyan bg-clip-text text-transparent">
+                  {industry.name.toLowerCase()} businesses
+                </span>
+              </h2>
+
+              <div className="space-y-8">
+                {industry.content.map((section, i) => (
+                  <div key={i}>
+                    <h3 className="text-lg font-bold text-white mb-2 font-[family-name:var(--font-jakarta)]">
+                      {section.heading}
+                    </h3>
+                    <p className="text-white/45 leading-relaxed">
+                      {section.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Showcase */}
       {industry.showcaseId && industry.showcasePages && (
         <section
-          className="py-20 border-t border-white/[0.05]"
+          className="py-16 sm:py-20 border-t border-white/[0.05]"
           style={{ background: "#08080c" }}
         >
           <Container>
-            <SectionHeader
-              badge="Real quotes"
-              title={`What a ${industry.name.toLowerCase()} proposal looks like`}
-              subtitle="Professional, branded, and built to win jobs."
-            />
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
+                Real quotes
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-[family-name:var(--font-jakarta)]">
+                What a {industry.name.toLowerCase()} proposal looks like
+              </h2>
+              <p className="text-sm text-white/35">
+                Professional, branded, and built to win jobs.
+              </p>
+            </div>
 
-            <div className="mt-12 relative">
+            <div className="relative">
               <div className="flex gap-3 overflow-hidden justify-center">
                 {Array.from({
-                  length: Math.min(industry.showcasePages, 5),
-                }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="relative flex-shrink-0 w-40 sm:w-48 rounded-lg overflow-hidden border border-white/[0.08]"
-                    style={{
-                      transform: `rotate(${(i - 2) * 1.5}deg)`,
-                      opacity: 1 - Math.abs(i - 2) * 0.15,
-                    }}
-                  >
+                  length: Math.min(industry.showcasePages!, 5),
+                }).map((_, i) => {
+                  const pageNum = i + 1;
+                  const padded = industry.showcasePad
+                    ? String(pageNum).padStart(2, "0")
+                    : String(pageNum);
+                  const src = `/showcase/${industry.showcaseId}/page-${padded}.webp`;
+
+                  return (
                     <div
-                      className="w-full aspect-[3/4] bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center"
-                      style={{ minHeight: 192 }}
+                      key={i}
+                      className="relative flex-shrink-0 w-40 sm:w-48 rounded-lg overflow-hidden border border-white/[0.08]"
+                      style={{
+                        transform: `rotate(${(i - 2) * 1.5}deg)`,
+                        opacity: 1 - Math.abs(i - 2) * 0.15,
+                      }}
                     >
-                      <div className="text-center px-4">
-                        <div className="w-8 h-8 rounded bg-blue-500/20 mx-auto mb-2" />
-                        <div className="space-y-1.5">
-                          <div className="h-1.5 bg-white/10 rounded w-full" />
-                          <div className="h-1.5 bg-white/10 rounded w-3/4 mx-auto" />
-                          <div className="h-1.5 bg-white/10 rounded w-5/6" />
-                          <div className="h-1.5 bg-white/05 rounded w-full mt-3" />
-                          <div className="h-1.5 bg-white/05 rounded w-2/3" />
-                        </div>
-                      </div>
-                    </div>
-                    {/* Blur overlay on outer pages */}
-                    {i !== 2 && (
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          backdropFilter: `blur(${Math.abs(i - 2) * 2}px)`,
-                          background: "rgba(8,8,12,0.2)",
-                        }}
+                      <Image
+                        src={src}
+                        alt={`${industry.name} proposal page ${pageNum}`}
+                        width={384}
+                        height={512}
+                        className="w-full aspect-[3/4] object-cover object-top blur-[4px]"
                       />
-                    )}
-                  </div>
-                ))}
+                      {i !== 2 && (
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            backdropFilter: `blur(${Math.abs(i - 2) * 2}px)`,
+                            background: "rgba(8,8,12,0.2)",
+                          }}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#08080c] to-transparent pointer-events-none" />
@@ -243,7 +284,7 @@ export default async function IndustryPage({
       {/* Testimonial */}
       {industry.testimonial && (
         <section
-          className="py-20 border-t border-white/[0.05]"
+          className="py-16 sm:py-20 border-t border-white/[0.05]"
           style={{ background: "#08080c" }}
         >
           <Container>
@@ -283,9 +324,49 @@ export default async function IndustryPage({
         </section>
       )}
 
-      {/* CTA */}
+      {/* Stats + CTA buttons */}
       <section
-        className="py-20 border-t border-white/[0.05]"
+        className="py-16 sm:py-20 border-t border-white/[0.05]"
+        style={{ background: "#08080c" }}
+      >
+        <Container>
+          <div className="max-w-3xl mx-auto text-center">
+            {industry.stats && (
+              <div className="grid grid-cols-3 gap-6 sm:gap-10 mb-10">
+                {industry.stats.map((stat) => (
+                  <div key={stat.label}>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-white font-[family-name:var(--font-jakarta)] mb-1">
+                      {stat.value}
+                    </div>
+                    <div className="text-xs sm:text-sm text-white/30">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a
+                href="/demo"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-[10px] text-[15px] font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,232,237,0.1)]"
+                style={{ background: "#e8e8ed", color: "#08080c" }}
+              >
+                Schedule a Demo
+              </a>
+              <a
+                href="/pricing"
+                className="text-[15px] transition-colors duration-300 hover:text-white/70"
+                style={{ color: "rgba(232,232,237,0.4)" }}
+              >
+                See Pricing →
+              </a>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* CTA Form */}
+      <section
+        className="py-16 sm:py-20 border-t border-white/[0.05]"
         style={{ background: "#08080c" }}
       >
         <Container>

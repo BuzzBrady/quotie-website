@@ -5,6 +5,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LeadModalProvider } from "@/components/lead-capture/LeadModalProvider";
 import SmoothScroll from "@/components/SmoothScroll";
+import { SoftwareApplicationSchema, OrganizationSchema } from "@/components/seo/JsonLd";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -59,12 +62,16 @@ export default function RootLayout({
       className={`${jakarta.variable} ${dmSans.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[#08080c]">
+        <SoftwareApplicationSchema />
+        <OrganizationSchema />
         <SmoothScroll />
         <LeadModalProvider>
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
         </LeadModalProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

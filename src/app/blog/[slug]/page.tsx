@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { createMetadata } from '@/lib/metadata';
+import { SITE_URL, SITE_NAME } from '@/lib/constants';
 import Container from '@/components/ui/Container';
 import BlogCard from '@/components/blog/BlogCard';
 import { mdxComponents, Callout } from '@/components/blog/MDXComponents';
@@ -51,8 +52,31 @@ export default async function BlogPostPage({ params }: Props) {
 
   const categoryLabel = CATEGORY_LABELS[post.category] ?? post.category;
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
+    ...(post.image ? { image: post.image } : {}),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
       {/* Article header — dark background */}
       <section
         className="relative pt-24 sm:pt-32 pb-10 sm:pb-12 overflow-hidden"

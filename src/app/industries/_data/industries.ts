@@ -9,6 +9,7 @@ export interface Industry {
   features: string[];
   showcaseId?: string;
   showcasePages?: number;
+  showcasePad?: boolean;
   testimonial?: {
     quote: string;
     author: string;
@@ -16,6 +17,7 @@ export interface Industry {
     company: string;
   };
   stats?: { value: string; label: string }[];
+  content?: { heading: string; text: string }[];
 }
 
 export const industries: Industry[] = [
@@ -44,6 +46,7 @@ export const industries: Industry[] = [
     ],
     showcaseId: "solar",
     showcasePages: 12,
+    showcasePad: true,
     testimonial: {
       quote:
         "We went from spending entire evenings rebuilding solar quotes in Excel to sending 8 different system options in minutes. Quotie paid for itself in the first week.",
@@ -55,6 +58,20 @@ export const industries: Industry[] = [
       { value: "<30s", label: "Average quote time" },
       { value: "$360k+", label: "Closed in one month" },
       { value: "8", label: "Options per client" },
+    ],
+    content: [
+      {
+        heading: "Solar quoting is uniquely complex",
+        text: "A customer asking for 'a solar quote' could get half a dozen different proposals depending on system size, panel brand, inverter choice, battery options, and finance packages. Most installers simplify by sending one option. But the businesses closing the most work are sending 4-8 options per customer, letting the client pick what suits their budget and goals.",
+      },
+      {
+        heading: "Your pricing logic, built once",
+        text: "During onboarding we build your entire solar pricing system — panel brands, inverter models, battery compatibility rules, rebate calculations, labour scaling, and margin logic. Your team picks the system config from smart dropdowns. The form filters to only show compatible products, so nobody can accidentally quote a battery that doesn't work with the inverter they selected.",
+      },
+      {
+        heading: "Rebates and savings calculated automatically",
+        text: "Government rebates, STC values, and customer savings projections are calculated from the actual system specs on every quote. No manual lookups, no outdated spreadsheet formulas. When rebate values change, you update one number and every future quote reflects it.",
+      },
     ],
   },
   {
@@ -82,6 +99,7 @@ export const industries: Industry[] = [
     ],
     showcaseId: "roofing",
     showcasePages: 18,
+    showcasePad: true,
     testimonial: {
       quote:
         "Our roofing proposals used to look like every other tradie's spreadsheet. Now clients tell us our quotes look more professional than companies ten times our size.",
@@ -93,6 +111,20 @@ export const industries: Industry[] = [
       { value: "18pg", label: "Professional proposals" },
       { value: "10x", label: "More professional" },
       { value: "<30s", label: "Quote generation time" },
+    ],
+    content: [
+      {
+        heading: "Material options without the confusion",
+        text: "Different profiles, different materials, different price points. Colorbond vs Zincalume, Trimdek vs Klip-Lok, with or without insulation. Your quote form adapts based on what's selected — choose a roof profile and the correct materials, screws, and flashing options appear automatically. No chance of quoting the wrong combination.",
+      },
+      {
+        heading: "Multiple scopes in one proposal",
+        text: "Clients often want to see what a full re-roof costs versus a repair, or the difference between standard and premium materials. Quotie lets you send multiple options in a single branded proposal so the client can compare side by side. No need to build separate quotes for each scenario.",
+      },
+      {
+        heading: "Proposals that match your workmanship",
+        text: "Your roofing work is professional. Your quotes should be too. Every proposal goes out as a branded PDF with your logo, your terms, detailed specs, and a clear pricing breakdown. Clients tell us these proposals look better than companies ten times their size.",
+      },
     ],
   },
   {
@@ -123,6 +155,20 @@ export const industries: Industry[] = [
       { value: "100%", label: "Consistent pricing" },
       { value: "0", label: "Manual calculations" },
     ],
+    content: [
+      {
+        heading: "Every job type, one system",
+        text: "Switchboard upgrades, new builds, lighting installs, ceiling fan replacements — each has different pricing and different fields that matter. Quotie's conditional forms adapt to the job type. Quote a switchboard upgrade and you see circuit count, phase type, and board condition. Quote a lighting job and you get fixture types, dimming requirements, and room quantities.",
+      },
+      {
+        heading: "Consistent pricing across your team",
+        text: "When two electricians quote the same job and come back with different prices, it's a bad look. Quotie pulls from a single pricing source — your labour rates, material costs, and margin rules. Everyone quotes the same way, every time. When supplier costs change, update once and every future quote reflects it.",
+      },
+      {
+        heading: "Win work with speed",
+        text: "Electrical work is competitive. The sparky who gets a professional quote back same-day wins the job more often than the one who takes three days. With your pricing pre-built, you can quote on-site and send before you leave the driveway.",
+      },
+    ],
   },
   {
     slug: "cleaning",
@@ -149,6 +195,7 @@ export const industries: Industry[] = [
     ],
     showcaseId: "cleaning",
     showcasePages: 9,
+    showcasePad: false,
     testimonial: {
       quote:
         "I used to lose track of who I'd quoted and who needed a follow-up. Now everything's in one place — I know exactly where every job stands without digging through emails.",
@@ -160,6 +207,20 @@ export const industries: Industry[] = [
       { value: "9pg", label: "Professional proposals" },
       { value: "100%", label: "Pipeline visibility" },
       { value: "<30s", label: "Quote time" },
+    ],
+    content: [
+      {
+        heading: "Service levels that sell themselves",
+        text: "Cleaning clients want options. A basic clean, a deep clean, and a premium package with extras. Quotie lets you present all three in one branded proposal so the client picks what suits their budget. Most businesses see higher average job values because clients upgrade when they can see what they're getting.",
+      },
+      {
+        heading: "Win commercial contracts",
+        text: "Commercial cleaning contracts are won on presentation as much as price. A branded, professional proposal with clear scope, frequency options, and transparent pricing puts you ahead of competitors sending email estimates. First impressions count, especially with property managers and facility teams.",
+      },
+      {
+        heading: "Never lose track of a lead",
+        text: "Cleaning leads come fast. Enquiry today, quote tomorrow, follow up next week. Without a system, quotes get buried and you forget who needs chasing. Quotie's follow-up dashboard shows every outstanding quote sorted by urgency, so nothing slips through.",
+      },
     ],
   },
   {
@@ -190,6 +251,20 @@ export const industries: Industry[] = [
       { value: "100%", label: "Consistent pricing" },
       { value: "Mobile", label: "Quote from anywhere" },
     ],
+    content: [
+      {
+        heading: "Quote on-site, win on the spot",
+        text: "Plumbing work is often urgent. The customer wants it fixed, and they want to know what it costs now. With Quotie on your phone, you can generate a branded quote while standing in their kitchen. By the time the next plumber calls back with a price, you've already got the job.",
+      },
+      {
+        heading: "Handle the variety",
+        text: "One day it's a hot water replacement, next it's a full bathroom reno, then a blocked drain. Each job has different pricing, different materials, different scope. Quotie's forms adapt to the job type so your team always sees the right fields — no scrolling past irrelevant options.",
+      },
+      {
+        heading: "Grow beyond one truck",
+        text: "When you've got two or three plumbers quoting jobs, consistency matters. Quotie makes sure everyone quotes from the same price list with the same margins. You see every quote across the team, who sent what, and which ones need follow-up.",
+      },
+    ],
   },
   {
     slug: "hvac",
@@ -218,6 +293,20 @@ export const industries: Industry[] = [
       { value: "<30s", label: "System quote time" },
       { value: "Multi", label: "Options per proposal" },
       { value: "Zero", label: "Missed follow-ups" },
+    ],
+    content: [
+      {
+        heading: "System options presented clearly",
+        text: "HVAC customers need to compare brands, capacities, and efficiency ratings. Quotie lets you present multiple system configurations in one proposal — a budget option, a mid-range, and a premium — with specs and pricing side by side. Clients make better decisions and you close more work at higher values.",
+      },
+      {
+        heading: "Installation complexity handled",
+        text: "Ducted vs split, single zone vs multi-zone, existing ductwork vs new install. Each scenario changes the labour, materials, and price. Your quote form adapts based on what's selected, so the right fields appear for the right job. No more mental checklists or missed line items.",
+      },
+      {
+        heading: "From survey to signed quote, faster",
+        text: "HVAC jobs often start with a site survey. With your pricing pre-built in Quotie, you can generate a professional proposal the same day as the walkthrough. That speed makes a real difference when the customer is getting quotes from three other companies.",
+      },
     ],
   },
   {
@@ -248,6 +337,20 @@ export const industries: Industry[] = [
       { value: "Branded", label: "Professional proposals" },
       { value: "100%", label: "Follow-up coverage" },
     ],
+    content: [
+      {
+        heading: "Interior, exterior, commercial — one system",
+        text: "Painting quotes vary a lot depending on the job. Interior repaint with 12 rooms is different from an exterior weatherboard job, which is different again from a commercial fit-out. Quotie's forms adapt to the job type so you're only filling in what's relevant. Pick interior and you get room counts, ceiling heights, and finish types. Pick exterior and you see surface area, prep work, and access requirements.",
+      },
+      {
+        heading: "Scope options that upsell naturally",
+        text: "Clients often want to know the difference between a standard repaint and a premium finish with feature walls. Present both options in one proposal instead of going back and forth. Most painters who offer tiered options see clients upgrade because they can see exactly what the extra cost gets them.",
+      },
+      {
+        heading: "Look bigger than you are",
+        text: "A branded proposal with clear scope, pricing breakdown, and professional terms makes a two-person painting crew look like an established operation. Clients trust businesses that present professionally, especially for jobs inside their home.",
+      },
+    ],
   },
   {
     slug: "landscaping",
@@ -277,6 +380,20 @@ export const industries: Industry[] = [
       { value: "Multi", label: "Options per quote" },
       { value: "100%", label: "Pipeline visibility" },
     ],
+    content: [
+      {
+        heading: "Big projects, clear proposals",
+        text: "Landscaping jobs can range from a simple garden tidy to a $50k outdoor living area. The bigger the job, the more important the proposal. Quotie generates detailed, branded proposals that break down materials, labour, and scope so the client knows exactly what they're paying for. No more scribbled estimates on the back of a business card.",
+      },
+      {
+        heading: "Stage it out with options",
+        text: "Clients love seeing what's possible. Show them a basic package, a mid-range, and the full dream build in one proposal. Some will go all-in. Others will start with phase one and come back later. Either way, you've made the sale easier by giving them choices instead of a single take-it-or-leave-it number.",
+      },
+      {
+        heading: "Track the pipeline",
+        text: "Landscaping quotes often have a long lead time. The client might sit on it for weeks before deciding. Without a system, those quotes disappear into your inbox. Quotie tracks every outstanding quote and tells you when it's time to follow up, so you're not chasing your tail trying to remember who you quoted last month.",
+      },
+    ],
   },
   {
     slug: "building",
@@ -305,6 +422,20 @@ export const industries: Industry[] = [
       { value: "<30s", label: "Quote generation" },
       { value: "Branded", label: "Professional proposals" },
       { value: "100%", label: "Pipeline visibility" },
+    ],
+    content: [
+      {
+        heading: "Quote complexity without the headache",
+        text: "Building quotes involve a lot of moving parts — materials, labour across multiple trades, subcontractor allowances, site costs, and contingencies. Quotie lets you build your pricing structure once and generate consistent quotes regardless of who on your team is doing the quoting. The form adapts based on job type and scope.",
+      },
+      {
+        heading: "Present scope options clearly",
+        text: "Clients often want to see what a project costs at different specification levels. Standard fittings vs premium, basic landscaping vs full outdoor area. Present these as clearly differentiated options in one proposal so the client can compare without you building three separate quotes from scratch.",
+      },
+      {
+        heading: "From quote to job, seamlessly",
+        text: "When a building quote gets accepted, the work is just starting. Quotie's job handoff feature turns won quotes into active jobs with task tracking, customisable pipeline stages, and a calendar to schedule the work. No re-entering information. No lost details between the sales and delivery side of your business.",
+      },
     ],
   },
 ];

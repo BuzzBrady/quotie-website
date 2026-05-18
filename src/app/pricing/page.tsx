@@ -4,7 +4,7 @@ import PricingClient from "./PricingClient";
 export const metadata = createMetadata({
   title: "Pricing — Simple Plans for Every Trades Business | Quotie",
   description:
-    "Quotie pricing: Starter at $29/mo, Professional at $79/mo, and Enterprise custom. All plans include a free trial. No credit card required.",
+    "Quotie pricing: 1 Man Band at $300/mo, Small Team at $650/mo, or custom for 6+ users. Hands-on onboarding included. All prices + GST.",
   path: "/pricing",
 });
 

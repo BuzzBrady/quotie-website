@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/constants";
 import { industries } from "./industries/_data/industries";
+import { getAllPosts, getCategories } from "@/lib/mdx";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString();
@@ -26,5 +27,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...industryRoutes];
+  const blogPosts = getAllPosts();
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: post.date,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  const categories = getCategories();
+  const categoryRoutes: MetadataRoute.Sitemap = categories.map((category) => ({
+    url: `${SITE_URL}/blog/category/${category}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...industryRoutes, ...blogRoutes, ...categoryRoutes];
 }
