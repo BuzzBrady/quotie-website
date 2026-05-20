@@ -54,6 +54,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+              const isSalesExec = link.href === "/sales-executive";
               return (
                 <Link
                   key={link.href}
@@ -61,7 +62,9 @@ export default function Header() {
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
                     isActive
                       ? "text-white bg-white/[0.07]"
-                      : "text-white/35 hover:text-white/75"
+                      : isSalesExec
+                        ? "text-emerald-400/70 hover:text-emerald-300 border border-emerald-500/20 shadow-[0_0_12px_rgba(16,185,129,0.08)] hover:shadow-[0_0_18px_rgba(16,185,129,0.15)]"
+                        : "text-white/35 hover:text-white/75"
                   }`}
                 >
                   {link.name}

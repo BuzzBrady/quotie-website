@@ -27,6 +27,7 @@ export const TRADE_TYPES = [
 
 export const NAV_LINKS = [
   { name: "Features", href: "/features" },
+  { name: "Sales Executive", href: "/sales-executive" },
   { name: "Pricing", href: "/pricing" },
   { name: "Industries", href: "/industries" },
   { name: "Blog", href: "/blog" },

@@ -59,6 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${jakarta.variable} ${dmSans.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[#08080c]">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 
 const customers = [
@@ -26,6 +27,23 @@ export default function SocialProof() {
               </span>
             ))}
           </div>
+        </div>
+      </Container>
+
+      {/* Partner strip */}
+      <Container>
+        <div className="border-t border-white/[0.04] pt-6 pb-2 flex items-center justify-center gap-4">
+          <span className="text-xs text-white/20 uppercase tracking-widest font-semibold whitespace-nowrap">
+            Partnered with
+          </span>
+          <a href="/sales-executive" className="opacity-40 hover:opacity-60 transition-opacity">
+            <Image
+              src="/twg-logo.png"
+              alt="Tradie Web Guys"
+              width={120}
+              height={16}
+            />
+          </a>
         </div>
       </Container>
     </section>
