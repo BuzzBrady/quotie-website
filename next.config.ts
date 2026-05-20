@@ -7,6 +7,35 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    // Redirect app routes to app.quotie.au so users who
+    // forget the subdomain land in the right place
+    const appRoutes = [
+      "/dashboard",
+      "/quotes/:path*",
+      "/login",
+      "/contacts/:path*",
+      "/calendar/:path*",
+      "/follow-ups/:path*",
+      "/emails/:path*",
+      "/job-fulfilment/:path*",
+      "/jobs/:path*",
+      "/products/:path*",
+      "/site-visits/:path*",
+      "/settings/:path*",
+      "/users/:path*",
+      "/media/:path*",
+      "/engines/:path*",
+      "/docs/:path*",
+      "/builders/:path*",
+      "/request-password-reset",
+    ];
+    return appRoutes.map((source) => ({
+      source,
+      destination: `https://app.quotie.au${source.replace("/:path*", "")}`,
+      permanent: false,
+    }));
+  },
   async headers() {
     return [
       {
