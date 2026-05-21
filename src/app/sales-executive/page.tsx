@@ -21,7 +21,7 @@ const whatTheyDo = [
     icon: Phone,
     title: "Call every lead",
     description:
-      "Inbound enquiries get a call within minutes, not hours. Your sales exec works the phone so no lead goes cold.",
+      "Inbound enquiries get a call within minutes, not hours. Your sales exec dials through Tradie Hub so every call is logged and every lead is tracked.",
   },
   {
     icon: ChatCircleDots,
@@ -57,12 +57,12 @@ const whatTheyDo = [
 
 const benefits = [
   "No recruiting, no hiring, no training from scratch",
-  "Trained on Quotie — they hit the ground running",
+  "Trained on Quotie and Tradie Hub — they hit the ground running",
   "Your leads get called back in minutes, not days",
   "Every quote gets followed up, every time",
   "Free up your time to be on tools, not on the phone",
   "Scale your sales without scaling your payroll",
-  "Full visibility — see every call, quote, and follow-up in Quotie",
+  "Full visibility — calls tracked in Tradie Hub, quotes tracked in Quotie",
   "Backed by Tradie Web Guys, specialists in trades marketing",
 ];
 
@@ -71,7 +71,7 @@ const howItWorks = [
     step: "01",
     title: "We learn your business",
     description:
-      "Your pricing, your services, your ideal customer. We build your Quotie system and train your sales exec on exactly how you operate.",
+      "Your pricing, your services, your ideal customer. We build your Quotie system, set up Tradie Hub for calling and lead management, and train your sales exec on exactly how you operate.",
   },
   {
     step: "02",
@@ -359,19 +359,30 @@ export default function SalesExecutivePage() {
             </h2>
             <p className="text-white/35 text-[15px] leading-relaxed mt-4 max-w-lg mx-auto">
               Quotie handles the quoting engine — smart forms, branded PDFs,
-              pipeline tracking, and follow-up automation. Tradie Web Guys
-              provides the trained sales executive who uses it all, every day, to
-              win you work.
+              and pipeline tracking. Tradie Hub handles calling, lead management,
+              and communication. Your sales exec uses both, every day, to win you work.
+              The two platforms are tightly integrated so everything stays in sync.
             </p>
 
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
               <div className="rounded-xl border border-brand-cyan/15 bg-brand-cyan/5 p-5 text-center">
                 <div className="text-sm font-bold text-white mb-1 font-[family-name:var(--font-jakarta)]">
                   Quotie
                 </div>
                 <p className="text-white/30 text-xs leading-relaxed">
-                  Quoting platform, pricing engine, PDF generation, pipeline,
-                  CRM, follow-ups
+                  Quoting platform, pricing engine, PDF generation, pipeline tracking
+                </p>
+              </div>
+              <div className="rounded-xl border border-amber-500/15 bg-amber-500/5 p-5 text-center flex flex-col items-center">
+                <Image
+                  src="/tradie-hub-logo.png"
+                  alt="Tradie Hub"
+                  width={140}
+                  height={28}
+                  className="mb-3 opacity-80 w-auto h-auto"
+                />
+                <p className="text-white/30 text-xs leading-relaxed">
+                  CRM, power dialler, lead management, call tracking, SMS, email sequences
                 </p>
               </div>
               <div className="rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-5 text-center flex flex-col items-center">
@@ -380,11 +391,10 @@ export default function SalesExecutivePage() {
                   alt="Tradie Web Guys"
                   width={150}
                   height={20}
-                  className="mb-3 opacity-80"
+                  className="mb-3 opacity-80 w-auto h-auto"
                 />
                 <p className="text-white/30 text-xs leading-relaxed">
-                  Trained sales executive, lead handling, quoting, follow-ups,
-                  closing
+                  Trained sales executive, lead handling, follow-ups, closing
                 </p>
               </div>
             </div>
