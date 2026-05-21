@@ -367,7 +367,14 @@ export default function SalesExecutivePage() {
             </p>
 
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-              <a href="/features" className="rounded-xl border border-brand-cyan/15 bg-brand-cyan/5 p-5 text-center hover:border-brand-cyan/30 transition-colors">
+              <a href="/features" className="rounded-xl border border-brand-cyan/15 bg-brand-cyan/5 p-5 text-center flex flex-col items-center hover:border-brand-cyan/30 transition-colors">
+                <Image
+                  src="/logo.svg"
+                  alt="Quotie"
+                  width={36}
+                  height={36}
+                  className="w-9 h-9 mb-2"
+                />
                 <div className="text-sm font-bold text-white mb-1 font-[family-name:var(--font-jakarta)]">
                   Quotie
                 </div>
