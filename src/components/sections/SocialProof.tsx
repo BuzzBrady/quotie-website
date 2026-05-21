@@ -36,12 +36,13 @@ export default function SocialProof() {
           <span className="text-xs text-white/20 uppercase tracking-widest font-semibold whitespace-nowrap">
             Partnered with
           </span>
-          <a href="/sales-executive" className="opacity-40 hover:opacity-60 transition-opacity">
+          <a href="/sales-executive" className="opacity-40 hover:opacity-60 transition-opacity" title="Quotie × Tradie Web Guys Sales Executive Program">
             <Image
               src="/twg-logo.png"
               alt="Tradie Web Guys"
               width={120}
               height={16}
+              className="w-auto h-auto"
             />
           </a>
         </div>
