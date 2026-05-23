@@ -21,9 +21,11 @@
   scrollbar-width: none;
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+/* Smooth scroll — only for anchor links, Lenis handles the rest on desktop */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
