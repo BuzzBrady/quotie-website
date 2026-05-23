@@ -130,7 +130,7 @@ export default function PricingClient() {
             One-time setup fee to get your templates built and your team trained,
             then a flat monthly rate. No per-quote fees. No surprises.
           </p>
-          <p className="text-slate-400 text-sm">All prices + GST</p>
+          <p className="text-slate-400 text-sm">All prices in AUD + GST</p>
         </Container>
       </section>
 
@@ -182,12 +182,13 @@ export default function PricingClient() {
                             <span className="text-4xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
                               ${tier.setup.toLocaleString()}
                             </span>
-                            <span className="text-slate-500 text-sm">setup</span>
+                            <span className="text-slate-500 text-sm">AUD setup</span>
                           </div>
                           <div className="flex items-baseline gap-1">
                             <span className="text-lg font-bold text-slate-700">
                               + ${tier.monthly}/mo
                             </span>
+                            <span className="text-slate-400 text-xs">AUD</span>
                           </div>
                         </div>
                       ) : (
