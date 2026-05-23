@@ -78,7 +78,7 @@ const tiers = [
 const faqs = [
   {
     q: "What's included in the setup fee?",
-    a: "We build your quote form, set up your branded PDF template, configure your pricing, and train your team. We refine the form with you over the first week until it matches exactly how your business quotes — then you're good to go.",
+    a: "Everything. We reverse-engineer how your business quotes — your pricing logic, materials, labour rates, margin rules, upsells, optional extras, the lot. From there we build your custom quote form with conditional fields, dropdown dependencies, and automatic calculations so the numbers are right every time. Then we design your branded PDF template from scratch — cover page, scope of works, terms, imagery, page layout — matched to your brand. We configure your email templates, set up your pipeline stages, connect any integrations (GoHighLevel, ServiceM8), and train your team until they're confident. Most setups go through multiple revision rounds before we lock it in.",
   },
   {
     q: "How long does onboarding take?",
