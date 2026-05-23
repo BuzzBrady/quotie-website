@@ -12,10 +12,11 @@ import FAQ from "@/components/sections/FAQ";
 import CTA from "@/components/sections/CTA";
 
 export const metadata = createMetadata({
-  title: "Quotie",
+  title: "Quotie — Quote Faster. Close More.",
   description:
-    "Build quotes in under 30 seconds. Send branded proposals with multiple options, track your pipeline, and close more work. Built for Australian & NZ trades businesses.",
+    "We build your quoting system — you generate branded proposals in under 30 seconds. Multi-option quotes, pipeline tracking, and automated follow-ups for trades businesses across Australia & NZ.",
   path: "/",
+  absoluteTitle: true,
 });
 
 export default function HomePage() {

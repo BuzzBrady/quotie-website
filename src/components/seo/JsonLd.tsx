@@ -35,8 +35,11 @@ export function SoftwareApplicationSchema({
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {
-      "@type": "Offer",
+      "@type": "AggregateOffer",
       priceCurrency: "AUD",
+      lowPrice: "300",
+      highPrice: "650",
+      offerCount: "3",
       availability: "https://schema.org/InStock",
     },
     publisher: {
@@ -73,8 +76,7 @@ export function OrganizationSchema({
     name,
     url,
     description,
-    logo: `${SITE_URL}/logo.svg`,
-    sameAs: [],
+    logo: `${SITE_URL}/logo.png`,
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",

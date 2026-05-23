@@ -9,6 +9,7 @@ interface CreateMetadataOptions {
   ogTag?: string; // badge label shown on the OG image (e.g. "Solar Quoting Software")
   type?: "website" | "article";
   publishedTime?: string;
+  absoluteTitle?: boolean; // true = don't append "| Quotie" via template
 }
 
 export function createMetadata({
@@ -19,6 +20,7 @@ export function createMetadata({
   ogTag,
   type = "website",
   publishedTime,
+  absoluteTitle = false,
 }: CreateMetadataOptions): Metadata {
   const url = `${SITE_URL}${path}`;
 
@@ -36,7 +38,7 @@ export function createMetadata({
   const ogImage = ogImageUrl;
 
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: url },
     openGraph: {

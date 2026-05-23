@@ -1,8 +1,9 @@
 export const SITE_URL = "https://quotie.au";
 export const APP_URL = "https://app.quotie.au";
 export const SITE_NAME = "Quotie";
+export const SITE_TAGLINE = "Quote Faster. Close More.";
 export const SITE_DESCRIPTION =
-  "Build quotes in under 30 seconds. Send branded proposals with multiple options, track your pipeline, and close more work. Built for Australian & NZ trades businesses.";
+  "We build your quoting system — you generate branded proposals in under 30 seconds. Multi-option quotes, pipeline tracking, and automated follow-ups for trades businesses across Australia & NZ.";
 
 export const BRAND = {
   blue: "#1f61aa",

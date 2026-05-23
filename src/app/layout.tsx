@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
-import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
+import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LeadModalProvider } from "@/components/lead-capture/LeadModalProvider";
@@ -26,16 +26,20 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: SITE_NAME,
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/logo.svg", type: "image/svg+xml" },
     ],
-    apple: "/logo.svg",
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     siteName: SITE_NAME,
