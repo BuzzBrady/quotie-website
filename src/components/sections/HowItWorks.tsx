@@ -65,8 +65,8 @@ function RightCard({
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.4 }}
       className={`p-8 rounded-2xl border ${stat.border} bg-gradient-to-br ${stat.accent} backdrop-blur-sm`}
     >
       <div
@@ -143,10 +143,10 @@ function MobileHowItWorks() {
       {STATS.map((stat) => (
         <motion.div
           key={stat.label}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ duration: 0.4 }}
           className={`p-6 rounded-2xl border ${stat.border} bg-gradient-to-br ${stat.accent}`}
         >
           <div

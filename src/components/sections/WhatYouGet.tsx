@@ -93,14 +93,14 @@ const items = [
 function BentoCard({ item, index }: { item: (typeof items)[number]; index: number }) {
   const Icon = item.icon;
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.4, delay: index * 0.04, ease: [0.25, 0.1, 0.25, 1] }}
       className={`group relative rounded-2xl border ${item.border} bg-gradient-to-br ${item.bg} transition-all duration-300 hover:border-white/[0.15] overflow-hidden ${
         item.size === "lg"
           ? "md:col-span-2 p-7 sm:p-8"
