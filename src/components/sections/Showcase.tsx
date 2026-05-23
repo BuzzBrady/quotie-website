@@ -29,6 +29,9 @@ export default function Showcase() {
   const paused = useRef(false);
   const autoSpeed = useRef(0.5);
 
+  // Touch tracking for lightbox swipe
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
   const industry = INDUSTRIES[activeIdx];
   const images = getImages(industry);
 
@@ -45,7 +48,7 @@ export default function Showcase() {
     if (mobileRef.current) mobileRef.current.scrollLeft = 0;
   }, [activeIdx]);
 
-  // Auto-scroll loop — pauses on hover
+  // Auto-scroll loop — pauses on hover (desktop only)
   const tick = useCallback(() => {
     const el = stripRef.current;
     if (el && !paused.current) {
@@ -82,6 +85,26 @@ export default function Showcase() {
     };
   }, [lightboxIdx, images.length]);
 
+  // Lightbox touch swipe handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart.current || lightboxIdx === null) return;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    // Only count horizontal swipes (not vertical scrolls)
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0 && lightboxIdx < images.length - 1) {
+        setLightboxIdx(lightboxIdx + 1);
+      } else if (dx > 0 && lightboxIdx > 0) {
+        setLightboxIdx(lightboxIdx - 1);
+      }
+    }
+    touchStart.current = null;
+  };
+
   return (
     <section className="pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden" style={{ background: "#08080c" }}>
       {/* Header */}
@@ -94,21 +117,21 @@ export default function Showcase() {
         </p>
       </div>
 
-      {/* Industry tabs */}
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 xl:px-12 mb-6 sm:mb-10">
-        <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+      {/* Industry tabs — horizontally scrollable on mobile */}
+      <div className="mx-auto max-w-[1440px] px-0 sm:px-6 lg:px-8 xl:px-12 mb-6 sm:mb-10">
+        <div className="flex items-center sm:justify-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide px-4 sm:px-0 sm:flex-wrap">
           {INDUSTRIES.map((ind, i) => (
             <button
               key={ind.id}
               onClick={() => switchIndustry(i)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                 i === activeIdx
                   ? "bg-white/[0.12] text-white border border-white/[0.2] shadow-lg shadow-white/[0.03]"
                   : "text-white/40 hover:text-white/70 border border-transparent hover:border-white/[0.08]"
               }`}
             >
               {ind.label}
-              <span className="ml-2 text-xs opacity-50">{ind.pages} pages</span>
+              <span className="ml-2 text-xs opacity-50">{ind.pages}pg</span>
             </button>
           ))}
         </div>
@@ -132,7 +155,7 @@ export default function Showcase() {
             <button
               key={`${industry.id}-${i}`}
               onClick={() => setLightboxIdx(i)}
-              className="group flex-shrink-0 rounded-xl overflow-hidden border border-white/[0.08] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.2] hover:shadow-[0_0_40px_rgba(59,130,246,0.12)] hover:scale-[1.04] hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+              className="group flex-shrink-0 rounded-xl overflow-hidden border border-white/[0.08] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.2] hover:shadow-[0_0_40px_rgba(59,130,246,0.12)] hover:scale-[1.04] hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 relative"
               style={{
                 width: "clamp(220px, 22vw, 320px)",
                 aspectRatio: "0.707",
@@ -173,8 +196,8 @@ export default function Showcase() {
             <button
               key={`${industry.id}-${i}`}
               onClick={() => setLightboxIdx(i)}
-              className="flex-shrink-0 snap-start rounded-lg overflow-hidden border border-white/[0.08] shadow-xl shadow-black/30 bg-white/[0.02] active:scale-95 transition-transform focus:outline-none relative"
-              style={{ width: "55vw", maxWidth: "260px", aspectRatio: "0.707" }}
+              className="flex-shrink-0 snap-center rounded-lg overflow-hidden border border-white/[0.08] shadow-xl shadow-black/30 bg-white/[0.02] active:scale-95 transition-transform focus:outline-none relative"
+              style={{ width: "65vw", maxWidth: "280px", aspectRatio: "0.707" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -185,6 +208,10 @@ export default function Showcase() {
                 loading="eager"
                 draggable={false}
               />
+              {/* Page label */}
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-black/50 text-white/60 text-[10px] font-medium">
+                {i + 1} / {images.length}
+              </div>
             </button>
           ))}
         </div>
@@ -194,29 +221,31 @@ export default function Showcase() {
       <div className="text-center mt-4 px-4">
         <p className="text-xs text-white/25">
           <span className="hidden sm:inline">Click any page to preview</span>
-          <span className="sm:hidden">Tap any page to preview</span>
+          <span className="sm:hidden">Tap to preview &middot; Swipe to browse</span>
         </p>
       </div>
 
       {/* Lightbox */}
       {lightboxIdx !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md animate-[fadeIn_200ms_ease-out]"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-md animate-[fadeIn_200ms_ease-out]"
           onClick={() => setLightboxIdx(null)}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
-          {/* Close */}
+          {/* Close — larger hit target on mobile */}
           <button
             onClick={() => setLightboxIdx(null)}
-            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
           >
             <X weight="duotone" className="w-5 h-5" />
           </button>
 
-          {/* Nav arrows */}
+          {/* Desktop nav arrows — hidden on mobile (swipe instead) */}
           {lightboxIdx > 0 && (
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIdx(lightboxIdx - 1); }}
-              className="absolute left-4 sm:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+              className="hidden sm:block absolute left-4 sm:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
             >
               <CaretLeft weight="duotone" className="w-6 h-6" />
             </button>
@@ -224,7 +253,7 @@ export default function Showcase() {
           {lightboxIdx < images.length - 1 && (
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIdx(lightboxIdx + 1); }}
-              className="absolute right-4 sm:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+              className="hidden sm:block absolute right-4 sm:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
             >
               <CaretRight weight="duotone" className="w-6 h-6" />
             </button>
@@ -232,7 +261,7 @@ export default function Showcase() {
 
           {/* Image */}
           <div
-            className="relative max-h-[85vh] max-w-[90vw] sm:max-w-[600px] animate-[scaleIn_200ms_ease-out]"
+            className="relative max-h-[75vh] sm:max-h-[85vh] max-w-[92vw] sm:max-w-[600px] animate-[scaleIn_200ms_ease-out]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -244,11 +273,44 @@ export default function Showcase() {
               style={{ filter: "blur(6px)", transform: "scale(1.03)" }}
               draggable={false}
             />
-            {/* Page indicator */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-medium border border-white/10">
+          </div>
+
+          {/* Bottom bar — page indicator + mobile nav arrows */}
+          <div
+            className="flex items-center justify-center gap-4 mt-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => lightboxIdx > 0 && setLightboxIdx(lightboxIdx - 1)}
+              className={`sm:hidden p-2.5 rounded-full transition-colors ${
+                lightboxIdx > 0
+                  ? "bg-white/10 text-white active:bg-white/20"
+                  : "bg-white/5 text-white/20"
+              }`}
+              disabled={lightboxIdx === 0}
+            >
+              <CaretLeft weight="bold" className="w-5 h-5" />
+            </button>
+
+            <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-md text-white text-sm font-medium border border-white/10">
               {lightboxIdx + 1} / {images.length}
             </div>
+
+            <button
+              onClick={() => lightboxIdx < images.length - 1 && setLightboxIdx(lightboxIdx + 1)}
+              className={`sm:hidden p-2.5 rounded-full transition-colors ${
+                lightboxIdx < images.length - 1
+                  ? "bg-white/10 text-white active:bg-white/20"
+                  : "bg-white/5 text-white/20"
+              }`}
+              disabled={lightboxIdx === images.length - 1}
+            >
+              <CaretRight weight="bold" className="w-5 h-5" />
+            </button>
           </div>
+
+          {/* Swipe hint on mobile */}
+          <p className="sm:hidden text-white/25 text-xs mt-3">Swipe to navigate</p>
         </div>
       )}
     </section>

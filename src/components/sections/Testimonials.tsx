@@ -212,26 +212,28 @@ export default function Testimonials() {
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               onClick={() => { prev(); resetTimer(); }}
-              className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
+              className="p-3 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
             >
-              <CaretLeft weight="duotone" className="w-4 h-4" />
+              <CaretLeft weight="duotone" className="w-5 h-5" />
             </button>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               {TESTIMONIALS.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => { setActive(i); resetTimer(); }}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    i === active ? "bg-slate-800 w-6" : "bg-slate-300"
-                  }`}
-                />
+                  className="p-1.5"
+                >
+                  <span className={`block h-2 rounded-full transition-all duration-300 ${
+                    i === active ? "bg-slate-800 w-6" : "bg-slate-300 w-2"
+                  }`} />
+                </button>
               ))}
             </div>
             <button
               onClick={() => { next(); resetTimer(); }}
-              className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
+              className="p-3 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
             >
-              <CaretRight weight="duotone" className="w-4 h-4" />
+              <CaretRight weight="duotone" className="w-5 h-5" />
             </button>
           </div>
         </div>
