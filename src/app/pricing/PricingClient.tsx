@@ -39,7 +39,7 @@ const tiers = [
     name: "Small Team",
     icon: UsersThree,
     setup: 6500,
-    monthly: 650,
+    monthly: 750,
     description: "For growing businesses with a team that needs to quote consistently.",
     cta: "Get Started",
     popular: true,
