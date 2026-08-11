@@ -18,8 +18,8 @@ const tiers = [
     id: "solo",
     name: "1 Man Band",
     icon: Lightning,
-    setup: 4500,
-    monthly: 450,
+    setup: 5800,
+    monthly: 495,
     description: "Everything you need to start quoting professionally as a sole trader.",
     cta: "Get Started",
     popular: false,
@@ -38,8 +38,8 @@ const tiers = [
     id: "team",
     name: "Small Team",
     icon: UsersThree,
-    setup: 6500,
-    monthly: 750,
+    setup: 7800,
+    monthly: 695,
     description: "For growing businesses with a team that needs to quote consistently.",
     cta: "Get Started",
     popular: true,
@@ -90,7 +90,7 @@ const faqs = [
   },
   {
     q: "Is GST included in the pricing?",
-    a: "No — all prices shown are exclusive of GST. GST is added on top at 10%.",
+    a: "Yes — all prices shown include GST. What you see is what you pay.",
   },
   {
     q: "Is my data safe?",
@@ -130,7 +130,7 @@ export default function PricingClient() {
             One-time setup fee to get your templates built and your team trained,
             then a flat monthly rate. No per-quote fees. No surprises.
           </p>
-          <p className="text-slate-400 text-sm">All prices in AUD + GST</p>
+          <p className="text-slate-400 text-sm">All prices in AUD incl. GST</p>
         </Container>
       </section>
 
