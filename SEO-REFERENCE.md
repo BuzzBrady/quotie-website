@@ -49,7 +49,7 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - Logo images: `alt="Quotie"`
 
 ### Internal Linking
-- Header: 5 nav links (Features, Pricing, Industries, Blog, About)
+- Header: 6 nav links (Features, Sales Executive, Pricing, Industries, Blog, About)
 - Footer: 4 sections (Product, Industries, Resources, Legal) covering all key pages
 - No page is more than 2 clicks from homepage
 
@@ -123,5 +123,58 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - Also add URLs to the `sameAs` array in `OrganizationSchema` (`src/components/seo/JsonLd.tsx` line 77)
 
 ### Monitor Core Web Vitals
-- Run PageSpeed Insights on key pages after deployment
+- Vercel Speed Insights now active — tracking real user CWV data
+- Also run PageSpeed Insights on key pages periodically
 - Key metrics: LCP, FID/INP, CLS
+
+---
+
+## Changes Made (2026-05-18 — 2026-05-21)
+
+### 6. Blog thumbnails from app screenshots
+- All 9 blog posts now have `image` frontmatter pointing to `public/blog/{slug}.png`
+- Screenshots taken from live app (app.quotie.au) with DOM manipulation to mask real data
+- Fictional company "Summit Solar & Electrical" with fake names/emails used throughout
+- BlogCard component renders thumbnails with dark gradient overlay and category badge
+
+### 7. Blog content rewrite
+- All 9 posts rewritten for tone: shorter (30-50% cut), punchier intros, less formulaic structure
+- Reduced em dash overuse, removed "Here's the thing..." patterns
+- Killed repetitive "Why most don't do this" + "Getting Started" formula
+
+### 8. Industry page redesign
+- Tighter hero, two-column problem/fix layout, decorative Phosphor icons per industry
+- Added 3 content paragraphs per industry (`content` field in industries.ts)
+- Real PDF showcase images for solar, roofing, cleaning (from `public/showcase/`)
+- Stats + CTA moved below content sections
+
+### 9. Vercel Analytics & Speed Insights
+- `@vercel/analytics` and `@vercel/speed-insights` added to root layout
+- Dashboards available in Vercel project tabs
+
+### 10. App route redirects
+- `next.config.ts` redirects `/dashboard`, `/quotes`, `/login`, etc. to `app.quotie.au`
+- Prevents app routes from polluting marketing site analytics
+
+### 11. Sales Executive page (`/sales-executive`)
+- New partnership page: Quotie × Tradie Web Guys
+- Co-branded hero with Quotie logo + TWG logo
+- Tradie Hub (TWG's CRM/dialler) featured as separate platform
+- Three-card "Powered by" section: Quotie, Tradie Hub, Tradie Web Guys
+- Lead capture with `sales_executive_page` source tag
+- Emerald-accented nav link
+- "Partnered with" TWG logo strip added to homepage social proof (links to /sales-executive)
+- All partner logos link to tradiewebguys.com.au (opens in new tab)
+- Quick links below powered-by section: "About Tradie Web Guys →", "Explore Tradie Hub →", "Quotie Features →"
+- Tradie Hub doesn't have its own URL yet — links to TWG site for now
+
+---
+
+## Changes Made (2026-08-14)
+
+### 12. Meta Pixel (ID 1088687213818179)
+- `src/components/seo/MetaPixel.tsx` — loads pixel via `next/script`, fires PageView on client-side route changes (App Router doesn't reload between pages)
+- Rendered site-wide from root layout alongside Vercel Analytics
+- `trackLead(source)` helper fires a `Lead` event with `content_name` set to the existing Supabase source tag (`hero_schedule_demo`, `contact_page`, etc.)
+- Lead events fire only after successful Supabase insert — in `LeadCaptureForm` and the contact form
+- Verify via Events Manager → Test Events; `Lead` can be used as ad optimisation event
