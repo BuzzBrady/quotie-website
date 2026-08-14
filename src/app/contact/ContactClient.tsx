@@ -5,6 +5,7 @@ import { EnvelopeSimple, MapPin, ArrowRight, CircleNotch, CheckCircle } from "@p
 import Container from "@/components/ui/Container";
 import { supabase } from "@/lib/supabase";
 import { TRADE_TYPES } from "@/lib/constants";
+import { trackLead } from "@/components/seo/MetaPixel";
 
 const faqs = [
   {
@@ -85,6 +86,7 @@ export default function ContactClient() {
         setError("Something went wrong. Please try again.");
         return;
       }
+      trackLead("contact_page");
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again.");

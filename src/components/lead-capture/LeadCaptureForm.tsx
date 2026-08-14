@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowRight, CircleNotch, CheckCircle } from "@phosphor-icons/react";
 import { supabase } from "@/lib/supabase";
 import { TRADE_TYPES } from "@/lib/constants";
+import { trackLead } from "@/components/seo/MetaPixel";
 
 interface LeadFormData {
   full_name: string;
@@ -90,6 +91,7 @@ export default function LeadCaptureForm({
         return;
       }
 
+      trackLead(source);
       setSubmitted(true);
     } catch (err) {
       console.error("Lead capture error:", err);

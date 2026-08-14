@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { LeadModalProvider } from "@/components/lead-capture/LeadModalProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 import { SoftwareApplicationSchema, OrganizationSchema } from "@/components/seo/JsonLd";
+import MetaPixel from "@/components/seo/MetaPixel";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -77,6 +78,7 @@ export default function RootLayout({
         </LeadModalProvider>
         <Analytics />
         <SpeedInsights />
+        <MetaPixel />
       </body>
     </html>
   );
