@@ -18,6 +18,21 @@ Quotie is **done-for-you**, not self-serve. This is critical for all copy:
 - Don't position it as DIY software — position it as a managed service with powerful software
 - Emphasise that onboarding includes template builds, pricing logic, and training
 
+## Git Workflow — IMPORTANT
+
+Buzz (BuzzBrady) is the lead developer and owns `main` and all production infrastructure.
+
+**Rules for collaborators (Benji / benjiboys127) and their AI assistants:**
+
+- **NEVER push to `main` directly.** `main` is branch-protected — pushes to it will be rejected.
+- Work on a feature branch named `benji/<short-description>` (e.g. `benji/opt-in-page`), push that branch, and open a pull request. Buzz reviews and merges.
+- **NEVER merge your own PRs.** PRs require Buzz's approval.
+- **Do NOT touch production infrastructure:** no adding/changing Vercel environment variables, no Vercel project settings, no Supabase schema changes, no DNS. If your feature needs a new env var or external service key, list it clearly in the PR description and Buzz will migrate it to prod.
+- **NEVER commit secrets** — API keys, `.env*` files, service role keys. Reference them via `process.env.*` and document the variable name in the PR.
+- Run `npx next build` before opening a PR to confirm the site builds.
+
+**For Buzz:** collect collaborator work by reviewing PRs, merging, then handling prod migration (env vars in Vercel, Supabase changes, etc.).
+
 ## Quick Start
 
 ```bash
