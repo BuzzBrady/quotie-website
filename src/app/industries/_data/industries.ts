@@ -97,20 +97,13 @@ export const industries: Industry[] = [
       "Follow-up reminders so no quote goes cold",
       "Pipeline tracking for every outstanding job",
     ],
-    showcaseId: "roofing",
-    showcasePages: 18,
-    showcasePad: true,
-    testimonial: {
-      quote:
-        "Our roofing proposals used to look like every other tradie's spreadsheet. Now clients tell us our quotes look more professional than companies ten times our size.",
-      author: "Jake Ruwhiu",
-      role: "Director",
-      company: "Virtue Roofing",
-    },
+    showcaseId: "roofing2",
+    showcasePages: 3,
+    showcasePad: false,
     stats: [
-      { value: "18pg", label: "Professional proposals" },
-      { value: "10x", label: "More professional" },
       { value: "<30s", label: "Quote generation time" },
+      { value: "100%", label: "Follow-up coverage" },
+      { value: "4", label: "Options per proposal" },
     ],
     content: [
       {
@@ -123,7 +116,7 @@ export const industries: Industry[] = [
       },
       {
         heading: "Proposals that match your workmanship",
-        text: "Your roofing work is professional. Your quotes should be too. Every proposal goes out as a branded PDF with your logo, your terms, detailed specs, and a clear pricing breakdown. Clients tell us these proposals look better than companies ten times their size.",
+        text: "Your roofing work is professional. Your quotes should be too. Every proposal goes out as a branded PDF with your logo, your terms, detailed specs, and a clear pricing breakdown — presenting your business at its best from the first interaction.",
       },
     ],
   },
@@ -150,6 +143,13 @@ export const industries: Industry[] = [
       "Follow-up dashboard for outstanding quotes",
       "Contact management with quote history",
     ],
+    testimonial: {
+      quote:
+        "Quotie has been a great resource for our company. For solar installs we need a way to store data and track each job's progress from approval to installation and Quotie handles this perfectly. For anyone looking for a similar solution this would be a great option to check out!",
+      author: "Benjamin Hughes",
+      role: "Director",
+      company: "Hughes Electrical Group",
+    },
     stats: [
       { value: "<30s", label: "Quote generation" },
       { value: "100%", label: "Consistent pricing" },

@@ -15,7 +15,9 @@ import {
   PlugsConnected,
   ArrowRight,
   Check,
-  CaretRight,
+  Signature,
+  MapPin,
+  PhoneCall,
 } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -51,12 +53,20 @@ const features = [
     bullets: ["Send up to 4 quotes at a time", "Full PDF per option", "Bundle in one email"],
   },
   {
+    icon: Signature,
+    title: "Accept & Sign Online",
+    description: "Every quote email can include a hosted, branded quote page. Clients view all options online, choose what works, and digitally sign right there — a signed certificate is stamped into the PDF. You know the moment a client opens or downloads the page. Decline-with-reason handling included.",
+    color: "text-sky-400",
+    accent: "sky",
+    bullets: ["Hosted branded quote page per email", "Digital signature with certificate PDF", "View & download tracking on the hosted page", "Quote viewed / signed / declined automation triggers", "Decline-with-reason handling"],
+  },
+  {
     icon: EnvelopeSimple,
-    title: "Email Sending & Reply Tracking",
-    description: "Send quotes directly from your own Gmail or Outlook account. Email templates auto-fill client names, quote totals, and more. Client replies are tracked and appear in Quotie automatically.",
+    title: "Email & Unified Inbox",
+    description: "Send quotes from your own Gmail or Outlook. All client email lives in Quotie — threaded conversations, reply composer with CC/BCC and attachments. Not just quote replies — every message with that contact.",
     color: "text-rose-400",
     accent: "rose",
-    bullets: ["Native Gmail & Outlook sending", "Auto-filled email templates", "Reply tracking in-app", "CC/BCC support"],
+    bullets: ["Native Gmail & Outlook sending", "Full two-way inbox sync", "Threaded conversations per contact", "Reply composer with CC/BCC + attachments"],
   },
   {
     icon: Bell,
@@ -67,12 +77,28 @@ const features = [
     bullets: ["Urgency sorting", "One-click reschedule", "Reschedule badges (1st, 2nd, 3rd)"],
   },
   {
+    icon: PhoneCall,
+    title: "Callback Leads",
+    description: "Pre-quote lead pipeline. Leads land from GHL webhooks or manual entry. Track call attempts, set timed callback reminders with live countdown, and auto-graduate the lead to a full quote when ready.",
+    color: "text-orange-400",
+    accent: "orange",
+    bullets: ["GHL webhook ingestion + manual entry", "Call attempt tracking", "Timed callback reminders with live countdown", "Auto-graduates to a quote"],
+  },
+  {
+    icon: MapPin,
+    title: "Site Visits & Road Days",
+    description: "Plan road days from within Quotie. Scan your GHL calendar for booked site visits, drag-to-order your stops, get travel-time routing, and view booking summaries. One-click creates a quote directly from a visit.",
+    color: "text-lime-400",
+    accent: "lime",
+    bullets: ["GHL calendar scan for booked visits", "Drag-to-order stops", "Travel-time routing", "Booking summaries", "One-click create quote from a visit"],
+  },
+  {
     icon: ChartBar,
-    title: "Pipeline & Analytics",
-    description: "Quote status tracking, won revenue, conversion rates, and pipeline value. Filter by date range, status, and user.",
+    title: "Pipeline, Analytics & Profit",
+    description: "Quote status tracking, won revenue, conversion rates, and pipeline value. Profit tracking adds per-company profit formulas, margin trends, profit-by-rep, and per-deal breakdowns on the analytics dashboard.",
     color: "text-emerald-400",
     accent: "emerald",
-    bullets: ["Status tracking: draft, sent, won, lost", "Revenue & conversion metrics", "Date and user filters"],
+    bullets: ["Status tracking: draft, sent, won, lost", "Revenue & conversion metrics", "Per-company profit formulas", "Margin trends & profit-by-rep"],
   },
   {
     icon: BellRinging,
@@ -95,21 +121,21 @@ const bottomFeatures = [
   {
     icon: Briefcase,
     title: "Job Handoff",
-    description: "One-click quote-to-job conversion. Customisable pipeline, SOPs with step-by-step checklists, ServiceM8 integration.",
+    description: "One-click quote-to-job conversion. Customisable pipeline, Playbooks with step-by-step checklists, task tracking, and job files from Drive or Dropbox.",
     color: "text-slate-300",
     border: "border-slate-500/15",
   },
   {
     icon: CalendarBlank,
     title: "Calendar & Scheduling",
-    description: "Day, week, and month views with drag-and-drop rescheduling. Link events to quotes and contacts.",
+    description: "Day, week, and month views with drag-and-drop rescheduling. Quotes, jobs, and site visits all in one calendar.",
     color: "text-blue-400",
     border: "border-blue-500/15",
   },
   {
     icon: PlugsConnected,
-    title: "Automations & Integrations",
-    description: "GoHighLevel and ServiceM8 integrations built in. Automate actions when quotes are sent, won, or lost.",
+    title: "Automations v2",
+    description: "Triggers on quote events (sent, viewed, signed, declined, won) and job events. Multi-trigger workflows, AND/OR conditions, wait steps, filter steps. Actions: email, webhooks, GHL notes/tags/opportunities, notifications.",
     color: "text-teal-400",
     border: "border-teal-500/15",
   },
@@ -347,14 +373,6 @@ export default function FeaturesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
             {features.slice(1).map((f) => {
               const Icon = f.icon;
-              const glowMap: Record<string, string> = {
-                blue: "from-blue-500/20",
-                amber: "from-amber-500/20",
-                rose: "from-rose-500/20",
-                violet: "from-violet-500/20",
-                emerald: "from-emerald-500/20",
-                pink: "from-pink-500/20",
-              };
               const iconBgMap: Record<string, string> = {
                 blue: "bg-blue-500/10 border-blue-500/20",
                 amber: "bg-amber-500/10 border-amber-500/20",
@@ -362,6 +380,9 @@ export default function FeaturesPage() {
                 violet: "bg-violet-500/10 border-violet-500/20",
                 emerald: "bg-emerald-500/10 border-emerald-500/20",
                 pink: "bg-pink-500/10 border-pink-500/20",
+                sky: "bg-sky-500/10 border-sky-500/20",
+                orange: "bg-orange-500/10 border-orange-500/20",
+                lime: "bg-lime-500/10 border-lime-500/20",
               };
               const glowDotMap: Record<string, string> = {
                 blue: "bg-blue-400/20",
@@ -370,6 +391,9 @@ export default function FeaturesPage() {
                 violet: "bg-violet-400/20",
                 emerald: "bg-emerald-400/20",
                 pink: "bg-pink-400/20",
+                sky: "bg-sky-400/20",
+                orange: "bg-orange-400/20",
+                lime: "bg-lime-400/20",
               };
               const borderMap: Record<string, string> = {
                 blue: "from-blue-500/25",
@@ -378,6 +402,9 @@ export default function FeaturesPage() {
                 violet: "from-violet-500/25",
                 emerald: "from-emerald-500/25",
                 pink: "from-pink-500/25",
+                sky: "from-sky-500/25",
+                orange: "from-orange-500/25",
+                lime: "from-lime-500/25",
               };
               return (
                 <div

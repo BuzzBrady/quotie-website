@@ -20,23 +20,23 @@ const expectations = [
 const testimonials = [
   {
     quote:
-      "We went from spending entire evenings rebuilding solar quotes in Excel to sending 8 different system options in minutes. Quotie paid for itself in the first week.",
+      "I couldn't believe how quickly we closed $360k in a single month as soon as we had Quotie dialled in. The multi-option proposals are a game changer, clients love being able to choose what works for them.",
     author: "Jed Bolton",
     role: "Director, Bolton EC",
     rating: 5,
   },
   {
     quote:
-      "Our roofing proposals used to look like every other tradie's spreadsheet. Now clients tell us our quotes look more professional than companies ten times our size.",
-    author: "Jake Ruwhiu",
-    role: "Director, Virtue Roofing",
+      "I know exactly where every single quote is at, every single day. Who needs a follow-up, who's ready to go. Complete visibility into the pipeline for the first time ever.",
+    author: "Cooper Kelly",
+    role: "Director, Coastal Cleans Co",
     rating: 5,
   },
   {
     quote:
-      "I used to lose track of who I'd quoted and who needed a follow-up. Now everything's in one place — I know exactly where every job stands.",
-    author: "Cooper Kelly",
-    role: "Director, Coastal Cleans Co",
+      "Quotie has been a great resource for our company. For solar installs we need a way to store data and track each job's progress from approval to installation and Quotie handles this perfectly.",
+    author: "Benjamin Hughes",
+    role: "Director, Hughes Electrical Group",
     rating: 5,
   },
 ];
@@ -90,7 +90,7 @@ export default function DemoPage() {
                   ))}
                 </div>
                 <p className="text-white/50 text-sm italic">
-                  &ldquo;Quotie paid for itself in the first week. We went from spending entire evenings on quotes to sending 8 options in minutes.&rdquo;
+                  &ldquo;I couldn&apos;t believe how quickly we closed $360k in a single month as soon as we had Quotie dialled in.&rdquo;
                 </p>
                 <p className="text-white/30 text-xs mt-2">— Jed Bolton, Director, Bolton EC</p>
               </div>

@@ -24,6 +24,10 @@ export const FAQS = [
     a: "Yes. Compose an email, attach your PDFs, and send from your own Gmail or Outlook account — so clients see your email address, not a third-party tool. Replies come back directly to your inbox.",
   },
   {
+    q: "Can my clients accept and sign quotes online?",
+    a: "Yes. Every quote email can include a link to a hosted, branded quote page. Your client views all options online, chooses what works, and signs with a digital signature pad — no download required. A signed certificate is automatically stamped into the PDF and saved to the job. You know the moment they open or download the page, and signing can trigger follow-up automations automatically.",
+  },
+  {
     q: "Is my data secure?",
     a: "All data is encrypted at rest and in transit. Each business's data is completely isolated — your data is only visible to your team, no exceptions.",
   },

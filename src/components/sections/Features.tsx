@@ -174,6 +174,7 @@ export default function Features() {
                   "Automatic calculations from pre-built templates",
                   "Branded PDFs generated in seconds",
                   "Send from your own Gmail or Outlook",
+                  "Clients view & sign online — you know the moment they open it",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="w-4 h-4 rounded-full bg-blue-500/15 flex items-center justify-center flex-shrink-0">

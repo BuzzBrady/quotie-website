@@ -50,7 +50,7 @@ const tiers = [
       "GoHighLevel integration",
       "ServiceM8 integration",
       "Automation workflows",
-      "Job handoff & SOPs",
+      "Job handoff & Playbooks",
       "Calendar & scheduling",
       "Priority support",
     ],

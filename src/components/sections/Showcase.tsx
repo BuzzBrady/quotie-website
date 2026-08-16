@@ -6,8 +6,7 @@ import { X, CaretLeft, CaretRight } from "@phosphor-icons/react";
 const INDUSTRIES = [
   { id: "solar", label: "Solar", pages: 12, pad: true },
   { id: "solar2", label: "Solar & Electrical", pages: 17, pad: true },
-  { id: "roofing", label: "Roofing", pages: 18, pad: true },
-  { id: "roofing2", label: "Metal Roofing", pages: 3, pad: false },
+  { id: "roofing2", label: "Roofing", pages: 3, pad: false },
   { id: "cleaning", label: "Cleaning", pages: 9, pad: false },
 ] as const;
 

@@ -166,10 +166,12 @@ All prices incl. GST.
 | Name | Role | Company | Industry |
 |------|------|---------|----------|
 | Jed Bolton | Director | Bolton EC | Solar & Electrical |
-| Jake Ruwhiu | Director | Virtue Roofing | Metal Roofing |
 | Cooper Kelly | Director | Coastal Cleans Co | Cleaning |
+| Benjamin Hughes | Director | Hughes Electrical Group | Solar & Electrical |
 
 Do NOT invent testimonials. Do NOT use fake names.
+
+**Virtue Roofing (Jake Ruwhiu) is an archived customer no longer with Quotie — do NOT reference them anywhere** (testimonials, showcase, industry pages, stats like "10x more professional"). Removed 2026-08-16.
 
 ## Founders
 
@@ -183,27 +185,33 @@ Do NOT invent testimonials. Do NOT use fake names.
 - Quote template builder (conditional fields, matrix pricing, calculations)
 - Instant PDF generation (HTML templates, branded, server-side)
 - Multi-option proposals (up to 4 options per quote group)
+- **Shared quote links** — public hosted branded quote pages (`/q/:token`), clients view online without downloading
+- **Accept & Sign** — clients digitally sign quotes online (signature pad), signed certificate stamped into the PDF, decline-with-reason handling
+- **Quote view & download tracking** — know when a client opens or downloads a quote on its hosted page (NOT email open tracking)
 - Email sending via Gmail/Outlook (native, from user's own address)
 - Reply tracking (client replies appear in Quotie)
-- CC/BCC support
+- Unified Emails page — full two-way inbox sync for contact emails, threaded reply composer, CC/BCC + attachments
 - Customisable email templates with merge variables
-- Follow-up dashboard (urgency sorting, reschedule tracking, notes)
+- Follow-up dashboard (urgency sorting, hot leads, reschedule tracking, notes)
+- Callback leads — pre-quote lead pipeline (GHL webhook ingestion, call attempt tracking, timed callback reminders)
+- Site visits / road day planning (GHL calendar scan, drag-to-order visits, travel-time routing, booking summaries)
 - Pipeline tracking (status: draft, sent, won, lost)
 - Won revenue, conversion rate, pipeline value metrics
+- Profit tracking — per-company profit formulas, margin trends, profit-by-rep, per-deal breakdowns
+- Lead attribution (lead owner + lead source tracked through the pipeline)
 - Contact management (multi-address, quote history)
-- GoHighLevel two-way sync (contacts + opportunities)
-- ServiceM8 integration (job creation)
-- Automation workflows (triggers on quote events, webhook/HTTP actions)
-- Job handoff (quote to job, configurable pipeline, SOPs, task tracking)
-- Calendar (day/week/month views, drag-and-drop)
+- GoHighLevel two-way sync (contacts + opportunities + calendar scan + automation actions: notes, tags, opportunity updates)
+- ServiceM8 integration (contact search)
+- Automation workflows v2 — triggers on quote events (sent, viewed, signed, declined, won) AND job events; multi-trigger, AND/OR condition groups, wait + filter steps; actions: send email, webhooks, GHL updates, notifications
+- Job handoff (quote to job, configurable pipeline, Playbooks — formerly "SOPs" — with step-by-step checklists, task tracking, job files from Drive/Dropbox)
+- Calendar (day/week/month views, quotes + jobs + site visits, drag-and-drop)
 - Notifications (bell icon, real-time, daily digest)
+- Product catalog viewer (synced pricing + business rules, read-only)
 - Multi-tenant with row-level security
 
 ### NOT features (do NOT claim):
-- Open/read tracking on emails
-- Digital signatures / e-signing
+- Open/read tracking on **emails** (quote *view* tracking on hosted share pages IS real — don't confuse the two)
 - Online payment collection / deposits
-- Client-facing quote acceptance portal (planned, not shipped)
 - SMS sending
 - Invoicing
 - Google Calendar sync
@@ -212,7 +220,7 @@ Do NOT invent testimonials. Do NOT use fake names.
 - Revenue forecasting
 - Export/report generation
 - Kanban drag-and-drop pipeline
-- Site visits feature (planned soon)
+- AI call-transcript → draft quote (EXISTS but internal-only/beta for 3 Quotie execs — do NOT market as available)
 
 ## Showcase Images
 
@@ -221,9 +229,10 @@ PDF page screenshots in `public/showcase/`:
 |----|----------|-------|--------|
 | `solar` | Hughes Electrical | 12 | Yes (01-12) |
 | `solar2` | Bolton EC | 17 | Yes (01-17) |
-| `roofing` | Virtue Roofing | 18 | Yes (01-18) |
 | `roofing2` | HDK Long Run Roofing | 3 | No (1-3) |
 | `cleaning` | Coastal Cleans | 9 | No (1-9) |
+
+(`roofing` — Virtue Roofing, 18pg — removed 2026-08-16: archived customer.)
 
 Images are WebP, 1200px wide, `blur-[6px]` applied via CSS.
 

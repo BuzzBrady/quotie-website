@@ -22,6 +22,53 @@ interface ChangelogEntry {
 
 const entries: ChangelogEntry[] = [
   {
+    date: "August 2026",
+    version: "v3.5.0",
+    title: "Shared Quote Links & Accept + Sign",
+    type: "feature",
+    description:
+      "Every quote email can now include a hosted, branded quote page. Clients view all options online and accept & digitally sign right there — no download required.",
+    changes: [
+      "Hosted branded quote page per email — clients view all options online",
+      "Digital signature pad — client signs on the page, certificate stamped into the PDF",
+      "View & download tracking on the hosted quote page",
+      "Decline-with-reason handling — clients can decline and leave a note",
+      "New automation triggers: quote_viewed, quote_signed, quote_declined",
+    ],
+  },
+  {
+    date: "July 2026",
+    version: "v3.4.0",
+    title: "Automation Engine v2 & Emails Redesign",
+    type: "feature",
+    description:
+      "A major upgrade to the automation engine — job event triggers, multi-trigger workflows, AND/OR condition groups, wait and filter steps — plus a redesigned Emails page.",
+    changes: [
+      "Job event triggers: created, status change, column change, scheduled, task completed",
+      "Multi-trigger workflows — one automation can respond to several events",
+      "AND/OR condition groups for precise automation logic",
+      "Wait steps (duration or until-date, business-hours aware) and filter steps",
+      "New GHL actions: create contact, add note, add tag, update opportunity",
+      "Redesigned Emails page — full two-way inbox sync, threaded conversations, CC/BCC + attachments",
+    ],
+  },
+  {
+    date: "June 2026",
+    version: "v3.3.0",
+    title: "Site Visits, Callback Leads & Profit Tracking",
+    type: "feature",
+    description:
+      "Road day planning, a pre-quote callback pipeline, and profit analytics — three new modules shipped together.",
+    changes: [
+      "Site Visits — scan GHL calendar for booked visits, drag-to-order stops, travel-time routing",
+      "Booking summaries and one-click create quote from a visit",
+      "Callback Leads pipeline — GHL webhook ingestion, call attempt tracking, timed reminders",
+      "Auto-graduation from callback lead to a full quote",
+      "Profit tracking — per-company formulas, margin trends, profit-by-rep, per-deal breakdowns",
+      "Full contact inbox sync — all client email threads visible in Quotie",
+    ],
+  },
+  {
     date: "May 2026",
     version: "v3.2.0",
     title: "Automation Engine & Email Improvements",

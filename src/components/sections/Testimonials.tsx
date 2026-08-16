@@ -19,14 +19,14 @@ const TESTIMONIALS = [
     color: "from-emerald-500 to-teal-600",
   },
   {
-    name: "Jake Ruwhiu",
+    name: "Benjamin Hughes",
     role: "Director",
-    company: "Virtue Roofing",
-    metric: "10x",
-    metricLabel: "More professional",
+    company: "Hughes Electrical Group",
+    metric: "End-to-end",
+    metricLabel: "Job tracking, approval to install",
     quote:
-      "Our quotes used to be a Word doc attached to an email. Now clients open a beautifully branded PDF with multiple options and our logo front and centre. It's 10x more professional overnight.",
-    avatar: "JR",
+      "Quotie has been a great resource for our company. For solar installs we need a way to store data and track each job's progress from approval to installation and Quotie handles this perfectly. For anyone looking for a similar solution this would be a great option to check out!",
+    avatar: "BH",
     color: "from-blue-500 to-indigo-600",
   },
   {
