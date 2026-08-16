@@ -47,7 +47,7 @@ npx next build               # Production build
 - **Styling:** Tailwind CSS v4 (CSS-based config via `@theme inline` in globals.css)
 - **Animations:** framer-motion (fade-in, orbital, tabbed transitions)
 - **Blog:** MDX files in `src/content/blog/` via next-mdx-remote + gray-matter
-- **Lead capture:** Supabase `leads` table (same prod instance as the app)
+- **Lead capture:** Supabase `leads` table (same prod instance as the app). `/opt-in` and `/apply` also write Close CRM + Quotie `crm_leads`.
 - **Hosting:** Vercel, Sydney region (`syd1`)
 - **Repo:** github.com/BuzzBrady/quotie-website
 
@@ -70,6 +70,31 @@ The marketing site does NOT share components with the app. Design language is al
 - Environment variables needed in Vercel:
   - `NEXT_PUBLIC_SUPABASE_URL` -- `https://ucmgleztmtyoptcflsia.supabase.co`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` -- the prod anon key (in `.env.local`)
+  - `CLOSE_API_KEY` -- Close CRM (opt-in + apply dialling). Buzz adds this in prod.
+  - `CLOSE_LEAD_STATUS_ID` -- `stat_8H8vIOVxnikZ3hELnpGPyups32JAfXwk7DjAvuvh3tn` (New Lead - AUS) — `/opt-in` only
+  - `CLOSE_APPLICATION_STATUS_ID` -- `stat_iyBTeZLAXJfJChUwEZhjHRbXUwRF2OyRWTCn9ksjEhz` (New Lead + Application - AUS) — `/apply` only
+  - `SUPABASE_SERVICE_ROLE_KEY` -- required for Quotie app `/leads` and `/crm/pipeline` inserts (RLS blocks anon)
+  - `INGEST_LEAD_WEBHOOK_SECRET` -- optional; official `ingest-lead` function
+
+## Meta ads opt-in (`/opt-in`)
+
+Isolated conversion page for paid traffic. No header/footer/nav. White page at `quotie.au/opt-in`. Full reference: **`OPT-IN-REFERENCE.md`**.
+
+- Form: name, email, phone → `/api/leads` with source `meta_opt_in`
+- Close CRM lead in **New Lead - AUS** (replaces Instant Form + Make for this URL)
+- After submit: Pixel `Lead`, then redirect to `/apply` with name/email/phone. `/opt-in/thanks` still exists but is not the live post-submit URL.
+- `noindex`; robots disallow `/opt-in`; `/opt-in/white` 308s to `/opt-in`
+
+## Meta ads application (`/apply`)
+
+Isolated higher-intent application for paid traffic. Same chrome as `/opt-in` (no header/footer/nav). White page at `quotie.au/apply`. Full reference: **`APPLY-REFERENCE.md`**.
+
+- `/apply` VSL lander → `/apply/form` (7 questions) → `/apply/book` (qualified) → `/apply/thanks` (post-booking pre-call page)
+- Not in a position to invest: `/apply/received`
+- Form answers + name/email/phone → `/api/leads` with source `meta_apply`
+- Close CRM lead in **New Lead + Application - AUS** via `CLOSE_APPLICATION_STATUS_ID` (do not reuse the opt-in status)
+- Pixel `Lead` on apply submit. Pixel `Schedule` when a session is booked.
+- `noindex`; robots disallow `/apply`; `/application` 308s to `/apply`
 
 ## Brand
 
@@ -95,13 +120,15 @@ The brand gradient is `from-brand-blue to-brand-cyan` (or `from-[#1f61aa] to-[#3
 ```
 src/
 ├── app/
-│   ├── layout.tsx              # Root layout (fonts, header, footer, lead modal)
+│   ├── layout.tsx              # Root layout (fonts, SiteChrome, pixel)
 │   ├── page.tsx                # Homepage
 │   ├── not-found.tsx           # 404
 │   ├── sitemap.ts              # Dynamic sitemap
 │   ├── robots.ts               # robots.txt
 │   ├── og/route.tsx            # Dynamic OG image generation (edge runtime)
-│   ├── api/leads/route.ts      # Server-side lead capture endpoint
+│   ├── api/leads/route.ts      # Lead capture (Supabase + Close + CRM)
+│   ├── opt-in/                 # Meta ads landing page (no site chrome)
+│   ├── apply/                  # Meta ads application (no site chrome)
 │   ├── features/               # Features deep-dive page
 │   ├── pricing/                # Pricing page (PricingClient.tsx)
 │   ├── industries/             # Industry hub + 9 dynamic pages
@@ -117,9 +144,11 @@ src/
 │   ├── privacy/                # Privacy policy
 │   └── terms/                  # Terms of service
 ├── components/
-│   ├── layout/                 # Header, Footer
+│   ├── layout/                 # Header, Footer, SiteChrome
 │   ├── sections/               # Homepage sections (Hero, Features, etc.)
 │   ├── lead-capture/           # LeadCaptureForm, LeadModalProvider
+│   ├── opt-in/                 # Isolated ads landing (form, quotes, thanks)
+│   ├── apply/                  # Isolated ads application (form, thanks)
 │   ├── blog/                   # BlogCard, MDXComponents
 │   ├── seo/                    # JsonLd structured data
 │   └── ui/                     # Container, SectionHeader
@@ -142,7 +171,9 @@ All CTAs use two mechanisms:
 1. **LeadCaptureModal** -- `useLeadModal()` context hook with a `source` tag
 2. **LeadCaptureForm** -- inline form (CTA section, demo page, contact page)
 
-Both write to Supabase `leads` table with UTM params, referrer, and page URL. Source tags: `hero_schedule_demo`, `nav_get_started`, `pricing_team`, `demo_page`, `industry_{slug}`, etc.
+Both write to Supabase `leads` table with UTM params, referrer, and page URL. Source tags: `hero_schedule_demo`, `nav_get_started`, `pricing_team`, `demo_page`, `industry_{slug}`, `meta_opt_in`, `meta_apply`, etc.
+
+`/opt-in` and `/apply` also create a Close CRM lead and a Quotie `crm_leads` row. See `OPT-IN-REFERENCE.md` and `APPLY-REFERENCE.md`.
 
 ### SEO
 - Every page uses `createMetadata()` from `src/lib/metadata.ts`

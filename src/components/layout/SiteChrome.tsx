@@ -7,7 +7,11 @@ import { LeadModalProvider } from "@/components/lead-capture/LeadModalProvider";
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdsPage = pathname === "/opt-in" || pathname.startsWith("/opt-in/");
+  const isAdsPage =
+    pathname === "/opt-in" ||
+    pathname.startsWith("/opt-in/") ||
+    pathname === "/apply" ||
+    pathname.startsWith("/apply/");
 
   if (isAdsPage) {
     return <main className="flex-1">{children}</main>;

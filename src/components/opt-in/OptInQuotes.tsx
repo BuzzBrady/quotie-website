@@ -24,7 +24,7 @@ const QUOTES = [
   },
 ] as const;
 
-export default function OptInQuotes() {
+export default function OptInQuotes({ className = "mb-10" }: { className?: string }) {
   const [active, setActive] = useState(0);
   const current = QUOTES[active];
 
@@ -38,7 +38,7 @@ export default function OptInQuotes() {
   }, [next]);
 
   return (
-    <div className="mb-10 text-center">
+    <div className={`text-center ${className}`}>
       <div className="mb-3 flex items-center justify-center gap-0.5">
         {Array.from({ length: 5 }).map((_, i) => (
           <Star key={i} weight="fill" className="h-3.5 w-3.5 text-amber-400" />

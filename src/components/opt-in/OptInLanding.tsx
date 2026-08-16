@@ -51,8 +51,8 @@ export default function OptInLanding() {
         </h1>
 
         <p className="mb-8 text-center text-[15px] sm:text-base leading-relaxed text-slate-800">
-          See how Quotie turns the way you already price jobs into a system that
-          can build, send and manage professional quotes in seconds.
+          We build your quoting system around how you already price jobs — then
+          your team generates professional quotes in under 30 seconds.
         </p>
 
         <div className="relative mb-8">
@@ -88,7 +88,7 @@ export default function OptInLanding() {
             </Link>
           </div>
           <p className="text-[11px] text-slate-400">
-            © {new Date().getFullYear()} Quotie Pty Ltd
+            © {new Date().getFullYear()} Quotie PTY LIMITED
           </p>
         </footer>
       </div>

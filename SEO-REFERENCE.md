@@ -24,7 +24,8 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - OG site name, locale, and type set in root layout
 
 ### Robots.txt (`src/app/robots.ts`)
-- `User-Agent: *`, `Allow: /`, `Disallow: /api/`
+- `User-Agent: *`, `Allow: /`, `Disallow: /api/`, `/opt-in`, and `/apply`
+- Ads landing pages (`/opt-in`, `/apply`) are `noindex, nofollow, nocache` and are not in the sitemap
 - Sitemap URL: `https://quotie.au/sitemap.xml`
 
 ### Sitemap (`src/app/sitemap.ts`)
