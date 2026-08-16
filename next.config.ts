@@ -30,11 +30,23 @@ const nextConfig: NextConfig = {
       "/builders/:path*",
       "/request-password-reset",
     ];
-    return appRoutes.map((source) => ({
-      source,
-      destination: `https://app.quotie.au${source.replace("/:path*", "")}`,
-      permanent: false,
-    }));
+    return [
+      {
+        source: "/opt-in/white",
+        destination: "/opt-in",
+        permanent: true,
+      },
+      {
+        source: "/opt-in/white/thanks",
+        destination: "/opt-in/thanks",
+        permanent: true,
+      },
+      ...appRoutes.map((source) => ({
+        source,
+        destination: `https://app.quotie.au${source.replace("/:path*", "")}`,
+        permanent: false,
+      })),
+    ];
   },
   async headers() {
     return [

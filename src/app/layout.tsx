@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
 import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import { LeadModalProvider } from "@/components/lead-capture/LeadModalProvider";
+import SiteChrome from "@/components/layout/SiteChrome";
 import SmoothScroll from "@/components/SmoothScroll";
 import { SoftwareApplicationSchema, OrganizationSchema } from "@/components/seo/JsonLd";
 import MetaPixel from "@/components/seo/MetaPixel";
@@ -71,11 +69,7 @@ export default function RootLayout({
         <SoftwareApplicationSchema />
         <OrganizationSchema />
         <SmoothScroll />
-        <LeadModalProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </LeadModalProvider>
+        <SiteChrome>{children}</SiteChrome>
         <Analytics />
         <SpeedInsights />
         <MetaPixel />
