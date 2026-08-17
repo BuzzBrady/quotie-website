@@ -103,7 +103,7 @@ export default function Hero() {
               style={{ aspectRatio: "16 / 9" }}
             >
               <video
-                src="https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/QuotieExplainer3.mp4"
+                src="https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/QuotieExplainer23.mp4"
                 className="absolute inset-0 w-full h-full object-cover"
                 controls
                 playsInline
