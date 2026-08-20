@@ -1,12 +1,17 @@
 import ApplyVideoSlot from "@/components/apply/ApplyVideoSlot";
-import { APPLY_VSL_URL } from "@/components/apply/vsl";
+import ApplyVslPlayer from "@/components/apply/ApplyVslPlayer";
+import { APPLY_VSL_URL, isDirectVideoUrl } from "@/components/apply/vsl";
 
 export default function ApplyVsl() {
+  if (isDirectVideoUrl(APPLY_VSL_URL)) {
+    return <ApplyVslPlayer src={APPLY_VSL_URL} />;
+  }
+
   return (
     <ApplyVideoSlot
       url={APPLY_VSL_URL}
       title="Training video"
-      hint="The short training will play here."
+      hint="The training will play here."
     />
   );
 }

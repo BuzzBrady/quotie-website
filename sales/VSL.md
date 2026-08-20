@@ -8,12 +8,134 @@
 
 **Job of this video**
 
-1. Make them nod: quoting is sitting on you, and it’s costing jobs and nights.
-2. Be clear what Quotie is, and walk how a quote actually runs.
-3. Kill “software you set up yourself.”
-4. Shut Excel / hire / “I’ll get my guy to do it” before the call.
-5. Handle the worries in their head so the apply isn’t a maybe.
-6. Get the person who can say yes to hit Apply and book.
+Get the person who can say yes to apply and book. Everything below is in service of that.
+
+---
+
+## Structure — goal of each step
+
+Film / cut in this order. One job per beat. If a beat doesn’t land, the next one is weaker.
+
+### 1. Introduce yourself
+**Goal:** They know who’s talking, in the first 15 seconds. Not a brand. A person.
+
+- I’m Locky (Lachlan Boys).
+- I’m an estimator. That’s the job I actually did.
+- Central Coast, NSW.
+
+### 2. Call out who you’re speaking to
+**Goal:** The right tradie thinks “this is me.” The wrong person clicks off.
+
+- Trade / service businesses that send quotes.
+- Australia and New Zealand.
+- The quoting still has to come through you (or someone waits on you).
+- Quotes take too long, numbers come out different, or nothing gets chased.
+- If that’s not you — close it.
+
+### 3. Why you’re qualified
+**Goal:** They trust you on quoting, not on “I built an app.”
+
+- Full-time estimator for [x] years. Priced jobs for a living.
+- Watched owners rebuild every quote by hand. Watched jobs go cold because it went out the next day.
+- Watched businesses buy software, open it once, go back to Excel.
+- You built the first system around how a business already prices. Buzz (co-founder) rebuilt it properly. That’s Quotie.
+- You don’t sell software. You sit with them and put *their* pricing into a form.
+
+### 4. What the problem is (where they’re bleeding)
+**Goal:** They can name their leak. One of these, not all four.
+
+- It all has to go through the owner / estimator.
+- A quote takes 45 minutes to two hours. Rebuild every time.
+- Two people quote the same job, two different numbers. Missed extras. Jobs won too cheap.
+- Quote goes out and dies. Nobody knows if they opened it. Nobody chased it.
+- That’s not a sales problem. That’s a quoting problem.
+
+### 5. How it hits the business *and* the life
+**Goal:** The cost is jobs *and* nights. Both, or they think they can live with it.
+
+**Business**
+- Slow quotes lose to the guy who sent something yesterday.
+- Can’t put a salesperson on the tools and have them send a price.
+- Can’t scale without cloning yourself.
+- Pipe is a mess. You don’t know what’s sitting out there.
+
+**Personal**
+- Tools all day, kitchen table at night.
+- Won’t take a week off because quoting stops.
+- Head full of “what’s still out.”
+- You’re the quoting department, not the owner.
+
+### 6. What you and Buzz built
+**Goal:** Introduce Quotie as the thing *you two built for this problem* — not a tool they set up.
+
+- You + Buzz. Estimator + builder.
+- We don’t hand you a blank login.
+- We take how you already price and lock it into a system your people can run.
+- Name it: that’s Quotie.
+
+### 7. What Quotie is
+**Goal:** Crystal clear in one pass. Kill the wrong box.
+
+- A quoting system we build for your business.
+- Not DIY software. Not a CRM that “also does quotes.” Not Excel with a skin.
+- Your products, labour, margins, extras, the weird jobs — in a form.
+- Form does the maths. Quote looks like you. Same numbers every time.
+- Send from your email. Customer views and signs on their phone. You see who opened it. Follow-up list. Won → job.
+- If they wanted a cheap monthly tinkering login, you’re the wrong company.
+
+### 8. How Quotie works (build a quote from scratch)
+**Goal:** They see a real quote happen. Belief shifts from “maybe” to “that’s my week.”
+
+- Walk one job. Enquiry → form → generate → send → they look / sign → follow-up → won.
+- Fill in the form on camera. Not a feature tour. One quote, start to finish.
+- Under 30 seconds to a proper PDF. Options on the quote (up to four). Link they can sign.
+- You can see when they opened the *quote*, not the email.
+- Then the rest: list, follow-up, turn it into a job.
+- Cut in the real product (solar walk-through is fine — same loop for any trade).
+
+### 9. How Quotie changes the business and the life
+**Goal:** After the demo, lock the payoff. Same two columns as the pain.
+
+**Business**
+- Quotes out the same day. Team can send them.
+- Same numbers. No cheap wins, no forgotten extras.
+- You can hire / put someone on quotes without them asking you for the price.
+- You can see the pipe.
+
+**Personal**
+- Nights back. Week off, quoting still goes out.
+- Two minutes instead of an hour.
+- You’re not the bottleneck.
+
+### 10. Client results (off the top of your head)
+**Goal:** Proof it’s real businesses, not a pitch. Names we actually have. No Virtue Roofing.
+
+- Jed Bolton, Bolton EC — once it was dialled in they closed $360k in a month. Options on the quote. Customers pick.
+- Benjamin Hughes, Hughes Electrical — solar. Track the job from the yes through to the install.
+- Lachlan Williams, Coastal Cleans — every quote, every day. Who needs a follow-up. Who’s ready.
+- Three different trades. Same thing: we built it around how they already work.
+
+### 11. Call to action
+**Goal:** One next step. Not “learn more.” Apply and book.
+
+- Application is under the video. Two minutes.
+- We’ll see if we should build it for you.
+- If yes, they pick a time with the team / with you.
+- Bring a quote they’ve actually sent.
+- If they can’t invest in getting it built, don’t apply.
+
+Catch drop-off with a mid-video CTA as well (~after “what Quotie is” and ~after the demo), same line: apply underneath.
+
+---
+
+**Cut map for the current recordings**
+
+| Beat | Mostly lives in |
+|------|-----------------|
+| 1–5 Intro, who, proof, bleed, impact | `I Built a Quotes App for Trades` |
+| 6–7 Built it / what it is | Trades + `Speed to Lead` |
+| 8 Demo from scratch | `Creating Definitive Solar Quotes in Quoty` |
+| 9–11 Payoff, results, CTA | Trades + Speed to Lead, then end card |
 
 **Don’t say**
 

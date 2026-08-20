@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# Local VSL masters — too large for git
+/public/apply/*.mp4
+
 # debug
 npm-debug.log*
 yarn-debug.log*

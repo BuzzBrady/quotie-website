@@ -1,5 +1,5 @@
 import { Play } from "@phosphor-icons/react/ssr";
-import { toVslEmbedUrl } from "@/components/apply/vsl";
+import { isDirectVideoUrl, toVslEmbedUrl } from "@/components/apply/vsl";
 
 export default function ApplyVideoSlot({
   url,
@@ -10,11 +10,23 @@ export default function ApplyVideoSlot({
   title: string;
   hint?: string;
 }) {
-  const embedUrl = toVslEmbedUrl(url ?? "");
+  const src = (url ?? "").trim();
+  const fileUrl = isDirectVideoUrl(src) ? src : null;
+  const embedUrl = fileUrl ? null : toVslEmbedUrl(src);
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-xl shadow-slate-200/80 aspect-video">
-      {embedUrl ? (
+      {fileUrl ? (
+        <video
+          src={fileUrl}
+          title={title}
+          className="absolute inset-0 h-full w-full bg-black"
+          controls
+          playsInline
+          preload="metadata"
+          controlsList="nodownload"
+        />
+      ) : embedUrl ? (
         <iframe
           src={embedUrl}
           title={title}

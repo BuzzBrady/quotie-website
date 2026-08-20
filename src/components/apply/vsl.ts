@@ -1,9 +1,25 @@
-/** Paste a YouTube, Vimeo or Wistia URL. Empty shows the placeholder. */
-export const APPLY_VSL_URL = process.env.NEXT_PUBLIC_APPLY_VSL_URL ?? "";
+/** Paste a YouTube, Vimeo, Wistia, or local /apply/*.mp4 path. Empty shows the placeholder. */
+export const APPLY_VSL_URL =
+  process.env.NEXT_PUBLIC_APPLY_VSL_URL || "/apply/vsl.mp4";
+
+const DIRECT_VIDEO = /\.(mp4|webm|ogg|m4v)(\?.*)?$/i;
+
+export function isDirectVideoUrl(url: string): boolean {
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  if (trimmed.startsWith("/") && DIRECT_VIDEO.test(trimmed)) return true;
+  try {
+    const parsed = new URL(trimmed);
+    return DIRECT_VIDEO.test(parsed.pathname);
+  } catch {
+    return DIRECT_VIDEO.test(trimmed);
+  }
+}
 
 export function toVslEmbedUrl(url: string): string | null {
   const trimmed = url.trim();
   if (!trimmed) return null;
+  if (isDirectVideoUrl(trimmed)) return null;
 
   try {
     const parsed = new URL(trimmed);
