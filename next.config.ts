@@ -41,6 +41,16 @@ const nextConfig: NextConfig = {
         destination: "/opt-in/thanks",
         permanent: true,
       },
+      {
+        source: "/application",
+        destination: "/apply",
+        permanent: true,
+      },
+      {
+        source: "/application/thanks",
+        destination: "/apply/thanks",
+        permanent: true,
+      },
       ...appRoutes.map((source) => ({
         source,
         destination: `https://app.quotie.au${source.replace("/:path*", "")}`,
@@ -60,7 +70,18 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/(.*)",
+        source: "/apply/thanks",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+        ],
+      },
+      {
+        source: "/((?!apply/thanks).*)",
         headers: [
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },

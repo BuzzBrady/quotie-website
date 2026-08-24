@@ -3,21 +3,21 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, CircleNotch } from "@phosphor-icons/react";
-import { trackLead } from "@/components/seo/MetaPixel";
+import {
+  newPixelEventId,
+  setPixelUser,
+  trackLead,
+} from "@/components/seo/MetaPixel";
+import {
+  firstNameFrom,
+  saveApplyContact,
+} from "@/components/apply/applyQuestions";
+import { applyLeadContext } from "@/components/apply/applyVslSplit";
 
 const SOURCE = "meta_opt_in";
 
 function leadContext() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  return {
-    utm_source: params.get("utm_source") || null,
-    utm_medium: params.get("utm_medium") || null,
-    utm_campaign: params.get("utm_campaign") || null,
-    utm_term: params.get("utm_term") || null,
-    referrer: document.referrer || null,
-    page_url: window.location.href,
-  };
+  return applyLeadContext();
 }
 
 export default function OptInForm() {
@@ -51,6 +51,7 @@ export default function OptInForm() {
     }
 
     setSubmitting(true);
+    const eventId = newPixelEventId();
 
     try {
       const res = await fetch("/api/leads", {
@@ -61,6 +62,7 @@ export default function OptInForm() {
           email: form.email.trim().toLowerCase(),
           phone: form.phone.trim(),
           source: SOURCE,
+          pixel_event_id: eventId,
           ...leadContext(),
         }),
       });
@@ -70,8 +72,28 @@ export default function OptInForm() {
         return;
       }
 
-      trackLead(SOURCE);
-      router.push("/opt-in/thanks");
+      const fullName = form.full_name.trim();
+      const email = form.email.trim().toLowerCase();
+      const phone = form.phone.trim();
+      saveApplyContact({
+        fullName,
+        firstName: firstNameFrom(fullName),
+        email,
+        phone,
+      });
+
+      const next = new URLSearchParams(window.location.search);
+      next.set("firstName", firstNameFrom(fullName));
+      next.set("email", email);
+      next.set("mobile", phone);
+
+      setPixelUser({
+        email,
+        phone,
+        firstName: firstNameFrom(fullName),
+      });
+      trackLead(SOURCE, eventId);
+      router.push(`/apply?${next.toString()}`);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -129,7 +151,7 @@ export default function OptInForm() {
           </>
         ) : (
           <>
-            Show me how Quotie works
+            Watch the training
             <ArrowRight
               weight="bold"
               className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
@@ -137,6 +159,9 @@ export default function OptInForm() {
           </>
         )}
       </button>
+      <p className="text-center text-[12px] text-slate-500">
+        Then apply if it&apos;s a fit
+      </p>
     </form>
   );
 }
