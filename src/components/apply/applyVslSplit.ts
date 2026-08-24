@@ -2,15 +2,18 @@ import { metaClickIds } from "@/lib/metaBrowser";
 
 export const APPLY_VSL_STORAGE_KEY = "quotie_apply_vsl";
 
+// Masters are gitignored (too large) — serve from the R2 bucket, same as the homepage hero.
+const R2_BASE = "https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev";
+
 export const APPLY_VSL_VARIANTS = {
   belief: {
     id: "belief",
-    src: "/apply/vsl-belief.mp4?v=1",
+    src: `${R2_BASE}/vsl-belief.mp4`,
     label: "Intro + problem + story + demo",
   },
   speed: {
     id: "speed",
-    src: "/apply/vsl-speed.mp4?v=2",
+    src: `${R2_BASE}/vsl-speed.mp4`,
     label: "Intro + demo",
   },
 } as const;
