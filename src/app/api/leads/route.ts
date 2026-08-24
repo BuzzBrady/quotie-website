@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { sendCapiEvents } from "@/lib/metaCapi";
 
 function getSupabaseAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -37,6 +38,9 @@ interface LeadPayload {
   referrer?: string;
   page_url?: string;
   pixel_event_id?: string;
+  vsl_variant?: string;
+  fbp?: string;
+  fbc?: string;
 }
 
 const OPT_IN_SOURCES = new Set(["meta_opt_in", "meta_opt_in_white"]);
@@ -47,6 +51,14 @@ const APPLY_SOURCES = new Set([
 ]);
 const NOTE_ONLY_SOURCES = new Set(["meta_apply_booked"]);
 const ADS_SOURCES = new Set([...OPT_IN_SOURCES, ...APPLY_SOURCES]);
+
+function capiEventForSource(source?: string): string | null {
+  if (source === "meta_opt_in" || source === "meta_opt_in_white") return "Lead";
+  if (source === "meta_apply") return "SubmitApplication";
+  if (source === "meta_apply_booked") return "Schedule";
+  if (source === "meta_apply_callback") return "Contact";
+  return null;
+}
 
 function adsPageLabel(source?: string): string {
   if (source && APPLY_SOURCES.has(source)) return "quotie.au/apply";
@@ -84,6 +96,7 @@ function leadNotes(body: LeadPayload): string {
     body.timezone ? `Timezone: ${body.timezone}` : null,
     body.callback_notes ? `Callback notes: ${body.callback_notes}` : null,
     body.source ? `Funnel source: ${body.source}` : null,
+    body.vsl_variant ? `VSL variant: ${body.vsl_variant}` : null,
     body.pixel_event_id ? `Pixel event_id: ${body.pixel_event_id}` : null,
     body.utm_source ? `utm_source: ${body.utm_source}` : null,
     body.utm_medium ? `utm_medium: ${body.utm_medium}` : null,
@@ -383,6 +396,32 @@ export async function POST(req: NextRequest) {
         { error: "Failed to save lead" },
         { status: 500 }
       );
+    }
+
+    const capiName = capiEventForSource(body.source);
+    if (capiName && body.pixel_event_id) {
+      void sendCapiEvents(
+        [
+          {
+            event_name: capiName,
+            event_id: body.pixel_event_id,
+            event_source_url: body.page_url,
+            user_data: {
+              em: normalisedEmail,
+              ph: body.phone?.trim(),
+              fn: fullName.split(/\s+/)[0],
+              fbp: body.fbp || req.cookies.get("_fbp")?.value,
+              fbc: body.fbc || req.cookies.get("_fbc")?.value,
+            },
+            custom_data: {
+              content_name: body.source,
+              content_category: "quotie_funnel",
+              vsl_variant: body.vsl_variant,
+            },
+          },
+        ],
+        req.headers
+      ).catch((err) => console.error("Lead CAPI error:", err));
     }
 
     return NextResponse.json({ success: true }, { status: 201 });

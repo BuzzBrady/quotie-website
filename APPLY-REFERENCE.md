@@ -44,7 +44,7 @@ Make is **not** used for this page.
 | Source tag | `meta_apply` |
 | Calendar | `https://cal.com/team/quotie/quotie-strategy-session` |
 | Alias | `/application` 308 → `/apply` |
-| VSL | `NEXT_PUBLIC_APPLY_VSL_URL` — YouTube / Vimeo / Wistia. Empty = placeholder |
+| VSL | Live cut is **speed** — intro straight into demo (`/apply/vsl-speed.mp4`). Belief vs speed split is paused until the long cut is ready. |
 
 ---
 
@@ -58,7 +58,7 @@ Make is **not** used for this page.
 
 **Body:** In this short training, you’ll discover how Quotie takes the pricing, products, labour, margins and calculations already inside your business — and turns them into a custom quoting system your entire team can use.
 
-**VSL:** embed from `NEXT_PUBLIC_APPLY_VSL_URL`, or a placeholder until the URL is set
+**VSL:** intro → demo (`/apply/vsl-speed.mp4`, ~7 min). Split test paused.
 
 **Testimonial bar:** Jed Bolton, Benjamin Hughes, Lachlan Williams (`OptInQuotes.tsx`)
 
@@ -108,6 +108,7 @@ src/components/apply/ApplyCta.tsx
 src/components/apply/ApplyFaq.tsx
 src/components/apply/applyFaqs.ts
 src/components/apply/vsl.ts
+src/components/apply/applyVslSplit.ts      # 50/50 belief vs speed VSL
 src/components/opt-in/OptInQuotes.tsx      # reused
 src/app/api/leads/route.ts                 # source meta_apply + application status
 src/app/robots.ts                          # disallow /apply
@@ -154,31 +155,42 @@ Same as `/opt-in`, plus one dedicated status:
 | `CLOSE_APPLICATION_STATUS_ID` | `/apply` only | `stat_iyBTeZLAXJfJChUwEZhjHRbXUwRF2OyRWTCn9ksjEhz` (New Lead + Application - AUS) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Quotie `/leads` + `/crm/pipeline` | Bypasses RLS. **Do not commit.** |
 | `INGEST_LEAD_WEBHOOK_SECRET` | Optional | `x-webhook-secret` for `ingest-lead` |
-| `NEXT_PUBLIC_APPLY_VSL_URL` | VSL embed | YouTube / Vimeo / Wistia watch or embed URL. Empty = placeholder |
+| `META_CAPI_ACCESS_TOKEN` | Conversions API | Server-only. Pixel still fires without it. **Do not commit.** |
+| `META_CAPI_TEST_EVENT_CODE` | Optional | Test Events in Events Manager |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Optional | Defaults to `1088687213818179` |
+| `NEXT_PUBLIC_APPLY_VSL_URL` | VSL embed | Unused while local mp4 split files are live |
 | `NEXT_PUBLIC_APPLY_CAL_URL` | Booking calendar | `https://cal.com/team/quotie/quotie-strategy-session` |
 | `NEXT_PUBLIC_APPLY_CONFIRM_VSL_URL` | Thanks step 1 | Confirmation / expectations video |
 | `NEXT_PUBLIC_APPLY_EXPLAINER_VSL_URL` | Thanks step 2 | System explainer VSL |
 | `NEXT_PUBLIC_APPLY_FAQ_VIDEO_1` … `_8` | Thanks FAQ videos | Optional. Empty = placeholders |
 
-Collaborators must **not** add Vercel env vars. List `CLOSE_APPLICATION_STATUS_ID` on the PR; Buzz adds it in prod.
+Collaborators must **not** add Vercel env vars. List `CLOSE_APPLICATION_STATUS_ID` and `META_CAPI_ACCESS_TOKEN` on the PR; Buzz adds them in prod.
 
 ---
 
 ## Ads Manager / tracking
 
-| Step | Pixel event | `content_name` | Close |
-|------|-------------|----------------|-------|
+Browser pixel + Conversions API (same `eventID` so Meta dedupes). CAPI needs `META_CAPI_ACCESS_TOKEN` in Vercel (server only). Optional `META_CAPI_TEST_EVENT_CODE` for Test Events.
+
+| Step | Pixel / CAPI event | `content_name` | Close |
+|------|--------------------|----------------|-------|
 | `/opt-in` view | ViewContent | `opt_in` | — |
 | Opt-in submit | **Lead** | `meta_opt_in` | New Lead - AUS (create) |
-| `/apply` view | ViewContent | `apply_training` | — |
+| `/apply` view | ViewContent + ApplyVsl | `apply_training` / `apply_vsl_speed` | — |
+| VSL unmute | VslPlay | `vsl_play` | — |
+| VSL 25 / 50 / 75 / 95% | VslProgress | `vsl_25` … | — |
+| VSL finished | VslComplete | `vsl_complete` | — |
+| Apply Now click | ApplyCtaClick | `apply_now` | — |
 | `/apply/form` view | InitiateCheckout | `apply_form` | — |
+| Form questions | ApplyFormStep | `apply_form_q2` … | — |
 | Form submit | **SubmitApplication** | `meta_apply` | Same Close lead, status → Application + note |
 | `/apply/book` view | ViewContent | `apply_book` | — |
 | Cal booked | **Schedule** | `meta_apply` | Note on same lead (`meta_apply_booked`) |
 | Can't-find-a-time | **Contact** | `meta_apply_callback` | Note + Application status |
 | `/apply/thanks` view | ViewContent | `apply_thanks` | — |
+| `/apply/received` view | ViewContent | `apply_received` | — |
 
-Advanced matching: email, phone (AU → 61…), first name sent to the pixel after opt-in. Each conversion has an `eventID` also stored on the Close note for a future CAPI match.
+Advanced matching: email, phone (AU → 61…), first name, `_fbp` / `_fbc` (from `fbclid`). Optimise ads on **Lead** (opt-in), **SubmitApplication** (apply), **Schedule** (booked). Use VslPlay / VslComplete as custom conversions once they have volume.
 
 Close **upserts by email** — apply / book / callback do not create a second lead. Application status is only upgraded, never downgraded to New Lead.
 

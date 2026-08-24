@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import {
   newPixelEventId,
   setPixelUser,
+  trackCustom,
   trackLead,
   trackSubmitApplication,
 } from "@/components/seo/MetaPixel";
@@ -22,6 +23,7 @@ import {
   readApplyContact,
   saveApplyContact,
 } from "@/components/apply/applyQuestions";
+import { applyLeadContext } from "@/components/apply/applyVslSplit";
 
 const SOURCE = "meta_apply";
 const TOTAL = 7;
@@ -30,16 +32,7 @@ const inputBase =
   "w-full border-0 border-b border-slate-300 bg-transparent px-0 py-3 text-lg font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors duration-200 focus:border-brand-cyan";
 
 function leadContext() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  return {
-    utm_source: params.get("utm_source") || null,
-    utm_medium: params.get("utm_medium") || null,
-    utm_campaign: params.get("utm_campaign") || null,
-    utm_term: params.get("utm_term") || null,
-    referrer: document.referrer || null,
-    page_url: window.location.href,
-  };
+  return applyLeadContext();
 }
 
 function ChoiceList({
@@ -190,7 +183,11 @@ export default function ApplyForm() {
       return;
     }
     setError(null);
-    setStep((s) => Math.min(TOTAL, s + 1));
+    const nextStep = Math.min(TOTAL, step + 1);
+    setStep(nextStep);
+    trackCustom("ApplyFormStep", `apply_form_q${nextStep}`, {
+      percent: Math.round((nextStep / TOTAL) * 100),
+    });
   };
 
   const goBack = () => {

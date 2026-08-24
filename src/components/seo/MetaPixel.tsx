@@ -4,8 +4,14 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { readApplyContact } from "@/components/apply/applyQuestions";
-
-const PIXEL_ID = "1088687213818179";
+import { readApplyVslVariant } from "@/components/apply/applyVslSplit";
+import {
+  META_PIXEL_ID,
+  captureFbclid,
+  digitsPhone,
+  metaClickIds,
+  sendCapiBeacon,
+} from "@/lib/metaBrowser";
 
 declare global {
   interface Window {
@@ -19,11 +25,13 @@ type PixelUser = {
   firstName?: string | null;
 };
 
-function digitsPhone(phone: string) {
-  const digits = phone.replace(/\D/g, "");
-  if (digits.startsWith("0") && digits.length === 10) return `61${digits.slice(1)}`;
-  return digits;
-}
+type TrackExtra = {
+  vsl_variant?: string;
+  percent?: number;
+  email?: string | null;
+  phone?: string | null;
+  firstName?: string | null;
+};
 
 export function newPixelEventId() {
   return crypto.randomUUID();
@@ -35,49 +43,107 @@ export function setPixelUser(user: PixelUser) {
   if (user.phone) payload.ph = digitsPhone(user.phone);
   if (user.firstName) payload.fn = user.firstName.trim().toLowerCase();
   if (Object.keys(payload).length === 0) return;
-  window.fbq?.("init", PIXEL_ID, payload);
+  window.fbq?.("init", META_PIXEL_ID, payload);
 }
 
-function track(
+function contactFromStore(): TrackExtra {
+  const stored = readApplyContact();
+  return {
+    email: stored?.email,
+    phone: stored?.phone,
+    firstName: stored?.firstName,
+    vsl_variant: readApplyVslVariant() || undefined,
+  };
+}
+
+function emit(
   event: string,
   contentName: string,
+  extra?: TrackExtra,
+  eventId?: string,
+  standard = true
+) {
+  const id = eventId || newPixelEventId();
+  const merged = { ...contactFromStore(), ...extra };
+  const params: Record<string, string | number> = {
+    content_name: contentName,
+    content_category: "quotie_funnel",
+  };
+  if (merged.vsl_variant) params.vsl_variant = merged.vsl_variant;
+  if (typeof merged.percent === "number") params.percent = merged.percent;
+
+  if (standard) {
+    window.fbq?.("track", event, params, { eventID: id });
+  } else {
+    window.fbq?.("trackCustom", event, params, { eventID: id });
+  }
+
+  const ids = metaClickIds();
+  sendCapiBeacon({
+    event_name: event,
+    event_id: id,
+    event_source_url: window.location.href,
+    content_name: contentName,
+    content_category: "quotie_funnel",
+    vsl_variant: merged.vsl_variant,
+    percent: merged.percent,
+    em: merged.email,
+    ph: merged.phone ? digitsPhone(merged.phone) : null,
+    fn: merged.firstName,
+    fbp: ids.fbp,
+    fbc: ids.fbc,
+  });
+
+  return id;
+}
+
+export function trackLead(source: string, eventId?: string) {
+  emit("Lead", source, undefined, eventId);
+}
+
+export function trackSubmitApplication(source: string, eventId?: string) {
+  emit("SubmitApplication", source, undefined, eventId);
+}
+
+export function trackSchedule(source: string, eventId?: string) {
+  emit("Schedule", source, undefined, eventId);
+}
+
+export function trackContact(source: string, eventId?: string) {
+  emit("Contact", source, undefined, eventId);
+}
+
+export function trackCustom(
+  event: string,
+  contentName: string,
+  extra?: TrackExtra,
   eventId?: string
 ) {
-  const params = { content_name: contentName, content_category: "quotie_funnel" };
-  if (eventId) {
-    window.fbq?.("track", event, params, { eventID: eventId });
-  } else {
-    window.fbq?.("track", event, params);
-  }
+  emit(event, contentName, extra, eventId, false);
 }
 
-/** Opt-in submit. */
-export function trackLead(source: string, eventId?: string) {
-  track("Lead", source, eventId);
-}
-
-/** Application form submit. */
-export function trackSubmitApplication(source: string, eventId?: string) {
-  track("SubmitApplication", source, eventId);
-}
-
-/** Calendar booking confirmed. */
-export function trackSchedule(source: string, eventId?: string) {
-  track("Schedule", source, eventId);
-}
-
-/** Can't-find-a-time request. */
-export function trackContact(source: string, eventId?: string) {
-  track("Contact", source, eventId);
+export function trackVsl(
+  event: "VslPlay" | "VslProgress" | "VslComplete",
+  extra?: TrackExtra
+) {
+  const name =
+    event === "VslPlay"
+      ? "vsl_play"
+      : event === "VslComplete"
+        ? "vsl_complete"
+        : `vsl_${extra?.percent ?? 0}`;
+  emit(event, name, extra, undefined, false);
 }
 
 const FUNNEL_PAGES: Record<string, { event: string; name: string }> = {
   "/opt-in": { event: "ViewContent", name: "opt_in" },
+  "/opt-in/thanks": { event: "ViewContent", name: "opt_in_thanks" },
   "/apply": { event: "ViewContent", name: "apply_training" },
   "/apply/form": { event: "InitiateCheckout", name: "apply_form" },
   "/apply/book": { event: "ViewContent", name: "apply_book" },
   "/apply/book/times": { event: "ViewContent", name: "apply_callback" },
   "/apply/thanks": { event: "ViewContent", name: "apply_thanks" },
+  "/apply/received": { event: "ViewContent", name: "apply_received" },
 };
 
 export default function MetaPixel() {
@@ -85,6 +151,8 @@ export default function MetaPixel() {
   const isInitialLoad = useRef(true);
 
   useEffect(() => {
+    captureFbclid();
+
     const stored = readApplyContact();
     if (stored) {
       setPixelUser({
@@ -101,7 +169,7 @@ export default function MetaPixel() {
     }
 
     const page = FUNNEL_PAGES[pathname];
-    if (page) track(page.event, page.name);
+    if (page) emit(page.event, page.name);
   }, [pathname]);
 
   return (
@@ -116,7 +184,7 @@ export default function MetaPixel() {
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '${PIXEL_ID}');
+          fbq('init', '${META_PIXEL_ID}');
           fbq('track', 'PageView');
         `}
       </Script>
@@ -127,7 +195,7 @@ export default function MetaPixel() {
           width="1"
           style={{ display: "none" }}
           alt=""
-          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
+          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
         />
       </noscript>
     </>

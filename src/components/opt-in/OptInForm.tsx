@@ -12,20 +12,12 @@ import {
   firstNameFrom,
   saveApplyContact,
 } from "@/components/apply/applyQuestions";
+import { applyLeadContext } from "@/components/apply/applyVslSplit";
 
 const SOURCE = "meta_opt_in";
 
 function leadContext() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  return {
-    utm_source: params.get("utm_source") || null,
-    utm_medium: params.get("utm_medium") || null,
-    utm_campaign: params.get("utm_campaign") || null,
-    utm_term: params.get("utm_term") || null,
-    referrer: document.referrer || null,
-    page_url: window.location.href,
-  };
+  return applyLeadContext();
 }
 
 export default function OptInForm() {

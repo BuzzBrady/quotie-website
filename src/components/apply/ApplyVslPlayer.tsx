@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SpeakerSlash } from "@phosphor-icons/react";
+import { trackVsl } from "@/components/seo/MetaPixel";
+import type { ApplyVslVariantId } from "@/components/apply/applyVslSplit";
 
 const TEASE_SECONDS = 8;
 
@@ -11,9 +13,18 @@ function smartProgress(p: number): number {
   return Math.pow(x, 0.42);
 }
 
-export default function ApplyVslPlayer({ src }: { src: string }) {
+const WATCH_MARKS = [25, 50, 75, 95] as const;
+
+export default function ApplyVslPlayer({
+  src,
+  variant,
+}: {
+  src: string;
+  variant?: ApplyVslVariantId;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const engagedRef = useRef(false);
+  const firedMarks = useRef(new Set<number>());
   const [engaged, setEngaged] = useState(false);
   const [paused, setPaused] = useState(false);
   const [ended, setEnded] = useState(false);
@@ -67,7 +78,8 @@ export default function ApplyVslPlayer({ src }: { src: string }) {
     void video.play().catch(() => {
       setPaused(true);
     });
-  }, []);
+    trackVsl("VslPlay", { vsl_variant: variant });
+  }, [variant]);
 
   const onTimeUpdate = useCallback(() => {
     const video = videoRef.current;
@@ -77,12 +89,26 @@ export default function ApplyVslPlayer({ src }: { src: string }) {
       return;
     }
     if (video.duration && Number.isFinite(video.duration)) {
-      setBar(smartProgress(video.currentTime / video.duration));
+      const raw = video.currentTime / video.duration;
+      setBar(smartProgress(raw));
+      const pct = raw * 100;
+      for (const mark of WATCH_MARKS) {
+        if (pct >= mark && !firedMarks.current.has(mark)) {
+          firedMarks.current.add(mark);
+          trackVsl("VslProgress", { vsl_variant: variant, percent: mark });
+        }
+      }
     }
-  }, [teaseLoop]);
+  }, [teaseLoop, variant]);
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-xl shadow-slate-200/80 aspect-video">
+      <style>{`
+        @keyframes vsl-pulse {
+          0%, 100% { transform: scale(0.9); opacity: 0.7; }
+          50% { transform: scale(1.06); opacity: 1; }
+        }
+      `}</style>
       <video
         ref={videoRef}
         src={src}
@@ -109,6 +135,10 @@ export default function ApplyVslPlayer({ src }: { src: string }) {
           setEnded(true);
           setPaused(true);
           setBar(1);
+          if (!firedMarks.current.has(100)) {
+            firedMarks.current.add(100);
+            trackVsl("VslComplete", { vsl_variant: variant, percent: 100 });
+          }
         }}
         onContextMenu={(e) => e.preventDefault()}
       />
@@ -117,22 +147,30 @@ export default function ApplyVslPlayer({ src }: { src: string }) {
         <button
           type="button"
           onClick={engage}
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/45 px-6 text-center"
-          aria-label="Click to unmute and play the training"
+          className="absolute inset-0 z-10 flex items-center justify-center px-10 sm:px-10"
+          aria-label="Your video has already started. Click to listen."
         >
-          <span className="relative mb-5 flex h-[72px] w-[72px] items-center justify-center">
-            <span className="absolute inset-0 rounded-full bg-white/25 animate-ping" />
-            <span className="relative flex h-[72px] w-[72px] items-center justify-center rounded-full bg-gradient-to-r from-brand-blue to-brand-cyan shadow-lg shadow-black/40 ring-4 ring-white/30">
-              <Play weight="fill" className="ml-1 h-8 w-8 text-white" />
-            </span>
+          <span
+            className="flex w-[70%] max-w-[220px] flex-col items-center rounded-2xl bg-gradient-to-r from-brand-blue/90 to-brand-cyan/90 px-3.5 py-3.5 text-center shadow-lg shadow-brand-blue/30 sm:w-full sm:max-w-[440px] sm:rounded-[28px] sm:px-12 sm:py-9"
+            style={{
+              animation: "vsl-pulse 2.2s ease-in-out infinite",
+              transformOrigin: "center center",
+              willChange: "transform, opacity",
+              backfaceVisibility: "hidden",
+            }}
+          >
+            <p className="font-[family-name:var(--font-jakarta)] text-[13px] font-bold leading-snug tracking-tight text-white sm:text-[22px]">
+              Your video has already started
+            </p>
+            <SpeakerSlash
+              weight="fill"
+              className="my-1.5 h-9 w-9 text-white sm:my-5 sm:h-[76px] sm:w-[76px]"
+              aria-hidden
+            />
+            <p className="font-[family-name:var(--font-jakarta)] text-[13px] font-bold tracking-tight text-white sm:text-[22px]">
+              Click to listen
+            </p>
           </span>
-          <p className="font-[family-name:var(--font-jakarta)] text-[11px] font-extrabold uppercase tracking-[0.18em] text-white/80">
-            Your video is playing
-          </p>
-          <p className="mt-2 flex items-center gap-2 font-[family-name:var(--font-jakarta)] text-[17px] font-extrabold tracking-tight text-white sm:text-[19px]">
-            <SpeakerSlash weight="fill" className="h-5 w-5" />
-            Click to unmute
-          </p>
         </button>
       )}
 

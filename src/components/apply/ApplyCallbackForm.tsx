@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import { APPLY_MEETING_KEY, readApplyContact } from "@/components/apply/applyQuestions";
+import { applyLeadContext } from "@/components/apply/applyVslSplit";
 import {
   newPixelEventId,
   setPixelUser,
@@ -13,16 +14,7 @@ import {
 const MAX_CHARS = 200;
 
 function leadContext() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  return {
-    utm_source: params.get("utm_source") || null,
-    utm_medium: params.get("utm_medium") || null,
-    utm_campaign: params.get("utm_campaign") || null,
-    utm_term: params.get("utm_term") || null,
-    referrer: document.referrer || null,
-    page_url: window.location.href,
-  };
+  return applyLeadContext();
 }
 
 export default function ApplyCallbackForm() {

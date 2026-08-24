@@ -16,6 +16,7 @@ import {
   type ApplyMeeting,
 } from "@/components/apply/applyQuestions";
 import { newPixelEventId, trackSchedule } from "@/components/seo/MetaPixel";
+import { applyLeadContext } from "@/components/apply/applyVslSplit";
 
 type BookingSession = {
   firstName?: string;
@@ -56,7 +57,7 @@ export default function ApplyBook() {
           preferred_call_time: meeting.startIso || "Booked via Cal.com",
           source: "meta_apply_booked",
           pixel_event_id: eventId,
-          page_url: window.location.href,
+          ...applyLeadContext(),
         }),
       });
     }

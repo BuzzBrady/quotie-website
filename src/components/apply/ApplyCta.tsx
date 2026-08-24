@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ArrowRight } from "@phosphor-icons/react";
 import { readApplyContact } from "@/components/apply/applyQuestions";
+import { assignApplyVslVariant } from "@/components/apply/applyVslSplit";
+import { trackCustom } from "@/components/seo/MetaPixel";
 
 export default function ApplyCta({ compact = false }: { compact?: boolean }) {
   const params = useSearchParams();
@@ -20,6 +22,7 @@ export default function ApplyCta({ compact = false }: { compact?: boolean }) {
       if (!next.get("email")) next.set("email", stored.email);
       if (!next.get("mobile")) next.set("mobile", stored.phone);
     }
+    next.set("vsl", assignApplyVslVariant(next.get("vsl")));
     const qs = next.toString();
     setHref(qs ? `/apply/form?${qs}` : "/apply/form");
   }, [params]);
@@ -28,6 +31,11 @@ export default function ApplyCta({ compact = false }: { compact?: boolean }) {
     <div className="text-center">
       <Link
         href={href}
+        onClick={() =>
+          trackCustom("ApplyCtaClick", "apply_now", {
+            vsl_variant: assignApplyVslVariant(),
+          })
+        }
         className="w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan px-6 py-4 text-[13px] sm:text-sm font-extrabold tracking-[0.06em] text-white uppercase shadow-lg shadow-brand-blue/20 transition-all duration-200 hover:shadow-xl hover:shadow-brand-cyan/20"
       >
         Apply Now
