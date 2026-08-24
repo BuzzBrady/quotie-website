@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { formatCloseLeadNote } from "@/lib/closeLeadNote";
 import { sendCapiEvents } from "@/lib/metaCapi";
 
 function getSupabaseAdmin() {
@@ -39,9 +40,18 @@ interface LeadPayload {
   page_url?: string;
   pixel_event_id?: string;
   vsl_variant?: string;
+  vsl_percent?: number | string | null;
+  vsl_seconds?: number | string | null;
+  vsl_duration?: number | string | null;
+  vsl_unmuted?: boolean | string | null;
+  vsl_completed?: boolean | string | null;
   fbp?: string;
   fbc?: string;
 }
+
+/** Existing Close lead custom fields — Trade is what setters filter on. */
+const CLOSE_CUSTOM_TRADE = "cf_v8Y1jaSpeBb9pWGPw7BaQwAiqvk9r8zToQUBvXHCNc7";
+const CLOSE_CUSTOM_COMPANY = "cf_YLtA8dnCGN8kgIhw0L5U0nO0Hkkp9j22wi1nCvR4JyD";
 
 const OPT_IN_SOURCES = new Set(["meta_opt_in", "meta_opt_in_white"]);
 const APPLY_SOURCES = new Set([
@@ -60,11 +70,6 @@ function capiEventForSource(source?: string): string | null {
   return null;
 }
 
-function adsPageLabel(source?: string): string {
-  if (source && APPLY_SOURCES.has(source)) return "quotie.au/apply";
-  return "quotie.au/opt-in";
-}
-
 /** Opt-in stays on CLOSE_LEAD_STATUS_ID. Apply never falls back to that inbox. */
 function closeStatusIdForSource(source?: string): string | undefined {
   if (source && APPLY_SOURCES.has(source)) {
@@ -74,37 +79,18 @@ function closeStatusIdForSource(source?: string): string | undefined {
 }
 
 function leadNotes(body: LeadPayload): string {
-  return [
-    `Submitted via ${adsPageLabel(body.source)}`,
-    body.page_url ? `Page: ${body.page_url}` : null,
-    body.trade_type ? `Trade: ${body.trade_type}` : null,
-    body.quotes_per_month ? `Quotes per month: ${body.quotes_per_month}` : null,
-    body.quote_prep_time ? `Quote prep time: ${body.quote_prep_time}` : null,
-    body.biggest_frustration
-      ? `Biggest frustration: ${body.biggest_frustration}`
-      : null,
-    body.biggest_difference
-      ? `Biggest difference: ${body.biggest_difference}`
-      : null,
-    body.timeline ? `Timeline: ${body.timeline}` : null,
-    body.financial_position
-      ? `Financial position: ${body.financial_position}`
-      : null,
-    body.preferred_call_time
-      ? `Preferred call time: ${body.preferred_call_time}`
-      : null,
-    body.timezone ? `Timezone: ${body.timezone}` : null,
-    body.callback_notes ? `Callback notes: ${body.callback_notes}` : null,
-    body.source ? `Funnel source: ${body.source}` : null,
-    body.vsl_variant ? `VSL variant: ${body.vsl_variant}` : null,
-    body.pixel_event_id ? `Pixel event_id: ${body.pixel_event_id}` : null,
-    body.utm_source ? `utm_source: ${body.utm_source}` : null,
-    body.utm_medium ? `utm_medium: ${body.utm_medium}` : null,
-    body.utm_campaign ? `utm_campaign: ${body.utm_campaign}` : null,
-    body.referrer ? `referrer: ${body.referrer}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  return formatCloseLeadNote(body);
+}
+
+function closeCustomFields(body: LeadPayload): Record<string, string> {
+  const custom: Record<string, string> = {};
+  if (body.trade_type?.trim()) {
+    custom[`custom.${CLOSE_CUSTOM_TRADE}`] = body.trade_type.trim();
+  }
+  if (body.company_name?.trim()) {
+    custom[`custom.${CLOSE_CUSTOM_COMPANY}`] = body.company_name.trim();
+  }
+  return custom;
 }
 
 async function insertMarketingLead(
@@ -251,14 +237,18 @@ async function upsertCloseLead(
   const apiKey = process.env.CLOSE_API_KEY;
   if (!apiKey) return false;
 
-  const notes = leadNotes(body);
+  const notes = leadNotes({ ...body, full_name: fullName, email });
   const existingId = await findCloseLeadId(apiKey, email);
   const statusId = closeStatusIdForSource(body.source);
+  const custom = closeCustomFields(body);
 
   if (existingId) {
-    const update: Record<string, unknown> = {};
+    const update: Record<string, unknown> = { ...custom };
     if (statusId && body.source && APPLY_SOURCES.has(body.source)) {
       update.status_id = statusId;
+    }
+    if (body.source === "meta_apply") {
+      update.description = notes;
     }
     if (Object.keys(update).length > 0) {
       const res = await fetch(`https://api.close.com/api/v1/lead/${existingId}/`, {
@@ -289,6 +279,7 @@ async function upsertCloseLead(
         phones: phone ? [{ type: "mobile", phone }] : [],
       },
     ],
+    ...custom,
   };
 
   if (statusId) {
@@ -417,6 +408,9 @@ export async function POST(req: NextRequest) {
               content_name: body.source,
               content_category: "quotie_funnel",
               vsl_variant: body.vsl_variant,
+              percent: Number.isFinite(Number(body.vsl_percent))
+                ? Number(body.vsl_percent)
+                : undefined,
             },
           },
         ],

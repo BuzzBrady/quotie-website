@@ -16,7 +16,10 @@ import {
   type ApplyMeeting,
 } from "@/components/apply/applyQuestions";
 import { newPixelEventId, trackSchedule } from "@/components/seo/MetaPixel";
-import { applyLeadContext } from "@/components/apply/applyVslSplit";
+import {
+  applyLeadContext,
+  readApplyVslWatch,
+} from "@/components/apply/applyVslSplit";
 
 type BookingSession = {
   firstName?: string;
@@ -44,7 +47,11 @@ export default function ApplyBook() {
     booked.current = true;
     sessionStorage.setItem(APPLY_MEETING_KEY, JSON.stringify(meeting));
     const eventId = newPixelEventId();
-    trackSchedule("meta_apply", eventId);
+    const watch = readApplyVslWatch();
+    trackSchedule("meta_apply", eventId, {
+      vsl_variant: watch?.variant,
+      percent: watch?.percent,
+    });
     const contact = readApplyContact();
     if (contact) {
       void fetch("/api/leads", {

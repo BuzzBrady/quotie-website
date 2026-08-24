@@ -3,7 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SpeakerSlash } from "@phosphor-icons/react";
 import { trackVsl } from "@/components/seo/MetaPixel";
-import type { ApplyVslVariantId } from "@/components/apply/applyVslSplit";
+import {
+  recordApplyVslWatch,
+  type ApplyVslVariantId,
+} from "@/components/apply/applyVslSplit";
 
 const TEASE_SECONDS = 8;
 
@@ -25,6 +28,7 @@ export default function ApplyVslPlayer({
   const videoRef = useRef<HTMLVideoElement>(null);
   const engagedRef = useRef(false);
   const firedMarks = useRef(new Set<number>());
+  const lastWatchWrite = useRef(0);
   const [engaged, setEngaged] = useState(false);
   const [paused, setPaused] = useState(false);
   const [ended, setEnded] = useState(false);
@@ -52,6 +56,29 @@ export default function ApplyVslPlayer({
     tryAutoplay();
   }, [tryAutoplay]);
 
+  useEffect(() => {
+    const flushWatch = () => {
+      const video = videoRef.current;
+      if (!engagedRef.current || !video?.duration || !Number.isFinite(video.duration)) {
+        return;
+      }
+      recordApplyVslWatch({
+        variant,
+        percent: (video.currentTime / video.duration) * 100,
+        seconds: video.currentTime,
+        duration: video.duration,
+        unmuted: true,
+      });
+    };
+    window.addEventListener("pagehide", flushWatch);
+    document.addEventListener("visibilitychange", flushWatch);
+    return () => {
+      flushWatch();
+      window.removeEventListener("pagehide", flushWatch);
+      document.removeEventListener("visibilitychange", flushWatch);
+    };
+  }, [variant]);
+
   const engage = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -78,6 +105,13 @@ export default function ApplyVslPlayer({
     void video.play().catch(() => {
       setPaused(true);
     });
+    recordApplyVslWatch({
+      variant,
+      percent: 0,
+      seconds: 0,
+      duration: Number.isFinite(video.duration) ? video.duration : 0,
+      unmuted: true,
+    });
     trackVsl("VslPlay", { vsl_variant: variant });
   }, [variant]);
 
@@ -97,6 +131,17 @@ export default function ApplyVslPlayer({
           firedMarks.current.add(mark);
           trackVsl("VslProgress", { vsl_variant: variant, percent: mark });
         }
+      }
+      const now = Date.now();
+      if (now - lastWatchWrite.current > 1500) {
+        lastWatchWrite.current = now;
+        recordApplyVslWatch({
+          variant,
+          percent: pct,
+          seconds: video.currentTime,
+          duration: video.duration,
+          unmuted: true,
+        });
       }
     }
   }, [teaseLoop, variant]);
@@ -130,6 +175,15 @@ export default function ApplyVslPlayer({
           const video = videoRef.current;
           if (!engagedRef.current || !video || video.muted || video.ended) return;
           setPaused(true);
+          if (video.duration && Number.isFinite(video.duration)) {
+            recordApplyVslWatch({
+              variant,
+              percent: (video.currentTime / video.duration) * 100,
+              seconds: video.currentTime,
+              duration: video.duration,
+              unmuted: true,
+            });
+          }
         }}
         onEnded={() => {
           setEnded(true);
@@ -137,6 +191,15 @@ export default function ApplyVslPlayer({
           setBar(1);
           if (!firedMarks.current.has(100)) {
             firedMarks.current.add(100);
+            const video = videoRef.current;
+            recordApplyVslWatch({
+              variant,
+              percent: 100,
+              seconds: video?.duration || video?.currentTime || 0,
+              duration: video?.duration || 0,
+              unmuted: true,
+              completed: true,
+            });
             trackVsl("VslComplete", { vsl_variant: variant, percent: 100 });
           }
         }}
