@@ -97,20 +97,24 @@ function emit(
   return id;
 }
 
-export function trackLead(source: string, eventId?: string) {
-  emit("Lead", source, undefined, eventId);
+export function trackLead(source: string, eventId?: string, extra?: TrackExtra) {
+  emit("Lead", source, extra, eventId);
 }
 
-export function trackSubmitApplication(source: string, eventId?: string) {
-  emit("SubmitApplication", source, undefined, eventId);
+export function trackSubmitApplication(
+  source: string,
+  eventId?: string,
+  extra?: TrackExtra
+) {
+  emit("SubmitApplication", source, extra, eventId);
 }
 
-export function trackSchedule(source: string, eventId?: string) {
-  emit("Schedule", source, undefined, eventId);
+export function trackSchedule(source: string, eventId?: string, extra?: TrackExtra) {
+  emit("Schedule", source, extra, eventId);
 }
 
-export function trackContact(source: string, eventId?: string) {
-  emit("Contact", source, undefined, eventId);
+export function trackContact(source: string, eventId?: string, extra?: TrackExtra) {
+  emit("Contact", source, extra, eventId);
 }
 
 export function trackCustom(

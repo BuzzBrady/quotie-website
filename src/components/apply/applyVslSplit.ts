@@ -48,11 +48,68 @@ export function readApplyVslVariant(): ApplyVslVariantId | null {
   return isApplyVslVariant(stored) ? stored : null;
 }
 
+export const APPLY_VSL_WATCH_KEY = "quotie_apply_vsl_watch";
+
+export type ApplyVslWatch = {
+  variant: ApplyVslVariantId;
+  percent: number;
+  seconds: number;
+  duration: number;
+  unmuted: boolean;
+  completed: boolean;
+};
+
+export function readApplyVslWatch(): ApplyVslWatch | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(APPLY_VSL_WATCH_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<ApplyVslWatch>;
+    const variant = isApplyVslVariant(parsed.variant)
+      ? parsed.variant
+      : LIVE_APPLY_VSL;
+    return {
+      variant,
+      percent: Number(parsed.percent) || 0,
+      seconds: Number(parsed.seconds) || 0,
+      duration: Number(parsed.duration) || 0,
+      unmuted: Boolean(parsed.unmuted),
+      completed: Boolean(parsed.completed),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function recordApplyVslWatch(
+  update: Partial<ApplyVslWatch> & { variant?: ApplyVslVariantId }
+) {
+  if (typeof window === "undefined") return;
+  const prev = readApplyVslWatch();
+  const next: ApplyVslWatch = {
+    variant:
+      update.variant ||
+      prev?.variant ||
+      LIVE_APPLY_VSL,
+    percent: Math.max(
+      prev?.percent ?? 0,
+      Math.min(100, Math.round(update.percent ?? 0))
+    ),
+    seconds: Math.max(prev?.seconds ?? 0, update.seconds ?? 0),
+    duration: update.duration || prev?.duration || 0,
+    unmuted: Boolean(prev?.unmuted || update.unmuted),
+    completed: Boolean(prev?.completed || update.completed),
+  };
+  if (next.completed) next.percent = 100;
+  localStorage.setItem(APPLY_VSL_WATCH_KEY, JSON.stringify(next));
+}
+
 export function applyLeadContext() {
   if (typeof window === "undefined") return {};
   const params = new URLSearchParams(window.location.search);
   const vsl = assignApplyVslVariant(params.get("vsl"));
   const ids = metaClickIds();
+  const watch = readApplyVslWatch();
   return {
     utm_source: params.get("utm_source") || null,
     utm_medium: params.get("utm_medium") || null,
@@ -61,6 +118,11 @@ export function applyLeadContext() {
     referrer: document.referrer || null,
     page_url: window.location.href,
     vsl_variant: vsl,
+    vsl_percent: watch?.percent ?? 0,
+    vsl_seconds: watch ? Math.round(watch.seconds) : 0,
+    vsl_duration: watch ? Math.round(watch.duration) : 0,
+    vsl_unmuted: watch?.unmuted ?? false,
+    vsl_completed: watch?.completed ?? false,
     fbp: ids.fbp,
     fbc: ids.fbc,
   };

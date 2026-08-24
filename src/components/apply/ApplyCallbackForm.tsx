@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import { APPLY_MEETING_KEY, readApplyContact } from "@/components/apply/applyQuestions";
-import { applyLeadContext } from "@/components/apply/applyVslSplit";
+import {
+  applyLeadContext,
+  readApplyVslWatch,
+} from "@/components/apply/applyVslSplit";
 import {
   newPixelEventId,
   setPixelUser,
@@ -64,7 +67,11 @@ export default function ApplyCallbackForm() {
         phone: contact.phone,
         firstName: contact.firstName,
       });
-      trackContact("meta_apply_callback", eventId);
+      const watch = readApplyVslWatch();
+      trackContact("meta_apply_callback", eventId, {
+        vsl_variant: watch?.variant,
+        percent: watch?.percent,
+      });
       sessionStorage.setItem(
         APPLY_MEETING_KEY,
         JSON.stringify({ requested: true })

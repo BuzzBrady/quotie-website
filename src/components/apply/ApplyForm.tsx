@@ -23,7 +23,10 @@ import {
   readApplyContact,
   saveApplyContact,
 } from "@/components/apply/applyQuestions";
-import { applyLeadContext } from "@/components/apply/applyVslSplit";
+import {
+  applyLeadContext,
+  readApplyVslWatch,
+} from "@/components/apply/applyVslSplit";
 
 const SOURCE = "meta_apply";
 const TOTAL = 7;
@@ -262,8 +265,13 @@ export default function ApplyForm() {
         phone,
         firstName: firstNameFrom(fullName),
       });
-      trackSubmitApplication(SOURCE, eventId);
-      if (!hadContact) trackLead(SOURCE, eventId);
+      const watch = readApplyVslWatch();
+      const watchExtra = {
+        vsl_variant: watch?.variant,
+        percent: watch?.percent,
+      };
+      trackSubmitApplication(SOURCE, eventId, watchExtra);
+      if (!hadContact) trackLead(SOURCE, eventId, watchExtra);
 
       const qualified = isApplyQualified(form.financial_position);
       const next = new URLSearchParams(window.location.search);
