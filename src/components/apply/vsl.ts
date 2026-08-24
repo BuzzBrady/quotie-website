@@ -1,6 +1,7 @@
-/** Paste a YouTube, Vimeo, Wistia, or local /apply/*.mp4 path. Empty shows the placeholder. */
+/** Paste a YouTube, Vimeo, Wistia, or direct .mp4 URL. Empty shows the placeholder. */
 export const APPLY_VSL_URL =
-  process.env.NEXT_PUBLIC_APPLY_VSL_URL || "/apply/vsl-speed.mp4?v=2";
+  process.env.NEXT_PUBLIC_APPLY_VSL_URL ||
+  "https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/vsl-speed.mp4";
 
 const DIRECT_VIDEO = /\.(mp4|webm|ogg|m4v)(\?.*)?$/i;
 
