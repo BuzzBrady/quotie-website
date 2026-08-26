@@ -47,10 +47,10 @@ export default function Hero() {
                 letterSpacing: "-0.035em",
               }}
             >
-              From enquiry to proposal
+              Powerful custom quoting,
               <br />
               <span className="bg-gradient-to-r from-[#3b82f6] to-brand-cyan bg-clip-text text-transparent">
-                in under 30 seconds.
+                built for your business.
               </span>
             </h1>
 
@@ -62,9 +62,9 @@ export default function Hero() {
                 lineHeight: 1.7,
               }}
             >
-              We build your pricing system. You generate branded quotes instantly
-              — with multiple options, automatic calculations, and everything
-              your client needs to say yes.
+              Every answer you or your team enters changes the quote — line items
+              appear, prices recalculate, wording rewrites itself. We build all
+              of that for your business. You just fill in a form.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 sm:gap-5">
@@ -80,11 +80,11 @@ export default function Hero() {
                 Schedule A Demo
               </a>
               <a
-                href="/features"
+                href="#live-demo"
                 className="text-[14px] sm:text-[15px] transition-colors duration-300 hover:text-white/80"
                 style={{ color: "rgba(232,232,237,0.45)" }}
               >
-                See How It Works &rarr;
+                Try it below &darr;
               </a>
             </div>
           </div>

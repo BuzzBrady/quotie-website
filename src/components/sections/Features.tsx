@@ -166,8 +166,8 @@ export default function Features() {
                 <span className="text-white/40">That&apos;s not a target. It&apos;s the average.</span>
               </h3>
               <p className="text-white/45 leading-relaxed mb-6 max-w-md">
-                We build your pricing system during onboarding. Your team
-                fills in the form, hits generate, and sends. Done.
+                We build your pricing system during onboarding. You or your
+                team fills in the form, hits generate, and sends. Done.
               </p>
               <ul className="space-y-2.5">
                 {[

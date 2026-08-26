@@ -64,8 +64,9 @@ export default function CTA() {
           </h2>
 
           <p className="text-blue-100/70 text-base sm:text-lg mb-10 leading-relaxed">
-            Tell us about your trade and we&apos;ll get you set up with a
-            quoting system that fits the way you actually work.
+            The examples above are a fraction of what your system will do. Tell
+            us about your trade and we&apos;ll build a quoting system that fits
+            the way you actually price.
           </p>
 
           {/* Lead capture form */}

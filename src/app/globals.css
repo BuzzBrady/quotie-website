@@ -119,6 +119,19 @@ body {
   animation: draw 1s ease-out forwards;
 }
 
+/* Live demo — quote rows flash when a selection changes them */
+@keyframes flashRow {
+  0% {
+    background-color: rgba(57, 185, 229, 0.25);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.demo-flash {
+  animation: flashRow 1s ease-out both;
+}
+
 
 
 

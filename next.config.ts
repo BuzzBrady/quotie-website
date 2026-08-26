@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Dev-only: let the dev server be viewed via 127.0.0.1 as well as localhost
+  allowedDevOrigins: ["127.0.0.1"],
   turbopack: {
     root: __dirname,
   },

@@ -21,7 +21,7 @@ const items = [
   {
     icon: FileText,
     title: "Smart Quote Forms",
-    description: "Your team sees a simple form tailored to your trade. Fill it in, hit generate — the pricing engine does the rest.",
+    description: "You (or your team) get a simple form tailored to your trade. Fill it in, hit generate — the pricing engine does the rest.",
     color: "text-cyan-400",
     border: "border-cyan-500/15",
     bg: "from-cyan-500/8 to-cyan-600/3",
@@ -153,8 +153,8 @@ export default function WhatYouGet() {
         <div className="mb-14">
           <SectionHeader
             badge="The Full Toolkit"
-            title="What you actually get."
-            subtitle="Everything else that comes with every Quotie plan."
+            title="Everything downstream of the quote."
+            subtitle="Sending, signing, follow-ups, pipeline, jobs — all in the same place your quotes live."
           />
         </div>
 
