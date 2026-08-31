@@ -16,7 +16,7 @@ export default function ApplyStickyCta() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-[#F9F9F9]/95 px-4 py-3 backdrop-blur sm:hidden">
       <ApplyCta compact />
     </div>
   );

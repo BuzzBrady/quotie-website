@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Inter } from "next/font/google";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import { APPLY_MEETING_KEY, readApplyContact } from "@/components/apply/applyQuestions";
 import {
@@ -13,6 +14,12 @@ import {
   setPixelUser,
   trackContact,
 } from "@/components/seo/MetaPixel";
+
+const inter = Inter({
+  weight: ["400", "600", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const MAX_CHARS = 200;
 
@@ -76,7 +83,8 @@ export default function ApplyCallbackForm() {
         APPLY_MEETING_KEY,
         JSON.stringify({ requested: true })
       );
-      router.push("/apply/thanks");
+      const qs = window.location.search;
+      router.push(qs ? `/apply/thanks${qs}` : "/apply/thanks");
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -85,13 +93,22 @@ export default function ApplyCallbackForm() {
   };
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className={`${inter.className} flex flex-1 flex-col`}>
       <h1
-        className="mb-3 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[32px] font-extrabold tracking-tight text-slate-900 leading-[1.15]"
+        className="mb-3 text-black"
+        style={{
+          fontSize: "clamp(1.5rem, 5.5vw, 2rem)",
+          lineHeight: 1.25,
+          fontWeight: 800,
+          letterSpacing: "-0.02em",
+        }}
       >
         What&apos;s a good day and time to connect?
       </h1>
-      <p className="mb-6 text-[15px] leading-relaxed text-slate-600">
+      <p
+        className="mb-6 text-[15px] text-slate-500"
+        style={{ fontWeight: 400, lineHeight: 1.4 }}
+      >
         Please include an exact day, time, and time zone.
       </p>
 
@@ -104,7 +121,7 @@ export default function ApplyCallbackForm() {
           setError(null);
         }}
         placeholder="E.g. this Friday at 4pm AEST"
-        className="w-full rounded-none border-0 border-b border-slate-300 bg-transparent px-0 py-3 text-lg font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors duration-200 focus:border-brand-cyan resize-none"
+        className="w-full rounded-lg border-2 border-slate-300 bg-white px-4 py-3.5 text-lg font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-brand-blue resize-none"
       />
       <p className="mt-2 text-right text-sm text-slate-400">
         {preferred.length}/{MAX_CHARS} characters
@@ -116,20 +133,17 @@ export default function ApplyCallbackForm() {
         type="button"
         disabled={submitting}
         onClick={handleSubmit}
-        className="mt-8 w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan px-6 py-4 text-[13px] sm:text-sm font-extrabold tracking-[0.06em] text-white uppercase shadow-lg shadow-brand-blue/20 transition-all duration-200 hover:shadow-xl hover:shadow-brand-cyan/20 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="optin-cta mt-8 w-full inline-flex items-center justify-center gap-2 rounded-[12px] bg-gradient-to-r from-brand-blue to-brand-cyan px-6 py-5 sm:py-6 text-[15px] sm:text-base font-semibold uppercase tracking-[0.06em] leading-none text-white disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {submitting ? (
           <>
-            <CircleNotch weight="bold" className="w-4 h-4 animate-spin" />
+            <CircleNotch weight="bold" className="h-4 w-4 animate-spin" />
             Sending...
           </>
         ) : (
           <>
             Submit
-            <ArrowRight
-              weight="bold"
-              className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
-            />
+            <ArrowRight weight="bold" className="h-4 w-4" />
           </>
         )}
       </button>

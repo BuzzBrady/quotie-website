@@ -49,7 +49,7 @@ export default function ApplyFaq({
 
   return (
     <div>
-      <p className="mb-4 text-center text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-400">
+      <p className="mb-4 text-center text-[0.95rem] uppercase tracking-[0.08em] text-slate-500">
         {heading}
       </p>
       <div>

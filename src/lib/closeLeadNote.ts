@@ -17,7 +17,9 @@ export type CloseLeadNoteInput = {
   utm_source?: string | null;
   utm_medium?: string | null;
   utm_campaign?: string | null;
+  utm_content?: string | null;
   utm_term?: string | null;
+  utm_id?: string | null;
   referrer?: string | null;
   page_url?: string | null;
   vsl_variant?: string | null;
@@ -110,7 +112,9 @@ export function formatCloseLeadNote(body: CloseLeadNoteInput): string {
     body.utm_source && `source=${body.utm_source}`,
     body.utm_medium && `medium=${body.utm_medium}`,
     body.utm_campaign && `campaign=${body.utm_campaign}`,
+    body.utm_content && `content=${body.utm_content}`,
     body.utm_term && `term=${body.utm_term}`,
+    body.utm_id && `id=${body.utm_id}`,
   ]
     .filter(Boolean)
     .join(" | ");

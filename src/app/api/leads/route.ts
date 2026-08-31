@@ -35,7 +35,9 @@ interface LeadPayload {
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
+  utm_content?: string;
   utm_term?: string;
+  utm_id?: string;
   referrer?: string;
   page_url?: string;
   pixel_event_id?: string;

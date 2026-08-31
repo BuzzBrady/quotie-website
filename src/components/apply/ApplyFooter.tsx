@@ -19,7 +19,7 @@ export default function ApplyFooter() {
         </Link>
       </div>
       <p className="text-[11px] text-slate-400">
-        © {new Date().getFullYear()} Quotie PTY LIMITED
+        © {new Date().getFullYear()} QUOTIE PTY LIMITED
       </p>
     </footer>
   );

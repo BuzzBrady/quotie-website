@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Inter } from "next/font/google";
 import { readApplyContact } from "@/components/apply/applyQuestions";
+
+const inter = Inter({
+  weight: ["400", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function ApplyHero() {
   const [firstName, setFirstName] = useState("");
@@ -14,25 +21,39 @@ export default function ApplyHero() {
   }, []);
 
   return (
-    <div className="mb-8 text-center">
-      <p className="mb-3 text-[13px] font-extrabold uppercase tracking-[0.16em] text-slate-500">
-        {firstName ? `${firstName}, you're in` : "Former full-time estimator reveals"}
+    <div className="mb-6 text-center">
+      <p className="mb-4 text-4xl sm:text-5xl leading-none" aria-hidden>
+        <span className="optin-wave">👋</span>
       </p>
-      <h1
-        className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900"
+      <p
+        className={`${inter.className} mb-5 text-black`}
         style={{
-          fontSize: "clamp(28px, 6.5vw, 42px)",
-          lineHeight: 1.1,
-          letterSpacing: "-0.03em",
+          fontSize: "clamp(1.35rem, 4.6vw, 1.75rem)",
+          lineHeight: 1.3,
+          fontWeight: 800,
+          letterSpacing: "-0.02em",
         }}
       >
-        Your quoting system,{" "}
-        <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-          built for you
-        </span>
+        You&apos;re in{firstName ? `, ${firstName}` : ""}!
+      </p>
+      <h1
+        className={`${inter.className} uppercase`}
+        style={{
+          color: "#000",
+          fontSize: "clamp(1.25rem, 4.2vw, 1.85rem)",
+          lineHeight: 1.2,
+          letterSpacing: 0,
+          fontWeight: 800,
+        }}
+      >
+        Watch The Short Training Below - Click The Video To Start Watching
       </h1>
-      <p className="mt-3 text-[15px] font-medium text-slate-600">
-        Watch the short training below
+      <p
+        className={`${inter.className} mx-auto mt-4 max-w-[440px] text-[15px] sm:text-[17px] text-slate-500`}
+        style={{ lineHeight: 1.4, fontWeight: 400 }}
+      >
+        Once you&apos;ve watched the video, apply to see if we&apos;d be a great
+        fit to work with each other.
       </p>
     </div>
   );
