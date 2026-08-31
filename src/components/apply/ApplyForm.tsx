@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Inter } from "next/font/google";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
+import OptInProgress from "@/components/opt-in/OptInProgress";
 import {
   newPixelEventId,
   setPixelUser,
@@ -28,11 +30,17 @@ import {
   readApplyVslWatch,
 } from "@/components/apply/applyVslSplit";
 
+const inter = Inter({
+  weight: ["400", "600", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const SOURCE = "meta_apply";
 const TOTAL = 7;
 
 const inputBase =
-  "w-full border-0 border-b border-slate-300 bg-transparent px-0 py-3 text-lg font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors duration-200 focus:border-brand-cyan";
+  "w-full rounded-lg border-2 border-slate-300 bg-white px-4 py-3.5 text-lg font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-brand-blue";
 
 function leadContext() {
   return applyLeadContext();
@@ -291,7 +299,7 @@ export default function ApplyForm() {
         );
         router.push(qs ? `/apply/book?${qs}` : "/apply/book");
       } else {
-        router.push("/apply/received");
+        router.push(qs ? `/apply/received?${qs}` : "/apply/received");
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -301,35 +309,30 @@ export default function ApplyForm() {
   };
 
   const meta = STEP_META[step - 1];
-  const continueLabel =
-    step < TOTAL ? `Continue To Question ${step + 1}` : "Submit Application";
+  const continueLabel = step < TOTAL ? "Continue" : "Submit Application";
 
-  const questionClass =
-    "mb-4 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[30px] font-extrabold tracking-tight text-slate-900 leading-[1.15]";
+  const questionClass = `${inter.className} mb-4 text-black`;
+  const questionStyle = {
+    fontSize: "clamp(1.5rem, 5.5vw, 2rem)",
+    lineHeight: 1.25,
+    fontWeight: 800,
+    letterSpacing: "-0.02em",
+  } as const;
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="mb-8">
-        <p className="text-[15px] font-semibold text-slate-800">
-          Question {step} of {TOTAL}
-        </p>
-        <p className="mt-1 text-sm text-slate-500">
-          {meta.percent}% Complete
-          {meta.remaining ? (
-            <span className="text-slate-400"> {meta.remaining}</span>
-          ) : null}
-        </p>
-        <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-200">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-cyan transition-all duration-300"
-            style={{ width: `${meta.percent}%` }}
-          />
-        </div>
-      </div>
+    <div className={`${inter.className} flex flex-1 flex-col`}>
+      <OptInProgress step={step - 1} total={7} className="mb-8 max-w-[280px]" />
+      <p
+        className="mb-6 text-center text-sm text-slate-500"
+        style={{ fontWeight: 400, lineHeight: 1.4 }}
+      >
+        Question {step} of {TOTAL}
+        {meta.remaining ? ` · ${meta.remaining}` : ""}
+      </p>
 
       {step === 1 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             What type of trade business do you run?
           </h1>
           <input
@@ -346,7 +349,7 @@ export default function ApplyForm() {
 
       {step === 2 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             Roughly how many quotes does your business send each month?
           </h1>
           <p className="mb-4 text-sm text-slate-500">
@@ -363,7 +366,7 @@ export default function ApplyForm() {
 
       {step === 3 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             How long does it currently take to prepare and send a typical quote?
           </h1>
           <ChoiceList
@@ -377,7 +380,7 @@ export default function ApplyForm() {
 
       {step === 4 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             What&apos;s the BIGGEST frustration with the way your business
             currently quotes jobs?
           </h1>
@@ -402,7 +405,7 @@ export default function ApplyForm() {
 
       {step === 5 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             If Quotie could fix one thing about your quoting process, what would
             make the biggest difference to your business?
           </h1>
@@ -420,7 +423,7 @@ export default function ApplyForm() {
 
       {step === 6 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             How soon are you looking to improve your quoting process?
           </h1>
           <p className="mb-4 text-sm leading-relaxed text-slate-500">
@@ -439,7 +442,7 @@ export default function ApplyForm() {
 
       {step === 7 && (
         <div>
-          <h1 className={questionClass}>
+          <h1 className={questionClass} style={questionStyle}>
             If we build your quoting system for you, are you in a position to
             invest in getting it done?
           </h1>
@@ -493,7 +496,7 @@ export default function ApplyForm() {
           type="button"
           disabled={submitting}
           onClick={step === TOTAL ? handleSubmit : goNext}
-          className="w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan px-6 py-4 text-[13px] sm:text-sm font-extrabold tracking-[0.06em] text-white uppercase shadow-lg shadow-brand-blue/20 transition-all duration-200 hover:shadow-xl hover:shadow-brand-cyan/20 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="optin-cta w-full inline-flex items-center justify-center gap-2 rounded-[12px] bg-gradient-to-r from-brand-blue to-brand-cyan px-6 py-5 sm:py-6 text-[15px] sm:text-base font-semibold uppercase tracking-[0.06em] leading-none text-white disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {submitting ? (
             <>
@@ -503,10 +506,7 @@ export default function ApplyForm() {
           ) : (
             <>
               {continueLabel}
-              <ArrowRight
-                weight="bold"
-                className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
-              />
+              <ArrowRight weight="bold" className="h-4 w-4" />
             </>
           )}
         </button>

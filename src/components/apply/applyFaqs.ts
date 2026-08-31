@@ -4,6 +4,10 @@ export const APPLY_FAQS = [
     a: "Quotie is a done-for-you quoting platform for trades and service businesses. We turn the pricing, products, labour, margins and calculations already inside your business into a custom quoting system your whole team can use.",
   },
   {
+    q: "Is this for all trades?",
+    a: "Yes. We build the quoting process around the way you're already quoting — so it applies to all trades. Electrical, plumbing, solar, roofing, cleaning, building — if you send quotes, we can encode how you already price jobs.",
+  },
+  {
     q: "Is this software I have to set up myself?",
     a: "No. Quotie is done-for-you, not DIY. Our team builds the quote form, templates, pricing logic, branding and training during onboarding. You fill in the form and generate the quote.",
   },
@@ -102,6 +106,7 @@ export const APPLY_FAQS = [
 ] as const;
 
 const LANDER_QUESTIONS = new Set([
+  "Is this for all trades?",
   "Is this software I have to set up myself?",
   "What happens after I apply?",
   "How long does the application take?",

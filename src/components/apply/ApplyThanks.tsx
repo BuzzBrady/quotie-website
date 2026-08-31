@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Star } from "@phosphor-icons/react";
+import { Inter } from "next/font/google";
+import ApplyChrome from "@/components/apply/ApplyChrome";
 import ApplyFaq from "@/components/apply/ApplyFaq";
-import ApplyFooter from "@/components/apply/ApplyFooter";
 import ApplyVideoSlot from "@/components/apply/ApplyVideoSlot";
-import ApplyWordmark from "@/components/apply/ApplyWordmark";
 import { APPLY_THANKS_FAQS } from "@/components/apply/applyThanksFaqs";
 import {
   APPLY_CONFIRM_VIDEO,
@@ -17,6 +17,12 @@ import {
   type ApplyMeeting,
 } from "@/components/apply/applyQuestions";
 import { toVslEmbedUrl } from "@/components/apply/vsl";
+
+const inter = Inter({
+  weight: ["400", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const TESTIMONIALS = [
   {
@@ -75,150 +81,142 @@ export default function ApplyThanks() {
   const confirmUrl = toVslEmbedUrl(APPLY_CONFIRM_VIDEO);
   const explainerUrl = toVslEmbedUrl(APPLY_EXPLAINER_VIDEO);
 
+  const headingStyle = {
+    color: "#000",
+    fontSize: "clamp(1.25rem, 4.2vw, 1.85rem)",
+    lineHeight: 1.2,
+    letterSpacing: 0,
+    fontWeight: 800,
+  } as const;
+
   return (
-    <div className="relative min-h-screen flex flex-col bg-white text-slate-900">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute -top-32 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(31,97,170,0.18) 0%, transparent 70%)",
-          }}
-        />
-      </div>
+    <ApplyChrome>
+      <p className="mb-4 text-center text-4xl sm:text-5xl leading-none" aria-hidden>
+        👋
+      </p>
+      <h1
+        className={`${inter.className} mb-5 text-center uppercase`}
+        style={headingStyle}
+      >
+        {meeting.requested
+          ? "We'll Confirm A Time Shortly"
+          : parts
+            ? `You're Booked For ${parts.time} On ${parts.day}`
+            : "You're Booked For Your Strategy Session"}
+      </h1>
+      <p
+        className={`${inter.className} mb-8 text-center text-[15px] text-slate-500`}
+        style={{ fontWeight: 400, lineHeight: 1.4 }}
+      >
+        {meeting.requested
+          ? "Someone from the Quotie team will lock in one of your preferred times."
+          : "Add it to your calendar and watch the short video below before the call."}
+      </p>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[680px] flex-1 flex-col px-5 pb-12 pt-8 sm:pt-12">
-        <div className="mb-8">
-          <ApplyWordmark />
-        </div>
-
-        <p className="mb-3 text-center text-[11px] font-extrabold uppercase tracking-[0.18em] text-slate-500">
-          {meeting.requested
-            ? "We'll lock in a time"
-            : "Your session is booked"}
-        </p>
-        <h1
-          className="mb-5 text-center font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900"
-          style={{
-            fontSize: "clamp(26px, 6vw, 38px)",
-            lineHeight: 1.14,
-            letterSpacing: "-0.03em",
-          }}
+      <section className="mb-10">
+        <p
+          className={`${inter.className} mb-4 text-center uppercase text-slate-500`}
+          style={{ fontSize: "0.95rem", letterSpacing: "0.08em", fontWeight: 400 }}
         >
-          {meeting.requested ? (
-            <>
-              We&apos;ve got your preferred times. Someone from the Quotie
-              team will{" "}
-              <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-                confirm a time
-              </span>{" "}
-              shortly.
-            </>
-          ) : parts ? (
-            <>
-              You&apos;re booked for{" "}
-              <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-                {parts.time}
-              </span>{" "}
-              on {parts.day}
-            </>
-          ) : (
-            <>
-              You&apos;re booked. See you on the{" "}
-              <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-                strategy session
-              </span>
-            </>
-          )}
-        </h1>
+          Before the call
+        </p>
+        <ol
+          className={`${inter.className} space-y-3 text-[15px] leading-relaxed text-slate-800`}
+          style={{ fontWeight: 400, lineHeight: 1.4 }}
+        >
+          <li>
+            <span className="font-bold text-brand-blue">1. </span>
+            {parts
+              ? `Add ${parts.time} on ${parts.day} to your calendar.`
+              : "Add the time you booked to your calendar."}
+          </li>
+          <li>
+            <span className="font-bold text-brand-blue">2. </span>
+            {confirmUrl
+              ? "Watch the short confirmation video below."
+              : "Keep the slot — we'll send a reminder before the call."}
+          </li>
+          <li>
+            <span className="font-bold text-brand-blue">3. </span>
+            Be on time and present — treat this like a job you wouldn&apos;t
+            miss. If you can&apos;t give it your full attention, pick a
+            different time now.
+          </li>
+        </ol>
+      </section>
 
+      {confirmUrl && (
         <section className="mb-10">
-          <p className="mb-4 text-center text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">
-            Before the call
-          </p>
-          <ol className="space-y-3 text-[15px] leading-relaxed text-slate-800">
-            <li>
-              <span className="font-bold text-brand-blue">1. </span>
-              {parts
-                ? `Add ${parts.time} on ${parts.day} to your calendar.`
-                : "Add the time you booked to your calendar."}
-            </li>
-            <li>
-              <span className="font-bold text-brand-blue">2. </span>
-              {confirmUrl
-                ? "Watch the short confirmation video below."
-                : "Keep the slot — we'll send a reminder before the call."}
-            </li>
-            <li>
-              <span className="font-bold text-brand-blue">3. </span>
-              Be on time and present — treat this like a job you wouldn&apos;t
-              miss. If you can&apos;t give it your full attention, pick a
-              different time now.
-            </li>
-          </ol>
-        </section>
-
-        {confirmUrl && (
-          <section className="mb-10">
-            <h2 className="mb-4 font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold tracking-tight text-slate-900">
-              Watch this before the call
-            </h2>
-            <ApplyVideoSlot
-              url={APPLY_CONFIRM_VIDEO}
-              title="Confirmation video"
-            />
-          </section>
-        )}
-
-        {explainerUrl && (
-          <section className="mb-10">
-            <h2 className="mb-4 font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold tracking-tight text-slate-900">
-              Optional: how the system works
-            </h2>
-            <ApplyVideoSlot
-              url={APPLY_EXPLAINER_VIDEO}
-              title="System explainer"
-            />
-          </section>
-        )}
-
-        <section className="mb-12">
-          <h2 className="mb-6 text-center font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold tracking-tight text-slate-900">
-            What clients say
+          <h2
+            className={`${inter.className} mb-4 uppercase`}
+            style={{ ...headingStyle, fontSize: "clamp(1.1rem, 3.5vw, 1.4rem)" }}
+          >
+            Watch this before the call
           </h2>
-          <div className="space-y-4">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-              >
-                <div className="mb-3 flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      weight="fill"
-                      className="h-3.5 w-3.5 text-amber-400"
-                    />
-                  ))}
-                </div>
-                <blockquote className="text-[15px] leading-relaxed text-slate-700">
-                  &ldquo;{t.quote}&rdquo;
-                </blockquote>
-                <p className="mt-3 text-sm font-semibold text-slate-900">
-                  {t.name}
-                </p>
-                <p className="text-xs text-slate-500">{t.role}</p>
-              </div>
-            ))}
-          </div>
+          <ApplyVideoSlot
+            url={APPLY_CONFIRM_VIDEO}
+            title="Confirmation video"
+          />
         </section>
+      )}
 
+      {explainerUrl && (
         <section className="mb-10">
-          <ApplyFaq items={APPLY_THANKS_FAQS} heading="Before you hop on" />
+          <h2
+            className={`${inter.className} mb-4 uppercase`}
+            style={{ ...headingStyle, fontSize: "clamp(1.1rem, 3.5vw, 1.4rem)" }}
+          >
+            Optional: how the system works
+          </h2>
+          <ApplyVideoSlot
+            url={APPLY_EXPLAINER_VIDEO}
+            title="System explainer"
+          />
         </section>
+      )}
 
-        <ApplyFooter />
-      </div>
-    </div>
+      <section className="mb-12">
+        <h2
+          className={`${inter.className} mb-6 text-center uppercase`}
+          style={{ ...headingStyle, fontSize: "clamp(1.1rem, 3.5vw, 1.4rem)" }}
+        >
+          What clients say
+        </h2>
+        <div className="space-y-4">
+          {TESTIMONIALS.map((t) => (
+            <div
+              key={t.name}
+              className="rounded-[12px] border border-slate-200 bg-white p-5"
+            >
+              <div className="mb-3 flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    weight="fill"
+                    className="h-3.5 w-3.5 text-amber-400"
+                  />
+                ))}
+              </div>
+              <blockquote
+                className={`${inter.className} text-[15px] text-slate-700`}
+                style={{ fontWeight: 400, lineHeight: 1.4 }}
+              >
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
+              <p className={`${inter.className} mt-3 text-sm font-semibold text-slate-900`}>
+                {t.name}
+              </p>
+              <p className={`${inter.className} text-xs text-slate-500`} style={{ fontWeight: 400 }}>
+                {t.role}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-4">
+        <ApplyFaq items={APPLY_THANKS_FAQS} heading="Before you hop on" />
+      </section>
+    </ApplyChrome>
   );
 }

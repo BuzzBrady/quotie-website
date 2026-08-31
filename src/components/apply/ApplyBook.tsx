@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import ApplyFooter from "@/components/apply/ApplyFooter";
-import ApplyWordmark from "@/components/apply/ApplyWordmark";
+import { Inter } from "next/font/google";
+import ApplyChrome from "@/components/apply/ApplyChrome";
 import {
   iframeHeightFromMessage,
   isBookingSuccessMessage,
@@ -20,6 +20,12 @@ import {
   applyLeadContext,
   readApplyVslWatch,
 } from "@/components/apply/applyVslSplit";
+
+const inter = Inter({
+  weight: ["400", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 type BookingSession = {
   firstName?: string;
@@ -68,7 +74,8 @@ export default function ApplyBook() {
         }),
       });
     }
-    window.location.assign("/apply/thanks");
+    const qs = window.location.search;
+    window.location.assign(qs ? `/apply/thanks${qs}` : "/apply/thanks");
   }, []);
 
   useEffect(() => {
@@ -110,73 +117,67 @@ export default function ApplyBook() {
   });
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-white text-slate-900">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute -top-32 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
+    <ApplyChrome wide>
+      {firstName ? (
+        <p
+          className={`${inter.className} mb-3 text-center text-black`}
           style={{
-            background:
-              "radial-gradient(circle, rgba(31,97,170,0.18) 0%, transparent 70%)",
+            fontSize: "clamp(1.35rem, 4.6vw, 1.75rem)",
+            lineHeight: 1.3,
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
           }}
+        >
+          You&apos;re in, {firstName}!
+        </p>
+      ) : null}
+      <h1
+        className={`${inter.className} mb-4 text-center uppercase`}
+        style={{
+          color: "#000",
+          fontSize: "clamp(1.25rem, 4.2vw, 1.85rem)",
+          lineHeight: 1.2,
+          letterSpacing: 0,
+          fontWeight: 800,
+        }}
+      >
+        Pick A Time For Your Strategy Session
+      </h1>
+      <p
+        className={`${inter.className} mb-3 text-center text-[15px] text-slate-500`}
+        style={{ fontWeight: 400, lineHeight: 1.4 }}
+      >
+        The calendar is loading — give it a moment if you don&apos;t see it
+        right away.
+      </p>
+      <p className={`${inter.className} mb-8 text-center text-sm`} style={{ fontWeight: 400 }}>
+        <a
+          href="/apply/book/times"
+          className="text-slate-500 underline decoration-slate-300 underline-offset-2 hover:text-brand-blue"
+        >
+          Can&apos;t find a time? Request one
+        </a>
+      </p>
+
+      <div className="mb-6 overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+        <iframe
+          ref={iframeRef}
+          src={calendarSrc}
+          title="Book a Quotie Strategy Session"
+          onLoad={onIframeLoad}
+          scrolling="no"
+          className="block w-full border-0"
+          style={{ height: calHeight, overflow: "hidden" }}
+          allow="camera; microphone; fullscreen; payment"
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-1 flex-col px-5 pb-10 pt-8 sm:pt-12">
-        <div className="mb-8">
-          <ApplyWordmark />
-        </div>
-
-        <p className="mb-3 text-center text-[11px] sm:text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-          Last step{firstName ? ` — ${firstName}` : ""}
-        </p>
-        <h1
-          className="mb-4 text-center font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900"
-          style={{
-            fontSize: "clamp(26px, 6.2vw, 40px)",
-            lineHeight: 1.12,
-            letterSpacing: "-0.03em",
-          }}
-        >
-          Reserve a time for your Quotie{" "}
-          <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-            Strategy Session
-          </span>
-        </h1>
-        <p className="mb-3 text-center text-sm text-slate-700">
-          The calendar is loading — please wait a moment if you don&apos;t see
-          it right away.
-        </p>
-        <p className="mb-8 text-center text-sm">
-          <a
-            href="/apply/book/times"
-            className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2 hover:text-brand-blue"
-          >
-            Can&apos;t find a time? Request one
-          </a>
-        </p>
-
-        <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/80">
-          <iframe
-            ref={iframeRef}
-            src={calendarSrc}
-            title="Book a Quotie Strategy Session"
-            onLoad={onIframeLoad}
-            scrolling="no"
-            className="block w-full border-0"
-            style={{ height: calHeight, overflow: "hidden" }}
-            allow="camera; microphone; fullscreen; payment"
-          />
-        </div>
-
-        <a
-          href="/apply/book/times"
-          className="mb-10 w-full inline-flex items-center justify-center rounded-xl border-2 border-slate-200 bg-white px-6 py-4 text-[13px] sm:text-sm font-extrabold tracking-[0.04em] text-slate-800 uppercase transition-colors hover:border-brand-cyan hover:text-brand-blue"
-        >
-          Can&apos;t find a time? Submit this
-        </a>
-
-        <ApplyFooter />
-      </div>
-    </div>
+      <a
+        href="/apply/book/times"
+        className={`${inter.className} mb-4 w-full inline-flex items-center justify-center rounded-[12px] border-2 border-slate-200 bg-white px-6 py-5 text-[15px] font-semibold uppercase tracking-[0.06em] text-slate-800`}
+      >
+        Can&apos;t find a time? Submit this
+      </a>
+    </ApplyChrome>
   );
 }

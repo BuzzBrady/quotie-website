@@ -51,6 +51,89 @@ body {
   }
 }
 
+@keyframes optin-wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(16deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(16deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.optin-wave {
+  display: inline-block;
+  transform-origin: 75% 80%;
+  animation: optin-wave 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .optin-wave {
+    animation: none;
+  }
+}
+
+@keyframes optin-shine {
+  from {
+    transform: skewX(-20deg) translateX(0);
+  }
+  to {
+    transform: skewX(-20deg) translateX(1000px);
+  }
+}
+
+.optin-cta {
+  position: relative;
+  overflow: hidden;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 8px 30px rgba(0, 0, 0, 0.03), 1px 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s ease;
+}
+.optin-cta > span {
+  position: relative;
+  z-index: 1;
+}
+.optin-cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120px;
+  height: 100%;
+  width: 90px;
+  background: hsla(0, 0%, 100%, 0.4);
+  transform: skewX(-20deg) translateX(0);
+  pointer-events: none;
+}
+.optin-cta:hover:not(:disabled) {
+  transform: scale(1.015);
+}
+.optin-cta:hover:not(:disabled)::after {
+  animation: optin-shine 0.8s 1 forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .optin-cta:hover:not(:disabled) {
+    transform: none;
+  }
+  .optin-cta:hover:not(:disabled)::after {
+    animation: none;
+  }
+}
+
 @keyframes float {
   0%,
   100% {
