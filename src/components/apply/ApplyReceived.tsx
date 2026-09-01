@@ -1,11 +1,5 @@
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import ApplyChrome from "@/components/apply/ApplyChrome";
-
-const inter = Inter({
-  weight: ["400", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export default function ApplyReceived() {
   return (

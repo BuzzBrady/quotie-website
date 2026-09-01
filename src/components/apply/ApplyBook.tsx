@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import ApplyChrome from "@/components/apply/ApplyChrome";
 import {
   iframeHeightFromMessage,
@@ -20,12 +20,6 @@ import {
   applyLeadContext,
   readApplyVslWatch,
 } from "@/components/apply/applyVslSplit";
-
-const inter = Inter({
-  weight: ["400", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 type BookingSession = {
   firstName?: string;

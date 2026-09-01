@@ -1,16 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { Star } from "@phosphor-icons/react";
 import OptInForm from "@/components/opt-in/OptInForm";
 import OptInProgress from "@/components/opt-in/OptInProgress";
-
-const inter = Inter({
-  weight: ["400", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export default function OptInLead() {
   const [step, setStep] = useState(0);

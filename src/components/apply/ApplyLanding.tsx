@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { Star } from "@phosphor-icons/react";
 import ApplyHero from "@/components/apply/ApplyHero";
 import ApplyVsl from "@/components/apply/ApplyVsl";
@@ -10,12 +10,6 @@ import ApplyStickyCta from "@/components/apply/ApplyStickyCta";
 import ApplyFaq from "@/components/apply/ApplyFaq";
 import ApplyFooter from "@/components/apply/ApplyFooter";
 import { APPLY_LANDER_FAQS } from "@/components/apply/applyFaqs";
-
-const inter = Inter({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 function CtaFallback() {
   return (

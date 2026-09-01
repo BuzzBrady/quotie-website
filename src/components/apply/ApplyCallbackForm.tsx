@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import { APPLY_MEETING_KEY, readApplyContact } from "@/components/apply/applyQuestions";
 import {
@@ -14,12 +14,6 @@ import {
   setPixelUser,
   trackContact,
 } from "@/components/seo/MetaPixel";
-
-const inter = Inter({
-  weight: ["400", "600", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const MAX_CHARS = 200;
 

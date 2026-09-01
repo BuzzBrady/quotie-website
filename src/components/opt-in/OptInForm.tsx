@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import {
   newPixelEventId,
@@ -14,12 +14,6 @@ import {
   saveApplyContact,
 } from "@/components/apply/applyQuestions";
 import { applyLeadContext } from "@/components/apply/applyVslSplit";
-
-const inter = Inter({
-  weight: ["600", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const SOURCE = "meta_opt_in";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import OptInProgress from "@/components/opt-in/OptInProgress";
 import {
@@ -29,12 +29,6 @@ import {
   applyLeadContext,
   readApplyVslWatch,
 } from "@/components/apply/applyVslSplit";
-
-const inter = Inter({
-  weight: ["400", "600", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const SOURCE = "meta_apply";
 const TOTAL = 7;

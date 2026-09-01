@@ -1,14 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { readApplyContact } from "@/components/apply/applyQuestions";
-
-const inter = Inter({
-  weight: ["400", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export default function ApplyHero() {
   const [firstName, setFirstName] = useState("");

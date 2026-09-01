@@ -3,17 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { ArrowRight } from "@phosphor-icons/react";
 import { readApplyContact } from "@/components/apply/applyQuestions";
 import { assignApplyVslVariant } from "@/components/apply/applyVslSplit";
 import { trackCustom } from "@/components/seo/MetaPixel";
-
-const inter = Inter({
-  weight: "600",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export default function ApplyCta({ compact = false }: { compact?: boolean }) {
   const params = useSearchParams();

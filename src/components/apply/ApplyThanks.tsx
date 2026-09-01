@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Star } from "@phosphor-icons/react";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import ApplyChrome from "@/components/apply/ApplyChrome";
 import ApplyFaq from "@/components/apply/ApplyFaq";
 import ApplyVideoSlot from "@/components/apply/ApplyVideoSlot";
@@ -17,12 +17,6 @@ import {
   type ApplyMeeting,
 } from "@/components/apply/applyQuestions";
 import { toVslEmbedUrl } from "@/components/apply/vsl";
-
-const inter = Inter({
-  weight: ["400", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const TESTIMONIALS = [
   {
