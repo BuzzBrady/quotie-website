@@ -55,14 +55,12 @@ interface LeadPayload {
 const CLOSE_CUSTOM_TRADE = "cf_v8Y1jaSpeBb9pWGPw7BaQwAiqvk9r8zToQUBvXHCNc7";
 const CLOSE_CUSTOM_COMPANY = "cf_YLtA8dnCGN8kgIhw0L5U0nO0Hkkp9j22wi1nCvR4JyD";
 
-const OPT_IN_SOURCES = new Set(["meta_opt_in", "meta_opt_in_white"]);
 const APPLY_SOURCES = new Set([
   "meta_apply",
   "meta_apply_callback",
   "meta_apply_booked",
 ]);
 const NOTE_ONLY_SOURCES = new Set(["meta_apply_booked"]);
-const ADS_SOURCES = new Set([...OPT_IN_SOURCES, ...APPLY_SOURCES]);
 
 function capiEventForSource(source?: string): string | null {
   if (source === "meta_opt_in" || source === "meta_opt_in_white") return "Lead";
@@ -141,7 +139,7 @@ async function ingestStaffLead(body: LeadPayload, fullName: string, email: strin
       phone: body.phone?.trim() || null,
       business_name: body.company_name?.trim() || null,
       trade_type: body.trade_type || null,
-      source: body.source || "meta_opt_in",
+      source: body.source || "website",
       notes: leadNotes(body),
       utm_source: body.utm_source || null,
       utm_medium: body.utm_medium || null,
@@ -187,7 +185,7 @@ async function insertCrmLead(
     phone: body.phone?.trim() || null,
     business_name: body.company_name?.trim() || null,
     trade_type: body.trade_type || null,
-    source: body.source || "meta_opt_in",
+    source: body.source || "website",
     status: "open",
     stage_id: firstOpen?.id ?? null,
     notes: leadNotes(body),
@@ -338,7 +336,6 @@ export async function POST(req: NextRequest) {
 
   const fullName = full_name.trim();
   const normalisedEmail = email.trim().toLowerCase();
-  const isAdsLead = ADS_SOURCES.has(body.source || "");
 
   try {
     let savedToQuotie = false;
@@ -360,18 +357,19 @@ export async function POST(req: NextRequest) {
           savedToQuotie = true;
         }
 
-        if (isAdsLead) {
-          const ingested = await ingestStaffLead(body, fullName, normalisedEmail);
-          if (!ingested) {
-            const crmError = await insertCrmLead(
-              supabase,
-              body,
-              fullName,
-              normalisedEmail
-            );
-            if (crmError) {
-              console.error("CRM lead insert error:", crmError);
-            }
+        // All leads (ads + website) go to the Quotie CRM pipeline — the
+        // crm_leads insert fires the notify_staff_new_lead trigger, which
+        // posts to Slack and emails staff.
+        const ingested = await ingestStaffLead(body, fullName, normalisedEmail);
+        if (!ingested) {
+          const crmError = await insertCrmLead(
+            supabase,
+            body,
+            fullName,
+            normalisedEmail
+          );
+          if (crmError) {
+            console.error("CRM lead insert error:", crmError);
           }
         }
       }
