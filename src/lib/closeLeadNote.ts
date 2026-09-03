@@ -52,6 +52,18 @@ function mmss(total: number): string {
   return `${m}:${r.toString().padStart(2, "0")}`;
 }
 
+const ADS_SOURCES = new Set([
+  "meta_opt_in",
+  "meta_opt_in_white",
+  "meta_apply",
+  "meta_apply_booked",
+  "meta_apply_callback",
+]);
+
+function isAdsSource(source?: string): boolean {
+  return ADS_SOURCES.has(source || "");
+}
+
 function funnelLabel(source?: string): string {
   if (source === "meta_apply") return "Apply form (quotie.au/apply)";
   if (source === "meta_apply_booked") return "Booked strategy session";
@@ -59,7 +71,8 @@ function funnelLabel(source?: string): string {
   if (source === "meta_opt_in" || source === "meta_opt_in_white") {
     return "Opt-in (quotie.au/opt-in)";
   }
-  return source || "Unknown";
+  if (source) return `Website enquiry (${source})`;
+  return "Unknown";
 }
 
 export function formatVslWatch(body: CloseLeadNoteInput): string {
@@ -119,9 +132,18 @@ export function formatCloseLeadNote(body: CloseLeadNoteInput): string {
     .filter(Boolean)
     .join(" | ");
 
+  // VSL watch stats only make sense for the ads funnel — website enquiries
+  // never see the VSL, so skip the "Did not unmute" noise for them.
+  const hasVslData =
+    body.vsl_variant != null ||
+    body.vsl_percent != null ||
+    body.vsl_seconds != null ||
+    body.vsl_unmuted != null ||
+    body.vsl_completed != null;
+
   const headline = [
     funnelLabel(body.source),
-    formatVslWatch(body),
+    isAdsSource(body.source) || hasVslData ? formatVslWatch(body) : null,
     body.financial_position || null,
   ]
     .filter(Boolean)

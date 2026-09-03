@@ -379,10 +379,9 @@ export async function POST(req: NextRequest) {
       console.error("Quotie lead save error:", err);
     }
 
-    let savedToClose = false;
-    if (isAdsLead) {
-      savedToClose = await upsertCloseLead(body, fullName, normalisedEmail);
-    }
+    // All leads (ads + website enquiries) go to Close for the calling workflow.
+    // Website sources fall back to CLOSE_LEAD_STATUS_ID (New Lead - AUS).
+    const savedToClose = await upsertCloseLead(body, fullName, normalisedEmail);
 
     if (!savedToQuotie && !savedToClose) {
       return NextResponse.json(
