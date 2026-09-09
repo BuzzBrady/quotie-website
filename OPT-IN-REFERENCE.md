@@ -37,7 +37,7 @@ Make is **not** used for this page. The site writes to Close itself.
 | SEO | `noindex, nofollow, nocache`; `/opt-in` disallowed in robots; not in sitemap |
 | Form | Full name, email, phone (all required) |
 | Source tag | `meta_opt_in` |
-| Next step | Redirects to `/apply` with `firstName`, `email`, `mobile`. `/opt-in/thanks` still exists but is not the post-submit URL. |
+| Next step | Redirects to `/apply` with `firstName`, `email`, `mobile`. `/opt-in/thanks` still exists but is not the post-submit URL. Close description is **VSL not watched yet** until `/apply` patches live watch % via `/api/vsl-watch`. |
 | Split test leftover | `/opt-in/white` and `/opt-in/white/thanks` 308 to the winner URLs |
 | Commits | `3cfa6c3` page, `4513c22` Close + staff leads |
 

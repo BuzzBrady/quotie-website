@@ -5,6 +5,7 @@ import { Play, SpeakerSlash } from "@phosphor-icons/react";
 import { trackVsl } from "@/components/seo/MetaPixel";
 import {
   recordApplyVslWatch,
+  sendVslWatchToClose,
   type ApplyVslVariantId,
 } from "@/components/apply/applyVslSplit";
 
@@ -62,20 +63,25 @@ export default function ApplyVslPlayer({
       if (!engagedRef.current || !video?.duration || !Number.isFinite(video.duration)) {
         return;
       }
-      recordApplyVslWatch({
+      const snapshot = {
         variant,
         percent: (video.currentTime / video.duration) * 100,
         seconds: video.currentTime,
         duration: video.duration,
-        unmuted: true,
-      });
+        unmuted: true as const,
+      };
+      recordApplyVslWatch(snapshot);
+      sendVslWatchToClose({ event: "flush", ...snapshot });
+    };
+    const onHide = () => {
+      if (document.visibilityState === "hidden") flushWatch();
     };
     window.addEventListener("pagehide", flushWatch);
-    document.addEventListener("visibilitychange", flushWatch);
+    document.addEventListener("visibilitychange", onHide);
     return () => {
       flushWatch();
       window.removeEventListener("pagehide", flushWatch);
-      document.removeEventListener("visibilitychange", flushWatch);
+      document.removeEventListener("visibilitychange", onHide);
     };
   }, [variant]);
 
@@ -105,14 +111,16 @@ export default function ApplyVslPlayer({
     void video.play().catch(() => {
       setPaused(true);
     });
-    recordApplyVslWatch({
+    const snapshot = {
       variant,
       percent: 0,
       seconds: 0,
       duration: Number.isFinite(video.duration) ? video.duration : 0,
-      unmuted: true,
-    });
+      unmuted: true as const,
+    };
+    recordApplyVslWatch(snapshot);
     trackVsl("VslPlay", { vsl_variant: variant });
+    sendVslWatchToClose({ event: "play", ...snapshot });
   }, [variant]);
 
   const onTimeUpdate = useCallback(() => {
@@ -130,6 +138,14 @@ export default function ApplyVslPlayer({
         if (pct >= mark && !firedMarks.current.has(mark)) {
           firedMarks.current.add(mark);
           trackVsl("VslProgress", { vsl_variant: variant, percent: mark });
+          sendVslWatchToClose({
+            event: "progress",
+            variant,
+            percent: mark,
+            seconds: video.currentTime,
+            duration: video.duration,
+            unmuted: true,
+          });
         }
       }
       const now = Date.now();
@@ -176,13 +192,15 @@ export default function ApplyVslPlayer({
           if (!engagedRef.current || !video || video.muted || video.ended) return;
           setPaused(true);
           if (video.duration && Number.isFinite(video.duration)) {
-            recordApplyVslWatch({
+            const snapshot = {
               variant,
               percent: (video.currentTime / video.duration) * 100,
               seconds: video.currentTime,
               duration: video.duration,
-              unmuted: true,
-            });
+              unmuted: true as const,
+            };
+            recordApplyVslWatch(snapshot);
+            sendVslWatchToClose({ event: "flush", ...snapshot });
           }
         }}
         onEnded={() => {
@@ -192,15 +210,17 @@ export default function ApplyVslPlayer({
           if (!firedMarks.current.has(100)) {
             firedMarks.current.add(100);
             const video = videoRef.current;
-            recordApplyVslWatch({
+            const snapshot = {
               variant,
               percent: 100,
               seconds: video?.duration || video?.currentTime || 0,
               duration: video?.duration || 0,
-              unmuted: true,
-              completed: true,
-            });
+              unmuted: true as const,
+              completed: true as const,
+            };
+            recordApplyVslWatch(snapshot);
             trackVsl("VslComplete", { vsl_variant: variant, percent: 100 });
+            sendVslWatchToClose({ event: "complete", ...snapshot });
           }
         }}
         onContextMenu={(e) => e.preventDefault()}

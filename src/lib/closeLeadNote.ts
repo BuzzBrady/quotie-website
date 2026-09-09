@@ -75,6 +75,43 @@ function funnelLabel(source?: string): string {
   return "Unknown";
 }
 
+const OPT_IN_SOURCES = new Set(["meta_opt_in", "meta_opt_in_white"]);
+
+/** Matches the VSL status line we stamp into a Close lead description. */
+export const VSL_LINE_RE =
+  /^(Did not unmute[^\n]*|Unmuted[^\n]*|VSL not watched yet[^\n]*|Reached VSL[^\n]*|Watched [^\n]*)/m;
+
+export function watchLineRank(line: string): number {
+  if (
+    /Did not unmute|not unmuted yet|VSL not watched yet/i.test(line) &&
+    !/^Watched /i.test(line) &&
+    !/^Unmuted/i.test(line)
+  ) {
+    return /Reached VSL/i.test(line) ? 0.5 : 0;
+  }
+  if (/Watched 100%|completed/i.test(line)) return 100;
+  const match = line.match(/Watched (\d+)%/i);
+  if (match) return Math.max(Number(match[1]), 1);
+  if (/^Unmuted/i.test(line) || /\bunmuted\b/i.test(line)) return 1;
+  return 0;
+}
+
+export function replaceVslLine(description: string, watchLine: string): string {
+  const next = watchLine.trim();
+  if (!next) return description;
+  if (!description.trim()) return next;
+
+  const match = description.match(VSL_LINE_RE);
+  if (match) {
+    if (watchLineRank(match[0]) > watchLineRank(next)) return description;
+    return description.replace(VSL_LINE_RE, next);
+  }
+
+  const nl = description.indexOf("\n");
+  if (nl === -1) return `${description}\n${next}`;
+  return `${description.slice(0, nl)}\n${next}${description.slice(nl)}`;
+}
+
 export function formatVslWatch(body: CloseLeadNoteInput): string {
   const unmuted = bool(body.vsl_unmuted);
   const completed = bool(body.vsl_completed);
@@ -86,9 +123,25 @@ export function formatVslWatch(body: CloseLeadNoteInput): string {
     : null;
 
   if (!unmuted && !(percent && percent > 1)) {
+    if (OPT_IN_SOURCES.has(body.source || "")) {
+      return "VSL not watched yet";
+    }
+    if (body.source === "meta_vsl_view") {
+      return variant
+        ? `Reached VSL page · not unmuted yet · ${variant}`
+        : "Reached VSL page · not unmuted yet";
+    }
     return variant
       ? `Did not unmute · ${variant}`
       : "Did not unmute / did not watch";
+  }
+
+  if (!completed && unmuted && !(percent && percent >= 1)) {
+    const started =
+      seconds != null && duration && duration > 0
+        ? `${mmss(seconds)} / ${mmss(duration)}`
+        : null;
+    return ["Unmuted · watching", started, variant].filter(Boolean).join(" · ");
   }
 
   const pct = completed ? 100 : Math.max(0, Math.min(100, Math.round(percent || 0)));
