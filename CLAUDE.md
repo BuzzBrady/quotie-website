@@ -9,7 +9,7 @@ Quotie is **done-for-you**, not self-serve. This is critical for all copy:
 - **Admins (Quotie team) build and manage templates** for each company. Users don't build their own templates.
 - The quote form + template + pricing engine is the hardest part of setup — Quotie handles it all during onboarding.
 - After setup, companies only come back for one-off price changes or to introduce new materials/products.
-- The setup fee ($5.8k-$7.8k incl. GST) covers template building, pricing logic configuration, branding, and training.
+- The setup fee ($5k-$6.5k incl. GST) covers template building, pricing logic configuration, branding, and training.
 - Users just fill in the form and hit generate — the system does the rest.
 
 **Copy implications:**
@@ -201,8 +201,8 @@ Categories: quoting-tips, sales, industry-insights, product-updates, business-gr
 
 | Plan | Setup | Monthly | Users |
 |------|-------|---------|-------|
-| 1 Man Band | $5,800 | $495/mo | 1 |
-| Small Team | $7,800 | $695/mo | 2-5 |
+| 1 Man Band | $5,000 | $495/mo | 1 |
+| Small Team | $6,500 | $695/mo | 2-5 |
 | 6+ Users | Contact us | Contact us | 6+ |
 
 All prices incl. GST.
