@@ -6,6 +6,9 @@ import ApplyVslPlayer from "@/components/apply/ApplyVslPlayer";
 import {
   applyVslSrc,
   assignApplyVslVariant,
+  hydrateApplyContactFromUrl,
+  readApplyVslWatch,
+  sendVslWatchToClose,
   type ApplyVslVariantId,
 } from "@/components/apply/applyVslSplit";
 import { isDirectVideoUrl } from "@/components/apply/vsl";
@@ -15,6 +18,7 @@ export default function ApplyVsl() {
   const [variant, setVariant] = useState<ApplyVslVariantId | null>(null);
 
   useEffect(() => {
+    hydrateApplyContactFromUrl();
     const params = new URLSearchParams(window.location.search);
     const assigned = assignApplyVslVariant(params.get("vsl"));
     setVariant(assigned);
@@ -28,6 +32,20 @@ export default function ApplyVsl() {
     trackCustom("ApplyVsl", `apply_vsl_${assigned}`, {
       vsl_variant: assigned,
     });
+
+    const alreadyWatching = readApplyVslWatch()?.unmuted;
+    if (alreadyWatching) return;
+
+    const timer = window.setTimeout(() => {
+      if (readApplyVslWatch()?.unmuted) return;
+      sendVslWatchToClose({
+        event: "view",
+        variant: assigned,
+        percent: 0,
+        unmuted: false,
+      });
+    }, 1200);
+    return () => window.clearTimeout(timer);
   }, []);
 
   if (!variant) {

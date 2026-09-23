@@ -111,6 +111,8 @@ src/components/apply/vsl.ts
 src/components/apply/applyVslSplit.ts      # 50/50 belief vs speed VSL
 src/components/opt-in/OptInQuotes.tsx      # reused
 src/app/api/leads/route.ts                 # source meta_apply + application status
+src/app/api/vsl-watch/route.ts             # live Close VSL watch % (unmute / 25 / 75 / complete)
+src/lib/closeVslWatch.ts                   # patch Close description + notes, never downgrade
 src/app/robots.ts                          # disallow /apply
 src/components/layout/SiteChrome.tsx       # hide chrome on /apply*
 next.config.ts                             # 308 /application → /apply
@@ -175,11 +177,12 @@ Browser pixel + Conversions API (same `eventID` so Meta dedupes). CAPI needs `ME
 | Step | Pixel / CAPI event | `content_name` | Close |
 |------|--------------------|----------------|-------|
 | `/opt-in` view | ViewContent | `opt_in` | — |
-| Opt-in submit | **Lead** | `meta_opt_in` | New Lead - AUS (create) |
-| `/apply` view | ViewContent + ApplyVsl | `apply_training` / `apply_vsl_speed` | — |
-| VSL unmute | VslPlay | `vsl_play` | — |
-| VSL 25 / 50 / 75 / 95% | VslProgress | `vsl_25` … | — |
-| VSL finished | VslComplete | `vsl_complete` | — |
+| Opt-in submit | **Lead** | `meta_opt_in` | New Lead - AUS (create). Description: **VSL not watched yet** — they have not seen the video yet. |
+| `/apply` view | ViewContent + ApplyVsl | `apply_training` / `apply_vsl_speed` | Same lead patched: **Reached VSL page · not unmuted yet** |
+| VSL unmute | VslPlay | `vsl_play` | Same lead patched + note. Live watch % from here. |
+| VSL 25 / 50 / 75 / 95% | VslProgress | `vsl_25` … | Same lead patched + note |
+| VSL finished | VslComplete | `vsl_complete` | Same lead patched + note |
+| VSL leave / pause | — | — | Description updated to last % (no extra note) |
 | Apply Now click | ApplyCtaClick | `apply_now` | — |
 | `/apply/form` view | InitiateCheckout | `apply_form` | — |
 | Form questions | ApplyFormStep | `apply_form_q2` … | — |

@@ -40,7 +40,7 @@ const STEPS = [
 ] as const;
 
 function leadContext() {
-  return applyLeadContext();
+  return applyLeadContext({ includeVsl: false });
 }
 
 export default function OptInForm({
