@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { formatCloseLeadNote } from "@/lib/closeLeadNote";
 import { sendCapiEvents } from "@/lib/metaCapi";
+import {
+  ALLOWED_SOURCES,
+  HONEYPOT_FIELD,
+  PHONE_REQUIRED_SOURCES,
+  botReason,
+  clientIp,
+  originAllowed,
+  rateLimited,
+  requestCountry,
+  validateEmail,
+  validatePhone,
+} from "@/lib/leadGate";
 
 function getSupabaseAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -49,6 +61,12 @@ interface LeadPayload {
   vsl_completed?: boolean | string | null;
   fbp?: string;
   fbc?: string;
+  /** Honeypot — real forms never fill this. */
+  [HONEYPOT_FIELD]?: string | null;
+  /** Epoch ms when the form mounted; set by the client. */
+  form_started_at?: number | string | null;
+  /** ISO country from Vercel's edge; set server-side, never trusted from the client. */
+  country?: string | null;
 }
 
 /** Existing Close lead custom fields — Trade is what setters filter on. */
@@ -117,6 +135,34 @@ async function insertMarketingLead(
   });
 
   return error;
+}
+
+const DEDUPE_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Same email + same source inside 24h is a resubmit, not a new lead.
+ * Different sources are the funnel progressing (opt-in → apply) and must pass.
+ * Fails open on query errors.
+ */
+async function isRecentDuplicate(
+  supabase: SupabaseClient,
+  email: string,
+  source: string
+): Promise<boolean> {
+  const since = new Date(Date.now() - DEDUPE_WINDOW_MS).toISOString();
+  const { data, error } = await supabase
+    .from("leads")
+    .select("id")
+    .eq("email", email)
+    .eq("source", source)
+    .gte("created_at", since)
+    .limit(1);
+
+  if (error) {
+    console.error("Lead dedupe query error:", error);
+    return false;
+  }
+  return (data?.length ?? 0) > 0;
 }
 
 async function ingestStaffLead(body: LeadPayload, fullName: string, email: string) {
@@ -308,7 +354,25 @@ async function upsertCloseLead(
   return true;
 }
 
+/** Looks identical to a real success so bots and scripts learn nothing. */
+function fakeSuccess() {
+  return NextResponse.json({ success: true }, { status: 201 });
+}
+
 export async function POST(req: NextRequest) {
+  // --- Request-level gates (before we even parse the body) -----------------
+  if (!originAllowed(req.headers.get("origin"), req.headers.get("host"))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const ip = clientIp(req.headers);
+  if (rateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again shortly." },
+      { status: 429 }
+    );
+  }
+
   let body: LeadPayload;
 
   try {
@@ -317,32 +381,48 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { full_name, email } = body;
-
-  if (!full_name?.trim() || !email?.trim()) {
-    return NextResponse.json(
-      { error: "Name and email are required" },
-      { status: 400 }
-    );
+  const source = body.source || "";
+  if (!ALLOWED_SOURCES.has(source)) {
+    return NextResponse.json({ error: "Unknown source" }, { status: 400 });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.trim())) {
-    return NextResponse.json(
-      { error: "Invalid email address" },
-      { status: 400 }
-    );
+  // --- Bot signals: honeypot + time-to-submit ------------------------------
+  const bot = botReason(body);
+  if (bot) {
+    console.warn("Lead rejected as bot:", { reason: bot, source, ip });
+    return fakeSuccess();
   }
 
-  const fullName = full_name.trim();
-  const normalisedEmail = email.trim().toLowerCase();
+  // --- Field validation ----------------------------------------------------
+  const fullName = (body.full_name || "").trim();
+  if (fullName.length < 2) {
+    return NextResponse.json({ error: "Please enter your name." }, { status: 400 });
+  }
+
+  const emailCheck = await validateEmail(body.email);
+  if (!emailCheck.ok) {
+    return NextResponse.json({ error: emailCheck.error }, { status: 400 });
+  }
+  const normalisedEmail = emailCheck.email;
+
+  const phoneCheck = validatePhone(body.phone, PHONE_REQUIRED_SOURCES.has(source));
+  if (!phoneCheck.ok) {
+    return NextResponse.json({ error: phoneCheck.error }, { status: 400 });
+  }
+  body.phone = phoneCheck.phone || undefined;
+  body.country = requestCountry(req.headers);
 
   try {
     let savedToQuotie = false;
 
     try {
-      if (!NOTE_ONLY_SOURCES.has(body.source || "")) {
+      if (!NOTE_ONLY_SOURCES.has(source)) {
         const supabase = getSupabaseAdmin();
+
+        if (await isRecentDuplicate(supabase, normalisedEmail, source)) {
+          console.warn("Lead skipped as duplicate:", { source, email: normalisedEmail });
+          return fakeSuccess();
+        }
 
         const marketingError = await insertMarketingLead(
           supabase,

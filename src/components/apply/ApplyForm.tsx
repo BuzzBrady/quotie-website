@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { inter } from "@/lib/fonts";
+import { HONEYPOT_FIELD } from "@/lib/leadGateFields";
 import { ArrowLeft, ArrowRight, CircleNotch } from "@phosphor-icons/react";
 import OptInProgress from "@/components/opt-in/OptInProgress";
 import {
@@ -91,6 +92,17 @@ function needsContact(form: { full_name: string; email: string; phone: string })
   return !form.full_name.trim() || !form.email.trim() || !form.phone.trim();
 }
 
+async function serverError(res: Response): Promise<string> {
+  const fallback = "Something went wrong. Please try again.";
+  if (res.status !== 400) return fallback;
+  try {
+    const json = (await res.json()) as { error?: string };
+    return json.error || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function prefillFromParams(params: URLSearchParams) {
   const first = params.get("firstName") || params.get("first_name") || "";
   const last = params.get("lastName") || params.get("last_name") || "";
@@ -111,6 +123,11 @@ export default function ApplyForm() {
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Bot gating: time-to-submit + honeypot, checked server-side in /api/leads.
+  const [startedAt] = useState(() => Date.now());
+  const [honeypot, setHoneypot] = useState("");
+  // Server rejected prefilled contact details — reveal the fields to fix them.
+  const [showContact, setShowContact] = useState(false);
   const [form, setForm] = useState({
     trade_type: "",
     quotes_per_month: "",
@@ -253,12 +270,16 @@ export default function ApplyForm() {
           financial_position: form.financial_position,
           source: SOURCE,
           pixel_event_id: eventId,
+          form_started_at: startedAt,
+          [HONEYPOT_FIELD]: honeypot,
           ...leadContext(),
         }),
       });
 
       if (!res.ok) {
-        setError("Something went wrong. Please try again.");
+        const message = await serverError(res);
+        if (res.status === 400) setShowContact(true);
+        setError(message);
         return;
       }
 
@@ -446,10 +467,12 @@ export default function ApplyForm() {
             options={FINANCIAL_OPTIONS}
             onChange={(v) => setField("financial_position", v)}
           />
-          {needsContact(form) && (
+          {(needsContact(form) || showContact) && (
             <div className="mt-6 space-y-3">
               <p className="text-sm font-semibold text-slate-600">
-                We don&apos;t have your details yet
+                {showContact
+                  ? "Check your contact details"
+                  : "We don\u2019t have your details yet"}
               </p>
               <input
                 name="full_name"
@@ -482,6 +505,20 @@ export default function ApplyForm() {
           )}
         </div>
       )}
+
+      {/* Honeypot: hidden from humans, filled by bots. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+        <label htmlFor={`apply-${HONEYPOT_FIELD}`}>Company website</label>
+        <input
+          id={`apply-${HONEYPOT_FIELD}`}
+          name={HONEYPOT_FIELD}
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
 
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 

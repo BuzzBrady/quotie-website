@@ -22,6 +22,7 @@ export type CloseLeadNoteInput = {
   utm_id?: string | null;
   referrer?: string | null;
   page_url?: string | null;
+  country?: string | null;
   vsl_variant?: string | null;
   vsl_percent?: number | string | null;
   vsl_seconds?: number | string | null;
@@ -229,6 +230,7 @@ export function formatCloseLeadNote(body: CloseLeadNoteInput): string {
       line("Page", body.page_url),
       line("UTM", utm || null),
       line("Referrer", body.referrer),
+      line("Country", body.country),
     ]),
   ]
     .filter(Boolean)

@@ -175,6 +175,16 @@ Both write to Supabase `leads` table with UTM params, referrer, and page URL. So
 
 `/opt-in` and `/apply` also create a Close CRM lead and a Quotie `crm_leads` row. See `OPT-IN-REFERENCE.md` and `APPLY-REFERENCE.md`.
 
+### Lead gating (`/api/leads`)
+Server-side junk/bot filter in `src/lib/leadGate.ts`, applied before anything is written:
+- **Origin check** (same host only), **source whitelist**, **rate limit** (10 per IP per 10 min, in-memory per instance — a Vercel WAF rule on `/api/leads` is the durable version)
+- **Honeypot** (`company_website`, constant in `leadGateFields.ts`) + **time-to-submit** (min 3s from form mount via `form_started_at`; required for opt-in/apply sources). Bots get a fake `201` so they learn nothing.
+- **Phone**: must parse as a valid AU or NZ number (libphonenumber-js), no keyboard-mash patterns (0400000000, 0412345678). Required for ads sources. Stored as typed, not E.164.
+- **Email**: strict regex, disposable/placeholder domain blocklist, junk local parts (`test@`, `asdf@`), MX lookup (fails open on resolver errors).
+- **Dedupe**: same email + same source within 24h is skipped (funnel progression opt-in → apply still passes).
+- Rejections return `400` with a user-facing message; the opt-in and apply forms display it. Meta CAPI only fires for leads that pass.
+- Vercel's `x-vercel-ip-country` is stamped into the Close note (SOURCE → Country) for eyeballing offshore junk. Funnel hackers are deliberately not blocked — they have real details.
+
 ### SEO
 - Every page uses `createMetadata()` from `src/lib/metadata.ts`
 - Dynamic OG images at `/og?title=&subtitle=&tag=`
