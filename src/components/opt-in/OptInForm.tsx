@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { HONEYPOT_FIELD } from "@/lib/leadGateFields";
 import { useRouter } from "next/navigation";
 import { inter } from "@/lib/fonts";
 import { ArrowRight, CircleNotch } from "@phosphor-icons/react";
@@ -43,6 +44,17 @@ function leadContext() {
   return applyLeadContext({ includeVsl: false });
 }
 
+async function serverError(res: Response): Promise<string> {
+  const fallback = "Something went wrong. Please try again.";
+  if (res.status !== 400) return fallback;
+  try {
+    const json = (await res.json()) as { error?: string };
+    return json.error || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export default function OptInForm({
   step,
   onStepChange,
@@ -64,6 +76,9 @@ export default function OptInForm({
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Bot gating: time-to-submit + honeypot, checked server-side in /api/leads.
+  const [startedAt] = useState(() => Date.now());
+  const [honeypot, setHoneypot] = useState("");
 
   const fieldStep = Math.min(step, STEPS.length - 1);
   const current = STEPS[fieldStep];
@@ -118,13 +133,16 @@ export default function OptInForm({
           phone: form.phone.trim(),
           source: SOURCE,
           pixel_event_id: eventId,
+          form_started_at: startedAt,
+          [HONEYPOT_FIELD]: honeypot,
           ...leadContext(),
         }),
       });
 
       if (!res.ok) {
-        onStepChange(2);
-        setError("Something went wrong. Please try again.");
+        const message = await serverError(res);
+        onStepChange(/email/i.test(message) ? 1 : 2);
+        setError(message);
         return;
       }
 
@@ -204,6 +222,20 @@ export default function OptInForm({
         required
         autoFocus
       />
+
+      {/* Honeypot: hidden from humans, filled by bots. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+        <label htmlFor={`optin-${HONEYPOT_FIELD}`}>Company website</label>
+        <input
+          id={`optin-${HONEYPOT_FIELD}`}
+          name={HONEYPOT_FIELD}
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
 
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 

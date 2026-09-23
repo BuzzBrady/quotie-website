@@ -59,7 +59,14 @@ export default function ApplyCallbackForm() {
       });
 
       if (!res.ok) {
-        setError("Something went wrong. Please try again.");
+        let message = "Something went wrong. Please try again.";
+        if (res.status === 400) {
+          try {
+            const json = (await res.json()) as { error?: string };
+            if (json.error) message = json.error;
+          } catch {}
+        }
+        setError(message);
         return;
       }
 
