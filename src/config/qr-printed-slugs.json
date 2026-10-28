@@ -1,0 +1,12 @@
+{
+  "_note": "Slugs printed on physical QR codes (https://quotie.au/q/<slug>). This list only ever grows: never remove or rename a slug, only repoint it in src/config/qr-redirects.ts. Checked by scripts/check-qr-redirects.mjs on every build.",
+  "slugs": [
+    "car",
+    "pamphlet",
+    "jumper",
+    "shirt",
+    "card-zac",
+    "card-erin",
+    "card-buzz"
+  ]
+}

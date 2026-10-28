@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-qr-redirects.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:qr": "node scripts/check-qr-redirects.mjs",
+    "smoke:qr": "node scripts/smoke-qr.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

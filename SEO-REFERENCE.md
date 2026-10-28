@@ -176,7 +176,7 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 
 ## QR code redirects (`/q/<slug>`)
 
-Printed QR codes encode `https://quotie.au/q/<slug>`. Redirects live in `next.config.ts` (`redirects()`, ahead of the app route redirects; redirects run before the `/directory` rewrites).
+Printed QR codes encode `https://quotie.au/q/<slug>`. The slug map lives in `src/config/qr-redirects.ts` and is used by `redirects()` in `next.config.ts` (ahead of the app route redirects; redirects run before the `/directory` rewrites).
 
 **Permanence rule:** these slugs are printed on physical marketing and must never be removed, only repointed. Keep them temporary (`permanent: false`, served as 307) so a destination can change without browsers caching the old target. Destinations are relative so they also work on preview deployments.
 
@@ -190,6 +190,12 @@ Printed QR codes encode `https://quotie.au/q/<slug>`. Redirects live in `next.co
 | `/q/card-erin` | `/?utm_source=qr&utm_medium=business-card&utm_campaign=card-erin` |
 | `/q/card-buzz` | `/?utm_source=qr&utm_medium=business-card&utm_campaign=card-buzz` |
 | `/q`, `/q/<anything else>` | `/directory` (fallback, listed after the specific slugs) |
+
+**Guard:** every printed slug is listed in `src/config/qr-printed-slugs.json`. That list only ever grows. `scripts/check-qr-redirects.mjs` (`npm run check:qr`) loads the real `redirects()` output and fails if a printed slug is missing, permanent, or has an empty destination, if the printed list has dropped one of the original slugs, or if the `/q` fallbacks are missing or ordered before the slugs. It runs as `prebuild`, so a Vercel build fails. Vercel builds a preview for every pull request, so the check runs on PRs too.
+
+**Smoke test:** `npm run smoke:qr` checks the live redirects on https://quotie.au. Pass another base URL to test a preview, e.g. `npm run smoke:qr -- https://<preview>.vercel.app` (or set `QR_SMOKE_BASE_URL`).
+
+**Adding a new printed slug:** add it to `src/config/qr-redirects.ts`, add it to `src/config/qr-printed-slugs.json`, and add a row to the table above.
 
 - `/q` is disallowed in `src/app/robots.ts` (redirect-only paths)
 - To add a new printed code, add a slug to `qrRedirects` in `next.config.ts` and to this table
