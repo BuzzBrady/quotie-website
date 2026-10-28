@@ -33,7 +33,7 @@ Italics = notes.
 
 - Sell the plan that matches **who will send quotes**, not who’s on the phone. Two or more people = team plan. Don’t drop down to get a yes.
 - Take the **setup on this call**. Monthly is after that.
-- Don’t discount. Don’t make up a higher “was” price.
+- Never discount on the site or on a call. Any discount goes in the written proposal only. Don’t make up a higher “was” price.
 - If someone else has to say yes and they’re not on the call — don’t take “they’ll be right with it”. Get them on, or get “I can say yes”.
 - Before you say the price they should have agreed: quoting is the problem, the other options don’t work, and if the build fits they can start today.
 
@@ -435,7 +435,7 @@ That’s a different chat. I won’t sell you the small team plan and hope. If h
 
 - Make up a “was $12k” price
 - Make up a profit share
-- Discount to fill the silence
+- Discount on the call, even to fill the silence. Any discount goes in the written proposal only.
 - Say “set up in minutes”
 - Say they build their own templates
 - Take “pay later” as the default. If cash this month is the *only* problem, see the split below — still get money on this call.

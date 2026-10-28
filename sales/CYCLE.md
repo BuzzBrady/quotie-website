@@ -119,7 +119,7 @@ Don’t ask how it feels or what it means at home.
 
 - Plan follows **who will send quotes**. 2+ people = team plan. Don’t drop down to get a yes.
 - Take the **setup on the strategy session**. Monthly is after that.
-- Don’t discount. Don’t make up a higher “was” price.
+- Never discount on the site or on a call. Any discount goes in the written proposal only. Don’t make up a higher “was” price.
 - Setter gets a recent quote sent before the close. That helps the close.
 - Don’t put someone on the call who can’t say yes. Book the person who pays.
 
