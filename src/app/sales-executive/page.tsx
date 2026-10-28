@@ -21,7 +21,7 @@ const whatTheyDo = [
     icon: Phone,
     title: "Call every lead",
     description:
-      "Inbound enquiries get a call within minutes, not hours. Your sales exec dials through Tradie Hub so every call is logged and every lead is tracked.",
+      "Inbound enquiries get a call within minutes, not hours. No lead sits waiting for a callback.",
   },
   {
     icon: ChatCircleDots,
@@ -57,13 +57,12 @@ const whatTheyDo = [
 
 const benefits = [
   "No recruiting, no hiring, no training from scratch",
-  "Trained on Quotie and Tradie Hub — they hit the ground running",
+  "Trained on Quotie, so they hit the ground running",
   "Your leads get called back in minutes, not days",
   "Every quote gets followed up, every time",
   "Free up your time to be on tools, not on the phone",
   "Scale your sales without scaling your payroll",
-  "Full visibility — calls tracked in Tradie Hub, quotes tracked in Quotie",
-  "Backed by Tradie Web Guys, specialists in trades marketing",
+  "Full visibility, with every quote tracked in Quotie",
 ];
 
 const howItWorks = [
@@ -71,7 +70,7 @@ const howItWorks = [
     step: "01",
     title: "We learn your business",
     description:
-      "Your pricing, your services, your ideal customer. We build your Quotie system, set up Tradie Hub for calling and lead management, and train your sales exec on exactly how you operate.",
+      "Your pricing, your services, your ideal customer. We build your Quotie system and train your sales exec on exactly how you operate.",
   },
   {
     step: "02",
@@ -98,8 +97,8 @@ export default function SalesExecutivePage() {
         </div>
 
         <Container className="relative z-10 py-16 sm:py-24 lg:py-32">
-          {/* Quotie × TWG hero banner */}
-          <div className="flex items-center justify-center gap-6 sm:gap-10 mb-14">
+          {/* Quotie hero logo */}
+          <div className="flex items-center justify-center mb-14">
             <div className="flex items-center gap-3">
               <Image
                 src="/logo.svg"
@@ -112,16 +111,6 @@ export default function SalesExecutivePage() {
                 Quotie
               </span>
             </div>
-            <span className="text-2xl sm:text-3xl text-white/15 font-extralight">×</span>
-            <a href="https://www.tradiewebguys.com.au" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/twg-logo.png"
-                alt="Tradie Web Guys"
-                width={260}
-                height={34}
-                className="w-auto h-8 sm:h-10"
-              />
-            </a>
           </div>
 
           <div className="max-w-3xl">
@@ -353,20 +342,15 @@ export default function SalesExecutivePage() {
               <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
                 Quotie
               </span>
-              . Delivered by{" "}
-              <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                Tradie Web Guys
-              </span>
               .
             </h2>
             <p className="text-white/35 text-[15px] leading-relaxed mt-4 max-w-lg mx-auto">
-              Quotie handles the quoting engine — smart forms, branded PDFs,
-              and pipeline tracking. Tradie Hub handles calling, lead management,
-              and communication. Your sales exec uses both, every day, to win you work.
-              The two platforms are tightly integrated so everything stays in sync.
+              Quotie handles the quoting engine: smart forms, branded PDFs,
+              and pipeline tracking. Your sales exec uses it every day to win
+              you work.
             </p>
 
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div className="mt-10 grid grid-cols-1 gap-4 max-w-xs mx-auto">
               <a href="/features" className="rounded-xl border border-brand-cyan/15 bg-brand-cyan/5 p-5 text-center flex flex-col items-center hover:border-brand-cyan/30 transition-colors">
                 <Image
                   src="/logo.svg"
@@ -382,39 +366,9 @@ export default function SalesExecutivePage() {
                   Quoting platform, pricing engine, PDF generation, pipeline tracking
                 </p>
               </a>
-              <a href="https://www.tradiewebguys.com.au" target="_blank" rel="noopener noreferrer" className="rounded-xl border border-amber-500/15 bg-amber-500/5 p-5 text-center flex flex-col items-center hover:border-amber-500/30 transition-colors">
-                <Image
-                  src="/tradie-hub-logo.png"
-                  alt="Tradie Hub"
-                  width={140}
-                  height={28}
-                  className="mb-3 opacity-80 w-auto h-auto"
-                />
-                <p className="text-white/30 text-xs leading-relaxed">
-                  CRM, power dialler, lead management, call tracking, SMS, email sequences
-                </p>
-              </a>
-              <a href="https://www.tradiewebguys.com.au" target="_blank" rel="noopener noreferrer" className="rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-5 text-center flex flex-col items-center hover:border-emerald-500/30 transition-colors">
-                <Image
-                  src="/twg-logo.png"
-                  alt="Tradie Web Guys"
-                  width={150}
-                  height={20}
-                  className="mb-3 opacity-80 w-auto h-auto"
-                />
-                <p className="text-white/30 text-xs leading-relaxed">
-                  Trained sales executive, lead handling, follow-ups, closing
-                </p>
-              </a>
             </div>
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-              <a href="https://www.tradiewebguys.com.au" target="_blank" rel="noopener noreferrer" className="text-xs text-white/25 hover:text-white/50 transition-colors">
-                About Tradie Web Guys →
-              </a>
-              <a href="https://www.tradiewebguys.com.au" target="_blank" rel="noopener noreferrer" className="text-xs text-white/25 hover:text-white/50 transition-colors">
-                Explore Tradie Hub →
-              </a>
               <a href="/features" className="text-xs text-white/25 hover:text-white/50 transition-colors">
                 Quotie Features →
               </a>
