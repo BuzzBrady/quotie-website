@@ -60,6 +60,24 @@ const nextConfig: NextConfig = {
       })),
     ];
   },
+  async rewrites() {
+    // Proxy /directory to the Quotie Directory app. beforeFiles so these
+    // win over any page or catch-all route on this site.
+    return {
+      beforeFiles: [
+        {
+          source: "/directory",
+          destination: "https://quotie-directory.vercel.app/directory",
+        },
+        {
+          source: "/directory/:path*",
+          destination: "https://quotie-directory.vercel.app/directory/:path*",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   async headers() {
     return [
       {
