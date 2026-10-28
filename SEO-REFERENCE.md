@@ -24,7 +24,7 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - OG site name, locale, and type set in root layout
 
 ### Robots.txt (`src/app/robots.ts`)
-- `User-Agent: *`, `Allow: /`, `Disallow: /api/`, `/opt-in`, and `/apply`
+- `User-Agent: *`, `Allow: /`, `Disallow: /api/`, `/opt-in`, `/apply`, `/directory`, and `/q`
 - Ads landing pages (`/opt-in`, `/apply`) are `noindex, nofollow, nocache` and are not in the sitemap
 - Sitemap URL: `https://quotie.au/sitemap.xml`
 
@@ -171,3 +171,25 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - `trackLead(source)` helper fires a `Lead` event with `content_name` set to the existing Supabase source tag (`hero_schedule_demo`, `contact_page`, etc.)
 - Lead events fire only after successful Supabase insert — in `LeadCaptureForm` and the contact form
 - Verify via Events Manager → Test Events; `Lead` can be used as ad optimisation event
+
+---
+
+## QR code redirects (`/q/<slug>`)
+
+Printed QR codes encode `https://quotie.au/q/<slug>`. Redirects live in `next.config.ts` (`redirects()`, ahead of the app route redirects; redirects run before the `/directory` rewrites).
+
+**Permanence rule:** these slugs are printed on physical marketing and must never be removed, only repointed. Keep them temporary (`permanent: false`, served as 307) so a destination can change without browsers caching the old target. Destinations are relative so they also work on preview deployments.
+
+| Slug | Destination |
+| --- | --- |
+| `/q/car` | `/directory?utm_source=qr&utm_medium=car-wrap&utm_campaign=car` |
+| `/q/pamphlet` | `/directory?utm_source=qr&utm_medium=pamphlet&utm_campaign=pamphlet` |
+| `/q/jumper` | `/directory?utm_source=qr&utm_medium=merch&utm_campaign=jumper` |
+| `/q/shirt` | `/directory?utm_source=qr&utm_medium=merch&utm_campaign=shirt` |
+| `/q/card-zac` | `/?utm_source=qr&utm_medium=business-card&utm_campaign=card-zac` |
+| `/q/card-erin` | `/?utm_source=qr&utm_medium=business-card&utm_campaign=card-erin` |
+| `/q/card-buzz` | `/?utm_source=qr&utm_medium=business-card&utm_campaign=card-buzz` |
+| `/q`, `/q/<anything else>` | `/directory` (fallback, listed after the specific slugs) |
+
+- `/q` is disallowed in `src/app/robots.ts` (redirect-only paths)
+- To add a new printed code, add a slug to `qrRedirects` in `next.config.ts` and to this table
