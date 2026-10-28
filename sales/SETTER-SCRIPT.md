@@ -218,8 +218,8 @@ Cool. And that’s money the business can actually put in this month if it’s r
 
 Two prices, GST in.
 
-- One person quoting: $5,800 to set it up, $495 a month
-- Two to five people: $7,800 to set it up, $695 a month
+- One person quoting: $5,880 to set it up, $495 a month
+- Two to five people: $6,840 to set it up, $750 a month
 
 The setup is us building it. The monthly is the software after that. No fee per quote.
 
@@ -366,7 +366,7 @@ This isn’t software you set up yourself. We build the form, the prices, the qu
 
 ### They only want the price
 
-It’s $5,800 or $7,800 to set up, then a monthly. GST in.
+It’s $5,880 or $6,840 to set up, then a monthly. GST in.
 
 The useful bit is whether we can match how you already quote. That’s the call. Two minutes on how you do it now, then I’ll get you a time. Fair?
 

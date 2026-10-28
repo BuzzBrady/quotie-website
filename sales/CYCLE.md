@@ -84,8 +84,8 @@ We sit with them, work out how they already price jobs, and build:
 
 They fill in the form and generate. Quotes in under 30 seconds. They come back later for one-off price changes or new materials.
 
-**1 Man Band** — $5,800 setup + $495/mo — 1 user  
-**Small Team** — $7,800 setup + $695/mo — 2–5 users  
+**1 Man Band** — $5,880 setup + $495/mo — 1 user  
+**Small Team** — $6,840 setup + $750/mo — 2–5 users  
 **6+** — talk  
 
 All AUD incl. GST. No per-quote fees. Most businesses are quoting within the first week. Setup is collaborative, not a one-day install.

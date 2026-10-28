@@ -412,8 +412,8 @@ You’re putting about `[_hours a month_]` into quotes, jobs around `[_value_]`,
 
 For `[_who will send quotes_]`, it’s `[_plan_]`.
 
-**1 Man Band** — $5,800 to set up, $495 a month. One person.  
-**Small Team** — $7,800 to set up, $695 a month. Two to five people.
+**1 Man Band** — $5,880 to set up, $495 a month. One person.  
+**Small Team** — $6,840 to set up, $750 a month. Two to five people.
 
 GST in. Setup is the build I just walked through. Monthly is the software after that. No fee per quote.
 
