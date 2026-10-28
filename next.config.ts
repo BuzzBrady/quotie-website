@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { qrFallbackDestination, qrRedirects } from "./src/config/qr-redirects";
 
 const nextConfig: NextConfig = {
   // Dev-only: let the dev server be viewed via 127.0.0.1 as well as localhost
@@ -32,27 +33,11 @@ const nextConfig: NextConfig = {
       "/builders/:path*",
       "/request-password-reset",
     ];
-    // QR code short links: printed QR codes encode https://quotie.au/q/<slug>.
-    // These slugs are printed on physical marketing (car wrap, pamphlets,
-    // merch, business cards) and must NEVER be removed, only repointed.
-    // Temporary (permanent: false) so destinations can change without
-    // browsers caching the old target. Relative destinations so they also
-    // work on preview deployments. See SEO-REFERENCE.md "QR code redirects".
-    const qrRedirects: Record<string, string> = {
-      car: "/directory?utm_source=qr&utm_medium=car-wrap&utm_campaign=car",
-      pamphlet:
-        "/directory?utm_source=qr&utm_medium=pamphlet&utm_campaign=pamphlet",
-      jumper: "/directory?utm_source=qr&utm_medium=merch&utm_campaign=jumper",
-      shirt: "/directory?utm_source=qr&utm_medium=merch&utm_campaign=shirt",
-      "card-zac":
-        "/?utm_source=qr&utm_medium=business-card&utm_campaign=card-zac",
-      "card-erin":
-        "/?utm_source=qr&utm_medium=business-card&utm_campaign=card-erin",
-      "card-buzz":
-        "/?utm_source=qr&utm_medium=business-card&utm_campaign=card-buzz",
-    };
     return [
+      // QR short links (src/config/qr-redirects.ts). Temporary (307) so a
+      // destination can change without browsers caching the old target.
       // Specific QR slugs first, then the /q fallback (order matters).
+      // Guarded by scripts/check-qr-redirects.mjs (runs before every build).
       ...Object.entries(qrRedirects).map(([slug, destination]) => ({
         source: `/q/${slug}`,
         destination,
@@ -60,12 +45,12 @@ const nextConfig: NextConfig = {
       })),
       {
         source: "/q",
-        destination: "/directory",
+        destination: qrFallbackDestination,
         permanent: false,
       },
       {
         source: "/q/:path*",
-        destination: "/directory",
+        destination: qrFallbackDestination,
         permanent: false,
       },
       {
