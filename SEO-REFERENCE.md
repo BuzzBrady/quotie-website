@@ -50,7 +50,7 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - Logo images: `alt="Quotie"`
 
 ### Internal Linking
-- Header: 6 nav links (Features, Sales Executive, Pricing, Industries, Blog, About)
+- Header: 5 nav links (Features, Pricing, Industries, Blog, About)
 - Footer: 4 sections (Product, Industries, Resources, Legal) covering all key pages
 - No page is more than 2 clicks from homepage
 
@@ -157,17 +157,9 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - `next.config.ts` redirects `/dashboard`, `/quotes`, `/login`, etc. to `app.quotie.au`
 - Prevents app routes from polluting marketing site analytics
 
-### 11. Sales Executive page (`/sales-executive`)
-- New partnership page: Quotie × Tradie Web Guys
-- Co-branded hero with Quotie logo + TWG logo
-- Tradie Hub (TWG's CRM/dialler) featured as separate platform
-- Three-card "Powered by" section: Quotie, Tradie Hub, Tradie Web Guys
-- Lead capture with `sales_executive_page` source tag
-- Emerald-accented nav link
-- "Partnered with" TWG logo strip added to homepage social proof (links to /sales-executive)
-- All partner logos link to tradiewebguys.com.au (opens in new tab)
-- Quick links below powered-by section: "About Tradie Web Guys →", "Explore Tradie Hub →", "Quotie Features →"
-- Tradie Hub doesn't have its own URL yet — links to TWG site for now
+### 11. Sales Executive page (`/sales-executive`) (removed 2026-10-28)
+- Page, layout and nav link removed
+- `/sales-executive` now permanently redirects (308) to `/` via `next.config.ts`
 
 ---
 

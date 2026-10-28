@@ -53,6 +53,11 @@ const nextConfig: NextConfig = {
         destination: "/apply/thanks",
         permanent: true,
       },
+      {
+        source: "/sales-executive",
+        destination: "/",
+        permanent: true,
+      },
       ...appRoutes.map((source) => ({
         source,
         destination: `https://app.quotie.au${source.replace("/:path*", "")}`,
