@@ -50,7 +50,7 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - Logo images: `alt="Quotie"`
 
 ### Internal Linking
-- Header: 6 nav links (Features, Sales Executive, Pricing, Industries, Blog, About)
+- Header: 5 nav links (Features, Pricing, Industries, Blog, About)
 - Footer: 4 sections (Product, Industries, Resources, Legal) covering all key pages
 - No page is more than 2 clicks from homepage
 
@@ -157,12 +157,9 @@ Audit performed 2026-05-15. Overall score: 9/10 (up from 8.5 after fixes).
 - `next.config.ts` redirects `/dashboard`, `/quotes`, `/login`, etc. to `app.quotie.au`
 - Prevents app routes from polluting marketing site analytics
 
-### 11. Sales Executive page (`/sales-executive`)
-- Sales executive service page, Quotie branded
-- Hero with Quotie logo
-- "Powered by Quotie" section with a single Quotie card linking to /features, plus a "Quotie Features →" quick link
-- Lead capture with `sales_executive_page` source tag
-- Emerald-accented nav link
+### 11. Sales Executive page (`/sales-executive`) (removed 2026-10-28)
+- Page, layout and nav link removed
+- `/sales-executive` now permanently redirects (308) to `/` via `next.config.ts`
 
 ---
 
