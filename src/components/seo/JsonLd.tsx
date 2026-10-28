@@ -38,7 +38,7 @@ export function SoftwareApplicationSchema({
       "@type": "AggregateOffer",
       priceCurrency: "AUD",
       lowPrice: "495",
-      highPrice: "695",
+      highPrice: "750",
       offerCount: "3",
       availability: "https://schema.org/InStock",
     },
