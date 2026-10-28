@@ -139,7 +139,7 @@ Catch drop-off with a mid-video CTA as well (~after “what Quotie is” and ~af
 
 **Don’t say**
 
-- The $5,800 / $7,800 numbers (ads hide price)
+- The $5,880 / $6,840 numbers (ads hide price)
 - “Set up in minutes”
 - “Build your own templates”
 - Invoices, taking payments, texts

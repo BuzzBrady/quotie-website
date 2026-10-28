@@ -84,8 +84,8 @@ We sit with them, work out how they already price jobs, and build:
 
 They fill in the form and generate. Quotes in under 30 seconds. They come back later for one-off price changes or new materials.
 
-**1 Man Band** — $5,800 setup + $495/mo — 1 user  
-**Small Team** — $7,800 setup + $695/mo — 2–5 users  
+**1 Man Band** — $5,880 setup + $495/mo — 1 user  
+**Small Team** — $6,840 setup + $750/mo — 2–5 users  
 **6+** — talk  
 
 All AUD incl. GST. No per-quote fees. Most businesses are quoting within the first week. Setup is collaborative, not a one-day install.
@@ -119,7 +119,7 @@ Don’t ask how it feels or what it means at home.
 
 - Plan follows **who will send quotes**. 2+ people = team plan. Don’t drop down to get a yes.
 - Take the **setup on the strategy session**. Monthly is after that.
-- Don’t discount. Don’t make up a higher “was” price.
+- Never discount on the site or on a call. Any discount goes in the written proposal only. Don’t make up a higher “was” price.
 - Setter gets a recent quote sent before the close. That helps the close.
 - Don’t put someone on the call who can’t say yes. Book the person who pays.
 
