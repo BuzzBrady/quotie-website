@@ -19,6 +19,7 @@ import {
   Signature,
   MapPin,
   PhoneCall,
+  Tag,
 } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -58,6 +59,14 @@ const features = [
     bullets: ["Send up to 4 quotes at a time", "Full PDF per option", "Bundle in one email"],
   },
   {
+    icon: Tag,
+    title: "Pricing Catalog",
+    description: "Every product and price your quotes are built from, in one place. Change a price or add a product yourself, review the before and after, and publish. The next quote uses it. The pricing logic we built around those prices stays exactly as it was. Changes to that logic, to your form, or to quote wording are made by our team.",
+    color: "text-indigo-400",
+    accent: "indigo",
+    bullets: ["Edit prices and add products yourself", "Draft, review the before and after, then publish", "Products still in use can be switched off, not deleted", "Logic and wording changes handled by the Quotie team"],
+  },
+  {
     icon: Signature,
     title: "Accept & Sign Online",
     description: "Every quote email can include a hosted, branded quote page. Clients view all options online, choose what works, and digitally sign right there — a signed certificate is stamped into the PDF. You know the moment a client opens or downloads the page. Decline-with-reason handling included.",
@@ -84,18 +93,18 @@ const features = [
   {
     icon: PhoneCall,
     title: "Callback Leads",
-    description: "Pre-quote lead pipeline. Leads land from GHL webhooks or manual entry. Track call attempts, set timed callback reminders with live countdown, and auto-graduate the lead to a full quote when ready.",
+    description: "Pre-quote lead pipeline. Add leads in Quotie or pipe them in from your web forms and lead tools by webhook. Track call attempts, set timed callback reminders with live countdown, and auto-graduate the lead to a full quote when ready.",
     color: "text-orange-400",
     accent: "orange",
-    bullets: ["GHL webhook ingestion + manual entry", "Call attempt tracking", "Timed callback reminders with live countdown", "Auto-graduates to a quote"],
+    bullets: ["Manual entry or webhook ingestion", "Call attempt tracking", "Timed callback reminders with live countdown", "Auto-graduates to a quote"],
   },
   {
     icon: MapPin,
     title: "Site Visits & Road Days",
-    description: "Plan road days from within Quotie. Scan your GHL calendar for booked site visits, drag-to-order your stops, get travel-time routing, and view booking summaries. One-click creates a quote directly from a visit.",
+    description: "Plan road days from within Quotie. Add your booked site visits, drag-to-order your stops, get travel-time routing, and view booking summaries. One-click creates a quote directly from a visit.",
     color: "text-lime-400",
     accent: "lime",
-    bullets: ["GHL calendar scan for booked visits", "Drag-to-order stops", "Travel-time routing", "Booking summaries", "One-click create quote from a visit"],
+    bullets: ["Add visits by address or import booked ones", "Drag-to-order stops", "Travel-time routing", "Booking summaries", "One-click create quote from a visit"],
   },
   {
     icon: ChartBar,
@@ -119,7 +128,7 @@ const bottomFeatures = [
   {
     icon: UsersThree,
     title: "CRM & Contacts",
-    description: "Full contact history, multi-address support, GoHighLevel two-way sync. Import from GHL or add manually.",
+    description: "Quotie is your CRM. Full contact history, multi-address support, lead owner and lead source on every deal. No calling or texting built in, everything else is.",
     color: "text-purple-400",
     border: "border-purple-500/15",
   },
@@ -140,7 +149,7 @@ const bottomFeatures = [
   {
     icon: PlugsConnected,
     title: "Automations v2",
-    description: "Triggers on quote events (sent, viewed, signed, declined, won) and job events. Multi-trigger workflows, AND/OR conditions, wait steps, filter steps. Actions: email, webhooks, GHL notes/tags/opportunities, notifications.",
+    description: "Triggers on quote events (sent, viewed, signed, declined, won) and job events. Multi-trigger workflows, AND/OR conditions, wait steps, filter steps. Actions: email, notifications, webhooks.",
     color: "text-teal-400",
     border: "border-teal-500/15",
   },
@@ -341,7 +350,7 @@ export default function FeaturesPage() {
   const HeroIcon = hero.icon;
   const byTitle = (t: string) => features.find((f) => f.title === t)!;
 
-  const create = [byTitle("Instant PDF Generation"), byTitle("Multi-Option Proposals")];
+  const create = [byTitle("Instant PDF Generation"), byTitle("Multi-Option Proposals"), byTitle("Pricing Catalog")];
   const sendSign = [byTitle("Accept & Sign Online"), byTitle("Email & Unified Inbox")];
   const followUp = [
     byTitle("Follow-Up Dashboard"),

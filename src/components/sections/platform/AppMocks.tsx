@@ -578,13 +578,13 @@ const FLOW = [
   { kind: "Action", edge: "#f59e0b", icon: Bell, title: "Send Notification", sub: "To the lead owner" },
   { kind: "Wait", edge: "#0ea5e9", icon: Clock, title: "Wait 1 day", sub: "" },
   { kind: "Filter", edge: "#8b5cf6", icon: Diamond, title: "Only continue if…", sub: "No job has been created" },
-  { kind: "Action", edge: "#f59e0b", icon: Lightning, title: "GoHighLevel: Update Opportunity", sub: "Move to “Signed”" },
+  { kind: "Action", edge: "#f59e0b", icon: Lightning, title: "Send Email", sub: "Template: Welcome aboard" },
 ] as const;
 
 export function AutomationsMock() {
   return (
     <AppWindow active="settings">
-      <PageTitle title="Edit Automation" sub="Signed quote → notify, then update GoHighLevel" />
+      <PageTitle title="Edit Automation" sub="Signed quote → notify, then send the welcome email" />
       <div className="max-w-[300px] mx-auto">
         {FLOW.map((s, i) => {
           const Icon = s.icon;

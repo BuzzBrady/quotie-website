@@ -25,6 +25,37 @@ interface ChangelogEntry {
 
 const entries: ChangelogEntry[] = [
   {
+    date: "November 2026",
+    version: "v3.7.0",
+    title: "Edit Your Own Pricing Catalog",
+    type: "feature",
+    description:
+      "Your Pricing page is no longer read-only. Update prices and add products yourself — the pricing logic we built for you stays exactly as it was.",
+    changes: [
+      "Edit catalog — change prices and add products in place",
+      "Changes save to a draft until you review the before and after and publish",
+      "Products your quotes still rely on can be switched off, not deleted",
+      "Changes to pricing logic, form questions and quote wording are still made by the Quotie team",
+    ],
+  },
+  {
+    date: "September 2026",
+    version: "v3.6.0",
+    title: "Sales Pipelines, Tasks & a Faster Quote Form",
+    type: "feature",
+    description:
+      "Your whole sales cycle on a board you control, a Tasks tab for everything that isn't a quote chase, and a full tidy-up of the quote form.",
+    changes: [
+      "Sales pipelines — drag opportunities between stages, or let new leads, sent quotes and signatures move them for you",
+      "Each pipeline card shows how long it has sat in its stage",
+      "Tasks tab in Follow-Ups, plus a What's Next summary on the dashboard",
+      "Quote form: number steppers, searchable dropdowns, pill selectors, inline help, and a jump straight to anything you missed",
+      "Road day itineraries — a nightly email with the route and travel times between stops",
+      "Multiple quote templates per company, each with its own pricing catalog",
+      "Profit before you send — a per-quote breakdown on Review & Send",
+    ],
+  },
+  {
     date: "August 2026",
     version: "v3.5.0",
     title: "Shared Quote Links & Accept + Sign",

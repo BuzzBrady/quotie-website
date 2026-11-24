@@ -5,6 +5,7 @@ import Hero from "@/components/sections/Hero";
 import SocialProof from "@/components/sections/SocialProof";
 import LiveDemo from "@/components/sections/live-demo/LiveDemo";
 import SelectionDiff from "@/components/sections/SelectionDiff";
+import Catalog from "@/components/sections/catalog/Catalog";
 import Platform from "@/components/sections/platform/Platform";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Testimonials from "@/components/sections/Testimonials";
@@ -27,6 +28,7 @@ export default function HomePage() {
       <SocialProof />
       <LiveDemo />
       <SelectionDiff />
+      <Catalog />
       <Platform />
       <HowItWorks />
       <Testimonials />

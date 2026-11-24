@@ -9,11 +9,19 @@ export const FAQS = [
   },
   {
     q: "Can I customise my quote templates?",
-    a: "Absolutely. We build your quote forms and PDF templates during onboarding — every field, layout, and calculation is tailored to exactly how your business works. After that, you just come to us for price changes or new materials.",
+    a: "Absolutely. We build your quote forms and PDF templates during onboarding — every field, layout, and calculation is tailored to exactly how your business works. After that, you can update prices and add products yourself in your pricing catalog. Changes to pricing logic, form questions, or quote wording go through our team.",
   },
   {
     q: "Does Quotie integrate with other tools?",
-    a: "Yes — GoHighLevel, ServiceM8, Gmail, Outlook, Google Drive, and Dropbox integrations are built in. Contacts sync automatically, emails send from your own account, and documents can be stored where you already work.",
+    a: "Yes — Gmail, Outlook, Google Drive, Dropbox, ServiceM8, and GoHighLevel integrations are built in. Emails send from your own account, and documents can be stored where you already work.",
+  },
+  {
+    q: "Do I need a separate CRM?",
+    a: "No. Quotie works as a standalone CRM — contacts, pipeline, follow-ups, callback leads, site visits, jobs, calendar, and a two-way email inbox are all built in. The one thing it doesn't do is calling and texting. If you already run another CRM, Quotie can sync with it instead.",
+  },
+  {
+    q: "Can I change my own prices?",
+    a: "Yes. Your pricing catalog lists every product and price your quotes are built from. Change a price or add a product, review the before and after, and publish — the next quote uses it. The pricing logic we built stays exactly as it was. Changes to that logic, to the form, or to quote wording are made by our team.",
   },
   {
     q: "How does the PDF generation work?",

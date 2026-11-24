@@ -76,7 +76,7 @@ const STAGES = [
     icon: PlugsConnected,
     title: "Automations",
     description:
-      "Trigger on quote viewed, signed, or declined — plus job events. Multi-trigger workflows, wait steps, AND/OR conditions, GHL actions.",
+      "Trigger on quote viewed, signed, or declined — plus job events. Multi-trigger workflows, wait steps, AND/OR conditions. Actions send emails, notifications and webhooks.",
     Mock: AutomationsMock,
   },
 ] as const;
@@ -91,13 +91,13 @@ const ALSO = [
   {
     icon: UsersThree,
     title: "CRM & Contacts",
-    description: "Full contact history with GoHighLevel two-way sync built in.",
+    description: "Quotie is the CRM. Contacts, addresses, quote history, lead owner and lead source in one place. No calling or texting, everything else.",
   },
   {
     icon: MapPin,
     title: "Site Visits & Road Days",
     description:
-      "Plan road days, scan GHL calendars for booked visits, drag to order stops, travel-time routing, one-click create quote from a visit.",
+      "Plan road days. Add booked visits, drag to order stops, travel-time routing, one-click create quote from a visit.",
   },
   {
     icon: CalendarBlank,

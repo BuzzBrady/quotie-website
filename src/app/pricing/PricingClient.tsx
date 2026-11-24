@@ -49,8 +49,7 @@ const tiers = [
       "Everything in 1 Man Band",
       "2–5 users",
       "Custom branding & cover pages",
-      "GoHighLevel integration",
-      "ServiceM8 integration",
+      "Integrations (ServiceM8, GoHighLevel)",
       "Automation workflows",
       "Job handoff & Playbooks",
       "Calendar & scheduling",
@@ -100,7 +99,7 @@ const faqs = [
   },
   {
     q: "What integrations are included?",
-    a: "GoHighLevel and ServiceM8 integrations are included on the Small Team plan and above. Email sending via Gmail or Outlook is available on all plans.",
+    a: "ServiceM8 and GoHighLevel integrations are included on the Small Team plan and above. Email sending via Gmail or Outlook is available on all plans.",
   },
 ];
 

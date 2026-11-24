@@ -191,7 +191,7 @@ export const industries: Industry[] = [
       "Branded proposals sent from your own email",
       "Follow-up reminders and pipeline tracking",
       "Contact management with full quote history",
-      "GoHighLevel sync for lead management",
+      "Built-in CRM for leads, contacts and follow-ups",
     ],
     showcaseId: "cleaning",
     showcasePages: 9,

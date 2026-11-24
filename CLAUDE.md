@@ -8,7 +8,7 @@ Quotie is **done-for-you**, not self-serve. This is critical for all copy:
 
 - **Admins (Quotie team) build and manage templates** for each company. Users don't build their own templates.
 - The quote form + template + pricing engine is the hardest part of setup — Quotie handles it all during onboarding.
-- After setup, companies only come back for one-off price changes or to introduce new materials/products.
+- After setup, companies can edit their own **prices and products** in the pricing catalog (draft → review → publish). Anything that changes pricing logic, form questions, or quote wording/data still needs the Quotie team — say so plainly in copy.
 - The setup fee ($5,880-$6,840 incl. GST) covers template building, pricing logic configuration, branding, and training.
 - Users just fill in the form and hit generate — the system does the rest.
 
@@ -276,7 +276,9 @@ Do NOT invent testimonials. Do NOT use fake names.
 - Job handoff (quote to job, configurable pipeline, Playbooks — formerly "SOPs" — with step-by-step checklists, task tracking, job files from Drive/Dropbox)
 - Calendar (day/week/month views, quotes + jobs + site visits, drag-and-drop)
 - Notifications (bell icon, real-time, daily digest)
-- Product catalog viewer (synced pricing + business rules, read-only)
+- **Pricing catalog** (app nav: "Pricing") — customers edit prices and add/deactivate products themselves via draft → review & publish; in-use products can only be switched off. Business logic, form and wording changes are done by the Quotie team. (Per-company module `catalog_editing` — Buzz confirmed OK to market, Nov 2026.)
+- Sales pipelines — drag opportunities between stages; custom stages (announced to customers in the app's September 2026 updates deck)
+- Tasks tab in Follow-Ups, What's Next on the dashboard, nightly road-day itinerary email, multiple quote templates per company, profit breakdown on Review & Send
 - Multi-tenant with row-level security
 
 ### NOT features (do NOT claim):
@@ -289,7 +291,6 @@ Do NOT invent testimonials. Do NOT use fake names.
 - SSO / SAML
 - Revenue forecasting
 - Export/report generation
-- Kanban drag-and-drop pipeline
 - AI call-transcript → draft quote (EXISTS but internal-only/beta for 3 Quotie execs — do NOT market as available)
 
 ## Showcase Images
@@ -333,6 +334,13 @@ The site reads like a quote document: cool paper, ink text, hairline rules. Toke
 - Timed (not scroll-driven) product animations are fine; always honour `prefers-reduced-motion`
 - Interactive elements (tabbed content, orbital hover, accordion)
 - If an effect doesn't serve comprehension, remove it
+
+### Positioning: Quotie is the CRM (Nov 2026)
+- Quotie is a **standalone CRM** — contacts, pipeline, follow-ups, callback leads, site visits, jobs, calendar, inbox. The one gap is **calling and texting**; say that plainly rather than hiding it.
+- Do **not** lead feature copy with GoHighLevel/"GHL". GHL and ServiceM8 are listed as optional integrations only (pricing plan list, integrations FAQ, changelog history, old blog posts).
+
+### Keeping the site in step with the app
+The app (`quote-pro-working`) moves faster than this site. The customer-facing source of truth for what has shipped is the in-app updates deck: `quote-pro-working/src/components/app-updates/slides.tsx`. When it gets a new release, mirror it in `src/app/changelog/page.tsx` and check the feature copy. Commits marked "dev only" (e.g. Stripe deposit payments) are NOT shipped — don't market them.
 
 ### Copy tone
 - Direct, confident, business-owner-to-business-owner
