@@ -45,7 +45,7 @@ const features = [
   {
     icon: Lightning,
     title: "Instant PDF Generation",
-    description: "Branded PDFs generated instantly from your custom-built company template. Cover pages, multiple options, totals, and custom fields — all automatic.",
+    description: "Hit generate and your answers go to the engine we built for your business. It runs your pricing rules, writes the scope of works, and renders a branded PDF from your company template in seconds. Cover pages, multiple options, totals and custom fields are all handled by your rules, not by AI.",
     color: "text-blue-400",
     accent: "blue",
     bullets: ["Custom branded templates", "Automatic quote numbering", "Download or send directly"],

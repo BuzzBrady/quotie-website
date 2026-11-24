@@ -25,7 +25,11 @@ export const FAQS = [
   },
   {
     q: "How does the PDF generation work?",
-    a: "Fill in the quote form, hit generate. Quotie's engine builds a branded PDF from your template in seconds — complete with your logo, cover page, multiple options, totals, and any custom fields you've set up.",
+    a: "Fill in the quote form, hit generate. Your answers are sent to a pricing engine built for your business. It runs your calculations, builds the wording (like your scope of works), and renders the pages, then hands back a branded PDF in seconds — complete with your logo, cover page, multiple options, and totals. The quote isn't a live preview that changes as you type; it's a finished document produced by your engine.",
+  },
+  {
+    q: "Is Quotie an AI quoting tool?",
+    a: "No. Your quotes are produced by a rules-based engine that we build around how your business prices jobs. It follows your pricing rules, your wording, and your page layouts exactly — so the same answers always produce the same quote. Nothing is guessed or made up, which is why you can send a quote without re-checking every line.",
   },
   {
     q: "Can I send quotes directly from Quotie?",

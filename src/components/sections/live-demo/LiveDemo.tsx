@@ -17,6 +17,7 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
+import EngineRun from "@/components/sections/EngineRun";
 import {
   VERTICALS,
   clampNumber,
@@ -36,6 +37,10 @@ const TAB_ICONS = {
   plumbing: Wrench,
   painting: PaintRoller,
 } as const;
+
+// How long the demo "engine" takes. The real one does far more work.
+const ENGINE_STEP_MS = 520;
+const ENGINE_RUN_MS = ENGINE_STEP_MS * 3 + 240;
 
 const fmt = (n: number) => `$${Math.abs(n).toLocaleString("en-AU")}`;
 
@@ -248,7 +253,7 @@ function QuotePreview({
         </div>
       </div>
 
-      {/* Scope of works — sentences that rewrite themselves */}
+      {/* Scope of works — sentences the engine builds from the answers */}
       <div className="px-5 sm:px-7 pb-6">
         <div className="rounded-md bg-paper border border-rule px-4 py-3.5">
           <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint mb-2.5">
@@ -307,12 +312,41 @@ export default function LiveDemo() {
   const [selections, setSelections] = useState<Selections>(() =>
     defaultSelections(VERTICALS[0]),
   );
+  // The answers the quote on screen was generated from. Quotie quotes are not
+  // live previews: the form is sent to the engine and a finished quote comes
+  // back, so the quote only changes when the visitor hits Generate.
+  const [generated, setGenerated] = useState<Selections>(() =>
+    defaultSelections(VERTICALS[0]),
+  );
+  const [running, setRunning] = useState(false);
+  const runTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  useEffect(() => () => {
+    if (runTimer.current) clearTimeout(runTimer.current);
+  }, []);
 
   const { lines, scope } = useMemo(
-    () => vertical.compute(selections),
-    [vertical, selections],
+    () => vertical.compute(generated),
+    [vertical, generated],
   );
   const total = lines.reduce((sum, l) => sum + l.amount, 0);
+  const dirty =
+    !running && JSON.stringify(selections) !== JSON.stringify(generated);
+
+  const generate = () => {
+    if (running || !dirty) return;
+    const snapshot = selections;
+    setRunning(true);
+    // On small screens the quote sits below the form — bring it into view so
+    // the visitor sees the engine run.
+    if (window.matchMedia("(max-width: 1023px)").matches) {
+      previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    runTimer.current = setTimeout(() => {
+      setGenerated(snapshot);
+      setRunning(false);
+    }, ENGINE_RUN_MS);
+  };
 
   // Fields that just auto-reset because another selection made them invalid —
   // flashed so the visitor sees the compatibility rule fire.
@@ -323,8 +357,11 @@ export default function LiveDemo() {
 
   const switchVertical = (v: Vertical) => {
     if (v.id === activeId) return;
+    if (runTimer.current) clearTimeout(runTimer.current);
+    setRunning(false);
     setActiveId(v.id);
     setSelections(defaultSelections(v));
+    setGenerated(defaultSelections(v));
     setFieldFlash({ ids: new Set(), token: 0 });
   };
 
@@ -360,10 +397,10 @@ export default function LiveDemo() {
         <FadeIn>
           <SectionHeader
             badge="See it work"
-            trail="Live — go on, change something"
-            title="Fill in the form. The quote writes itself."
-            gradient="The quote writes itself."
-            subtitle="Five trades, five different kinds of pricing logic. Your real engine is built to however your business quotes — whatever the logic, we build it."
+            trail="Change an answer, hit generate"
+            title="Fill in the form. Your engine builds the quote."
+            gradient="Your engine builds the quote."
+            subtitle="Nothing updates as you type. The form goes to an engine built on your rules, and a finished quote comes back: priced, worded and laid out. Five trades here, five different kinds of pricing logic. Whatever yours is, we build it."
           />
         </FadeIn>
 
@@ -417,7 +454,7 @@ export default function LiveDemo() {
           </div>
         </FadeIn>
 
-        {/* Form + live quote */}
+        {/* Form + generated quote */}
         <FadeIn delay={0.15}>
           <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6 lg:gap-10 items-start">
             {/* Left: the form your team sees */}
@@ -521,44 +558,98 @@ export default function LiveDemo() {
                 })}
               </div>
 
-              <div className="mt-6 sm:mt-8 pt-5 border-t border-white/[0.08] text-xs text-white/50 leading-relaxed">
+              <button
+                onClick={generate}
+                disabled={!dirty}
+                className={`mt-6 sm:mt-8 w-full inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold transition-colors duration-200 ${
+                  dirty
+                    ? "bg-brand-cyan text-deep hover:bg-white"
+                    : "bg-white/[0.06] text-white/55 border border-white/10 cursor-default"
+                }`}
+              >
+                {running ? (
+                  "Sending to the engine…"
+                ) : dirty ? (
+                  "Generate quote"
+                ) : (
+                  <>
+                    <Check weight="bold" className="w-3.5 h-3.5 text-brand-cyan" />
+                    Quote generated — change an answer
+                  </>
+                )}
+              </button>
+
+              <div className="mt-5 pt-5 border-t border-white/[0.08] text-xs text-white/50 leading-relaxed">
                 In the real thing this form is yours — your fields, your
                 products, your rules. Built by us during onboarding.
               </div>
             </div>
 
-            {/* Right: the quote reacting */}
-            <div className="relative lg:sticky lg:top-28">
-              <div className="relative">
-                <QuotePreview
-                  vertical={vertical}
-                  lines={lines}
-                  scope={scope}
-                  total={total}
-                />
+            {/* Right: the last quote the engine handed back */}
+            <div ref={previewRef} className="relative lg:sticky lg:top-28 scroll-mt-24">
+              <div className="h-9 flex items-center" aria-live="polite">
+                <span
+                  className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] transition-colors duration-200 ${
+                    dirty ? "text-brand-blue" : "text-ink-faint"
+                  }`}
+                >
+                  {running
+                    ? "Engine running"
+                    : dirty
+                      ? "Answers changed — this quote is out of date until you generate"
+                      : "Generated from the answers on the form"}
+                </span>
               </div>
+              <div className="relative">
+                <div
+                  className={`transition-opacity duration-300 ${
+                    dirty || running ? "opacity-45" : "opacity-100"
+                  }`}
+                >
+                  <QuotePreview
+                    vertical={vertical}
+                    lines={lines}
+                    scope={scope}
+                    total={total}
+                  />
+                </div>
+                {running && (
+                  <div className="absolute inset-0 flex items-start justify-center pt-16 sm:pt-20">
+                    <div className="sheet rounded-lg px-6 py-5 w-[min(300px,calc(100%-2rem))]">
+                      <EngineRun stepMs={ENGINE_STEP_MS} />
+                    </div>
+                  </div>
+                )}
+              </div>
+              <p className="mt-3 text-xs text-ink-faint leading-relaxed">
+                This demo fakes the wait. Your real engine turns a full form
+                into a finished, branded PDF in under 30 seconds.
+              </p>
             </div>
           </div>
         </FadeIn>
 
-        {/* Mobile: sticky live total so the price reacts on screen while the
-            quote card is below the fold */}
+        {/* Mobile: the quote card is below the fold, so keep Generate (or the
+            last generated total) within thumb reach */}
         <div className="lg:hidden sticky bottom-4 z-20 mt-6 pointer-events-none">
           <div className="max-w-md mx-auto pointer-events-auto">
-            <div className="flex items-center justify-between rounded-xl border border-brand-cyan/40 bg-deep/95 backdrop-blur-md px-5 py-3.5 shadow-[0_20px_40px_-12px_rgba(8,17,32,0.6)]">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan" />
-                </span>
+            {dirty ? (
+              <button
+                onClick={generate}
+                className="w-full rounded-xl bg-brand-cyan text-deep px-5 py-3.5 text-sm font-bold shadow-[0_20px_40px_-12px_rgba(8,17,32,0.6)]"
+              >
+                Generate quote
+              </button>
+            ) : (
+              <div className="flex items-center justify-between rounded-xl border border-deep-rule bg-deep px-5 py-3.5 shadow-[0_20px_40px_-12px_rgba(8,17,32,0.6)]">
                 <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/60">
-                  Live total
+                  {running ? "Engine running…" : "Generated total"}
                 </span>
+                <div className="tnum text-xl font-extrabold text-white font-jakarta">
+                  <AnimatedTotal value={total} />
+                </div>
               </div>
-              <div className="tnum text-xl font-extrabold text-white font-jakarta">
-                <AnimatedTotal value={total} />
-              </div>
-            </div>
+            )}
           </div>
         </div>
 

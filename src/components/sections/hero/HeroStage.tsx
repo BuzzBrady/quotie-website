@@ -19,19 +19,23 @@ import {
   VERTICALS,
   type Selections,
 } from "@/components/sections/live-demo/demoData";
+import EngineRun from "@/components/sections/EngineRun";
 
 /**
  * The hero plays the whole product on a loop: three answers go into a form,
- * the quote writes itself, then it's sent, viewed and signed. Numbers come
- * from the same solar vertical as the interactive demo further down, so the
- * two can never disagree.
+ * Generate sends them to the engine (pricing rules → scope wording → page
+ * rendering), the finished quote comes back, then it's sent, viewed and
+ * signed. The quote is deliberately NOT a live preview — nothing appears on
+ * the sheet until the engine has run. Numbers come from the same solar
+ * vertical as the interactive demo further down, so the two can never disagree.
  */
 
 const solar = VERTICALS.find((v) => v.id === "solar")!;
 const fmt = (n: number) => `$${n.toLocaleString("en-AU")}`;
 
 // How long each beat holds before the next one (ms).
-const BEATS = [1100, 1700, 1900, 1900, 1500, 1300, 1500, 4200] as const;
+// 0 empty · 1-3 answers · 4 engine runs · 5 generated · 6 sent · 7 viewed · 8 signed
+const BEATS = [1100, 1200, 1200, 1300, 2700, 1700, 1300, 1500, 4200] as const;
 const LAST = BEATS.length - 1;
 
 function selectionsAt(step: number): Selections | null {
@@ -45,15 +49,17 @@ function selectionsAt(step: number): Selections | null {
 }
 
 const RAIL = [
-  { at: 4, icon: FilePdf, label: "Generated", note: "PDF in 24 sec" },
-  { at: 5, icon: PaperPlaneTilt, label: "Sent", note: "From your inbox" },
-  { at: 6, icon: Eye, label: "Viewed", note: "Opened 2:14 pm" },
-  { at: 7, icon: Signature, label: "Signed", note: "Accepted online" },
+  { at: 5, icon: FilePdf, label: "Generated", note: "PDF in 24 sec" },
+  { at: 6, icon: PaperPlaneTilt, label: "Sent", note: "From your inbox" },
+  { at: 7, icon: Eye, label: "Viewed", note: "Opened 2:14 pm" },
+  { at: 8, icon: Signature, label: "Signed", note: "Accepted online" },
 ] as const;
 
 function CountUp({ value }: { value: number }) {
+  // Mounts when the engine hands the quote back, so it counts up from zero
+  // (server and client both render the final figure first — no mismatch).
   const [display, setDisplay] = useState(value);
-  const prev = useRef(value);
+  const prev = useRef(0);
   useEffect(() => {
     const from = prev.current;
     prev.current = value;
@@ -114,27 +120,14 @@ export default function HeroStage() {
   }, [step, inView, reduce]);
 
   const sel = selectionsAt(step);
-  const { lines } = useMemo(
-    () => (sel ? solar.compute(sel) : { lines: [] }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [step],
-  );
-  const total = lines.reduce((sum, l) => sum + l.amount, 0);
+  // The finished quote for the three answers — only shown once the engine has run.
+  const finalLines = useMemo(() => solar.compute(selectionsAt(3)!).lines, []);
+  const total = finalLines.reduce((sum, l) => sum + l.amount, 0);
 
-  // Which lines changed on this beat — they get the cyan flash.
-  const changed = useMemo(() => {
-    const before = selectionsAt(step - 1);
-    const prev = new Map(
-      (before ? solar.compute(before).lines : []).map((l) => [l.id, l.amount]),
-    );
-    return new Set(
-      lines.filter((l) => prev.get(l.id) !== l.amount).map((l) => l.id),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
-
-  const generated = step >= 4;
-  const signed = step >= 7;
+  const running = step === 4;
+  const generated = step >= 5;
+  const signed = step >= 8;
+  const lines = generated ? finalLines : [];
 
   return (
     <div ref={ref} className="relative" aria-hidden>
@@ -204,7 +197,7 @@ export default function HeroStage() {
             <div
               key={`gen-${step === 4}`}
               className={`mt-5 flex items-center justify-center gap-2 rounded-md px-3 py-2.5 text-xs font-semibold transition-colors duration-300 ${
-                generated
+                generated || running
                   ? "bg-white/[0.06] text-white/70 border border-white/10"
                   : "bg-brand-blue text-white border border-transparent"
               } ${step === 4 ? "tap-ring" : ""}`}
@@ -214,6 +207,8 @@ export default function HeroStage() {
                   <Check weight="bold" className="w-3.5 h-3.5 text-brand-cyan" />
                   Quote generated
                 </>
+              ) : running ? (
+                "Sending to your engine…"
               ) : (
                 "Generate quote"
               )}
@@ -239,8 +234,12 @@ export default function HeroStage() {
 
             {/* Line items — height is reserved so the page never jumps */}
             <div className="px-5 pt-1 h-[264px]">
-              {lines.length === 0 && (
+              {running && <EngineRun stepMs={720} className="pt-6" />}
+              {!running && lines.length === 0 && (
                 <div className="pt-4 space-y-4">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
+                    Waiting on the form
+                  </div>
                   {[72, 54, 64].map((w) => (
                     <div key={w} className="flex items-center justify-between">
                       <span
@@ -253,21 +252,15 @@ export default function HeroStage() {
                 </div>
               )}
               <AnimatePresence initial={false}>
-                {lines.map((line) => (
+                {lines.map((line, i) => (
                   <motion.div
                     key={line.id}
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0, transition: { duration: 0.15 } }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="overflow-hidden"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                    transition={{ duration: 0.3, ease: "easeOut", delay: i * 0.07 }}
                   >
-                    <div
-                      key={changed.has(line.id) ? `f-${step}` : "s"}
-                      className={`flex items-baseline gap-2 py-2 border-b border-rule -mx-1.5 px-1.5 rounded-sm ${
-                        changed.has(line.id) ? "demo-flash" : ""
-                      }`}
-                    >
+                    <div className="flex items-baseline gap-2 py-2 border-b border-rule -mx-1.5 px-1.5 rounded-sm">
                       <div className="min-w-0">
                         <div className="text-[12.5px] font-semibold text-ink truncate">
                           {line.label}
@@ -294,7 +287,7 @@ export default function HeroStage() {
                 </span>
                 <span className="leader" />
                 <span className="font-jakarta font-extrabold text-ink text-2xl tracking-tight tnum">
-                  <CountUp value={total} />
+                  {generated ? <CountUp value={total} /> : <span className="text-rule-strong">$—</span>}
                 </span>
               </div>
 

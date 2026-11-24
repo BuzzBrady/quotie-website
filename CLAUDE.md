@@ -325,7 +325,7 @@ The site reads like a quote document: cool paper, ink text, hairline rules. Toke
 - Primitives in `src/components/ui/`: `Container`, `SectionHeader` (light by default; `dark` for `bg-deep` sections), `Eyebrow`, `Reveal`, `Button`/`ButtonLink`.
 - No glow orbs, glass cards, purple gradients or pill badges. Small radii (`rounded-lg`), rules over boxes.
 - Product visuals are coded mockups of real app screens (`src/components/sections/platform/AppMocks.tsx`) — labels/colours mirror `quote-pro-working`. Sample data only. Update them when the app UI changes.
-- The hero (`sections/hero/HeroStage.tsx`) autoplays form → quote → sent → viewed → signed, using the same demo data as the live demo.
+- The hero (`sections/hero/HeroStage.tsx`) autoplays form → generate → engine run → quote → sent → viewed → signed, using the same demo data as the interactive demo.
 - `/opt-in` and `/apply` are NOT part of this system — leave their styling alone.
 
 ### Animation philosophy
@@ -334,6 +334,11 @@ The site reads like a quote document: cool paper, ink text, hairline rules. Toke
 - Timed (not scroll-driven) product animations are fine; always honour `prefers-reduced-motion`
 - Interactive elements (tabbed content, orbital hover, accordion)
 - If an effect doesn't serve comprehension, remove it
+
+### Positioning: an engine, not AI — and quotes are NOT live (Nov 2026)
+- A quote is **not a live preview**. The form is submitted to the company's engine, which does three jobs — **calculations, text building (scope of works etc.), dynamic page rendering** — and hands back a finished document. Never write or animate the quote updating as answers are typed ("live quote", "updates as you type", "the quote writes itself").
+- The hero (`HeroStage`) and the interactive demo (`live-demo/LiveDemo.tsx`) both wait for Generate and show the engine run (`sections/EngineRun.tsx`) before the quote appears. Keep it that way.
+- Quotie is **not an AI quoting tool**. The engine is rules-based and deterministic: same answers, same quote. Say so directly (`sections/Engine.tsx`, FAQ). The AI call-transcript feature stays unmarketed.
 
 ### Positioning: Quotie is the CRM (Nov 2026)
 - Quotie is a **standalone CRM** — contacts, pipeline, follow-ups, callback leads, site visits, jobs, calendar, inbox. The one gap is **calling and texting**; say that plainly rather than hiding it.

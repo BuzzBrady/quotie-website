@@ -74,7 +74,7 @@ const CALLOUTS = [
   {
     icon: Plus,
     title: "A line item that only exists on double storey",
-    detail: `“${accessLine.label} — ${fmt(accessLine.amount)}” appeared on its own.`,
+    detail: `“${accessLine.label} — ${fmt(accessLine.amount)}” was added by the engine.`,
   },
   {
     icon: ArrowsLeftRight,
@@ -83,7 +83,7 @@ const CALLOUTS = [
   },
   {
     icon: TextT,
-    title: "The scope text rewrote itself",
+    title: "The scope wording was rebuilt",
     detail: "“…including elevated work platform and edge protection.”",
   },
 ] as const;
@@ -194,9 +194,9 @@ export default function SelectionDiff() {
             </ul>
             <p className="text-ink-soft leading-relaxed mt-6 text-pretty">
               One dropdown. Three changes — a new line item, a different labour
-              rate, and rewritten scope wording. Nobody typed any of it.
-              That&apos;s the difference between a quoting tool and a pricing
-              system that actually knows your business.
+              rate, and rewritten scope wording. Nobody typed any of it, and no AI
+              made it up. The engine followed rules we wrote with you, so the
+              same answers produce the same quote every time.
             </p>
           </Reveal>
         </div>

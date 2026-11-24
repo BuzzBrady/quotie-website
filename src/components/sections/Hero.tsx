@@ -92,9 +92,10 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 text-ink-soft max-w-[30rem] text-[17px] leading-relaxed text-pretty">
-              Every answer you or your team enters changes the quote — line items
-              appear, prices recalculate, wording rewrites itself. We build all
-              of that for your business. You just fill in a form.
+              You fill in a form and hit generate. Your answers go into a
+              pricing engine we build for your business. It runs your
+              calculations, writes your scope of works and lays out every page.
+              It&apos;s your rules, not AI guesswork.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
