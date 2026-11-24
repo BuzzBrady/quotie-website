@@ -140,7 +140,7 @@ Local: `.env.local` (gitignored). Production: Vercel project for this repo.
 | `SUPABASE_SERVICE_ROLE_KEY` | Quotie `/leads` + `/crm/pipeline` | Bypasses RLS. Not set locally at time of build. **Do not commit.** |
 | `INGEST_LEAD_WEBHOOK_SECRET` | Optional | `x-webhook-secret` for `ingest-lead` function |
 
-Collaborators must **not** add Vercel env vars (see CLAUDE.md git workflow). List them on the PR; Buzz adds them in prod.
+Anyone on the repo can add these in Vercel (Project → Settings → Environment Variables). Post in Slack when you add one so everyone's `.env.local` stays in sync.
 
 ### Local Close key
 

@@ -20,18 +20,32 @@ Quotie is **done-for-you**, not self-serve. This is critical for all copy:
 
 ## Git Workflow — IMPORTANT
 
-Buzz (BuzzBrady) is the lead developer and owns `main` and all production infrastructure.
+Three people share this repo with full write access: **Buzz** (BuzzBrady), **Benji** (benjiboys127) and **Locky** (Boizy99). Benji and Locky are not developers — their AI assistant does the git work for them. Everyone commits straight to `main`. No feature branches or PRs are required.
 
-**Rules for collaborators (Benji / benjiboys127) and their AI assistants:**
+Because three people push to the same branch, **the number one rule is: always be in sync.** Vercel deploys `main` to production on every push.
 
-- **NEVER push to `main` directly.** `main` is branch-protected — pushes to it will be rejected.
-- Work on a feature branch named `benji/<short-description>` (e.g. `benji/opt-in-page`), push that branch, and open a pull request. Buzz reviews and merges.
-- **NEVER merge your own PRs.** PRs require Buzz's approval.
-- **Do NOT touch production infrastructure:** no adding/changing Vercel environment variables, no Vercel project settings, no Supabase schema changes, no DNS. If your feature needs a new env var or external service key, list it clearly in the PR description and Buzz will migrate it to prod.
-- **NEVER commit secrets** — API keys, `.env*` files, service role keys. Reference them via `process.env.*` and document the variable name in the PR.
-- Run `npx next build` before opening a PR to confirm the site builds.
+### Automatic sync (Claude Code hooks)
 
-**For Buzz:** collect collaborator work by reviewing PRs, merging, then handling prod migration (env vars in Vercel, Supabase changes, etc.).
+`.claude/settings.json` (committed) runs `scripts/git-sync.sh` at three points. Its output appears in your context as `GIT SYNC:` lines — **act on them immediately**:
+
+| When | What it does |
+|------|--------------|
+| Session start | `git fetch`; if the tree is clean and behind, `git pull --rebase` and list the teammates' new commits. Reports leftover uncommitted/unpushed work. |
+| Every prompt | Same check (fetch throttled to once per 2 min). Silent when in sync. If teammates pushed and you have uncommitted edits, it tells you to commit then pull **before editing anything else**. |
+| When you try to stop | If there is uncommitted or unpushed work, it blocks the stop once and tells you to build (if code changed), commit, `pull --rebase`, push, then report. |
+
+If the pull hits a conflict the script aborts the rebase and tells you to resolve it by hand. Explain the conflict to the user in plain language, keep both sides where they don't overlap, and prefer the teammate's version if unsure.
+
+To turn the hooks off for yourself only (Buzz): add `"env": { "QUOTIE_GIT_AUTOSYNC": "0" }` to `.claude/settings.local.json`.
+
+### Rules for every assistant (Claude Code or otherwise)
+
+- **Start of session:** `git pull --rebase origin main` before touching files.
+- **End of every task:** commit with a plain-English message, `git pull --rebase origin main`, `git push origin main`. Never leave work sitting uncommitted — the other two can't see it and will collide with it.
+- **Run `npx next build` before pushing** if anything under `src/`, `public/`, or config files changed. A broken build on `main` is a broken production deploy.
+- **NEVER commit secrets** — API keys, `.env*` files, service role keys. Reference them via `process.env.*` and add the value in Vercel (Project → Settings → Environment Variables). Tell the others in Slack when you add a new one.
+- **Prod infra is shared:** Vercel env vars are fine to add. Give Buzz a heads-up before changing Supabase schema or DNS — those are shared with the Quotie app.
+- Keep commits small and frequent. A week of local work landing at once is how conflicts happen.
 
 ## Quick Start
 

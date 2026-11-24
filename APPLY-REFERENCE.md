@@ -166,7 +166,7 @@ Same as `/opt-in`, plus one dedicated status:
 | `NEXT_PUBLIC_APPLY_EXPLAINER_VSL_URL` | Thanks step 2 | System explainer VSL |
 | `NEXT_PUBLIC_APPLY_FAQ_VIDEO_1` … `_8` | Thanks FAQ videos | Optional. Empty = placeholders |
 
-Collaborators must **not** add Vercel env vars. List `CLOSE_APPLICATION_STATUS_ID` and `META_CAPI_ACCESS_TOKEN` on the PR; Buzz adds them in prod.
+Anyone on the repo can add `CLOSE_APPLICATION_STATUS_ID` and `META_CAPI_ACCESS_TOKEN` in Vercel (Project → Settings → Environment Variables). Post in Slack when you add one so everyone's `.env.local` stays in sync.
 
 ---
 

@@ -43,3 +43,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .playwright-mcp/
+
+# claude code personal overrides
+.claude/settings.local.json
