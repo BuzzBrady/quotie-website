@@ -1,6 +1,9 @@
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import { Lightning, Bug, Sparkle, ShieldCheck, ArrowRight } from "@phosphor-icons/react/ssr";
+import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
+import { ButtonLink } from "@/components/ui/Button";
 
 export const metadata = createMetadata({
   title: "Changelog — What's New in Quotie",
@@ -147,121 +150,98 @@ const entries: ChangelogEntry[] = [
   },
 ];
 
-const typeConfig: Record<EntryType, { icon: React.ElementType; label: string; color: string; bg: string }> = {
-  feature: { icon: Sparkle, label: "New Feature", color: "text-brand-cyan", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
-  improvement: { icon: Lightning, label: "Improvement", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
-  fix: { icon: Bug, label: "Bug Fix", color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-  security: { icon: ShieldCheck, label: "Security", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+const typeConfig: Record<EntryType, { icon: React.ElementType; label: string; color: string }> = {
+  feature: { icon: Sparkle, label: "New Feature", color: "text-brand-blue" },
+  improvement: { icon: Lightning, label: "Improvement", color: "text-ink" },
+  fix: { icon: Bug, label: "Bug Fix", color: "text-amber-700" },
+  security: { icon: ShieldCheck, label: "Security", color: "text-emerald-700" },
 };
 
 export default function ChangelogPage() {
   return (
     <>
       {/* Hero */}
-      <section
-        className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
-        style={{ background: "#08080c" }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[500px] h-[500px] bg-brand-blue/8 rounded-full blur-[100px]" />
-        </div>
-        <Container className="relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/50 mb-6">
+      <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-12 lg:pb-16">
+        <Container>
+          <Eyebrow trail={`${entries.length} releases`} className="mb-6 max-w-md">
             Product Updates
-          </div>
-          <h1
-            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-4"
-            style={{ fontSize: "clamp(32px, 5vw, 64px)", letterSpacing: "-0.035em", lineHeight: 1.06 }}
-          >
+          </Eyebrow>
+          <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.04] text-[clamp(2.2rem,5vw,4rem)]">
             What&apos;s New in{" "}
-            <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              Quotie
-            </span>
+            <span className="mark-live mark-live-anim">Quotie</span>
           </h1>
-          <p className="text-white/35 text-lg max-w-lg mx-auto">
+          <p className="mt-5 text-ink-soft text-lg max-w-lg leading-relaxed">
             We ship improvements every week. Here&apos;s what we&apos;ve been working on.
           </p>
         </Container>
       </section>
 
-      {/* Timeline */}
-      <section
-        className="pb-24 border-t border-white/[0.06]"
-        style={{ background: "#08080c" }}
-      >
+      {/* Ledger */}
+      <section className="bg-paper pb-20 lg:pb-28">
         <Container>
-          <div className="max-w-3xl mx-auto pt-12">
-            <div className="relative">
-              {/* Vertical line */}
-              <div className="absolute left-0 top-0 bottom-0 w-px bg-white/[0.06] ml-[11px] hidden sm:block" />
-
-              <div className="space-y-12">
-                {entries.map((entry) => {
-                  const config = typeConfig[entry.type];
-                  const TypeIcon = config.icon;
-                  return (
-                    <div key={entry.version} className="relative sm:pl-10">
-                      {/* Timeline dot */}
-                      <div className="hidden sm:flex absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-800 border border-white/[0.1] items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-brand-cyan" />
-                      </div>
-
-                      <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 sm:p-8">
-                        {/* Header */}
-                        <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2 mb-2">
-                              <span
-                                className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${config.bg} ${config.color}`}
-                              >
-                                <TypeIcon weight="duotone" className="w-3 h-3" />
-                                {config.label}
-                              </span>
-                              <span className="text-xs text-white/25 font-mono">{entry.version}</span>
-                            </div>
-                            <h2 className="text-lg sm:text-xl font-bold text-white font-[family-name:var(--font-jakarta)]">
-                              {entry.title}
-                            </h2>
-                          </div>
-                          <span className="text-sm text-white/25 flex-shrink-0 pt-1">{entry.date}</span>
-                        </div>
-
-                        <p className="text-white/40 text-sm leading-relaxed mb-5">
-                          {entry.description}
-                        </p>
-
-                        <ul className="space-y-2">
-                          {entry.changes.map((change) => (
-                            <li key={change} className="flex items-start gap-2 text-sm text-white/50">
-                              <span className="text-brand-cyan/60 mt-1 flex-shrink-0">—</span>
-                              {change}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+          <div className="border-t-2 border-ink">
+            {entries.map((entry) => {
+              const config = typeConfig[entry.type];
+              const TypeIcon = config.icon;
+              return (
+                <Reveal key={entry.version}>
+                  <article className="grid md:grid-cols-[200px_minmax(0,1fr)] gap-x-10 gap-y-4 py-9 lg:py-12 border-b border-rule">
+                    {/* Date + version */}
+                    <div className="flex md:flex-col items-baseline md:items-start gap-x-3 gap-y-1.5 font-mono text-xs uppercase tracking-[0.12em]">
+                      <span className="text-ink">{entry.date}</span>
+                      <span className="leader md:hidden" aria-hidden />
+                      <span className="text-ink-faint normal-case tracking-normal">{entry.version}</span>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
+
+                    <div className="max-w-2xl">
+                      <div
+                        className={`inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] mb-3 ${config.color}`}
+                      >
+                        <TypeIcon weight="fill" className="w-3.5 h-3.5" />
+                        {config.label}
+                      </div>
+                      <h2 className="font-jakarta font-extrabold text-ink text-2xl lg:text-[28px] tracking-[-0.03em] leading-tight text-balance">
+                        {entry.title}
+                      </h2>
+
+                      <p className="mt-3 text-ink-soft leading-relaxed text-pretty">
+                        {entry.description}
+                      </p>
+
+                      <ul className="mt-5 border-t border-rule">
+                        {entry.changes.map((change) => (
+                          <li
+                            key={change}
+                            className="flex items-start gap-3 py-2.5 border-b border-rule text-[15px] text-ink leading-relaxed"
+                          >
+                            <span className="text-brand-blue flex-shrink-0" aria-hidden>
+                              —
+                            </span>
+                            {change}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </Container>
       </section>
 
       {/* CTA */}
-      <section
-        className="py-16 border-t border-white/[0.06]"
-        style={{ background: "#08080c" }}
-      >
-        <Container className="text-center">
-          <p className="text-white/30 text-sm mb-4">Want to see these features in your business?</p>
-          <a
-            href="/demo"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
-          >
-            Book a Demo
-            <ArrowRight weight="duotone" className="w-4 h-4" />
-          </a>
+      <section className="bg-sheet border-t border-rule py-16 lg:py-20">
+        <Container>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <p className="font-jakarta font-extrabold text-ink text-2xl tracking-[-0.03em]">
+              Want to see these features in your business?
+            </p>
+            <ButtonLink href="/demo" variant="ink" size="lg" className="self-start sm:self-auto">
+              Book a Demo
+              <ArrowRight weight="bold" className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </ButtonLink>
+          </div>
         </Container>
       </section>
     </>

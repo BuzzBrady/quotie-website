@@ -83,12 +83,12 @@ export default function Testimonials() {
           {rest.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.08}>
               <figure>
-                <div className="flex items-baseline gap-3">
-                  <span className="font-jakarta font-extrabold text-ink text-3xl tracking-[-0.04em]">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="font-jakarta font-extrabold text-ink text-3xl tracking-[-0.04em] whitespace-nowrap">
                     {t.metric}
                   </span>
-                  <span className="leader" aria-hidden />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-brand-blue text-right">
+                  <span className="leader hidden sm:block" aria-hidden />
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-brand-blue sm:text-right">
                     {t.metricLabel}
                   </span>
                 </div>

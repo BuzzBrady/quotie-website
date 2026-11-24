@@ -308,10 +308,29 @@ Images are WebP, 1200px wide, `blur-[6px]` applied via CSS.
 
 ## Design Guidelines
 
+### Paper system (redesign, Nov 2026)
+The site reads like a quote document: cool paper, ink text, hairline rules. Tokens live in `src/app/globals.css` (`@theme inline`).
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `paper` | `#f3f5f9` | Default page background |
+| `sheet` | `#ffffff` | Cards / alternate sections (`.sheet` adds edge + shadow) |
+| `ink` / `ink-soft` / `ink-faint` | `#0b1626` / `#46546a` / `#66758b` | Headings / body / labels |
+| `rule` / `rule-strong` | `#dde3ec` / `#c3ccd9` | Hairlines, input borders |
+| `deep` | `#081120` | Dark sections — reserved for app/engine moments and the footer |
+
+- **Cyan highlighter (`.mark-live`) means "the engine changed/customised this."** Use it for accent phrases in headings and changed quote lines. No gradient text.
+- **Dotted leaders (`.leader`)** between a label and its figure, like a quote line item. Figures and eyebrows use `font-mono` (DM Mono) with `.tnum`.
+- Primitives in `src/components/ui/`: `Container`, `SectionHeader` (light by default; `dark` for `bg-deep` sections), `Eyebrow`, `Reveal`, `Button`/`ButtonLink`.
+- No glow orbs, glass cards, purple gradients or pill badges. Small radii (`rounded-lg`), rules over boxes.
+- Product visuals are coded mockups of real app screens (`src/components/sections/platform/AppMocks.tsx`) — labels/colours mirror `quote-pro-working`. Sample data only. Update them when the app UI changes.
+- The hero (`sections/hero/HeroStage.tsx`) autoplays form → quote → sent → viewed → signed, using the same demo data as the live demo.
+- `/opt-in` and `/apply` are NOT part of this system — leave their styling alone.
+
 ### Animation philosophy
-- Simple fade-ins on scroll (useInView + motion.div)
+- Simple fade-ins on scroll (`Reveal`)
 - No scroll hijacking, no sticky stacking, no scroll-driven transforms
-- Subtle ambient motion (gradient orbs with animate-blob)
+- Timed (not scroll-driven) product animations are fine; always honour `prefers-reduced-motion`
 - Interactive elements (tabbed content, orbital hover, accordion)
 - If an effect doesn't serve comprehension, remove it
 

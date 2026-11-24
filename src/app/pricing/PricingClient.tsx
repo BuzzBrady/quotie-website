@@ -7,10 +7,12 @@ import {
   Lightning,
   UsersThree,
   Buildings,
-  Question,
 } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
+import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
+import { ButtonLink, buttonClass } from "@/components/ui/Button";
 import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
 
 const tiers = [
@@ -108,191 +110,184 @@ export default function PricingClient() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-slate-50">
-        <Container className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-600 shadow-sm mb-6">
+      <section className="bg-paper">
+        <Container className="pt-28 sm:pt-32 lg:pt-40 pb-12 lg:pb-16">
+          <Eyebrow trail="All prices in AUD incl. GST" className="mb-6 max-w-xl">
             Simple, transparent pricing
-          </div>
-          <h1
-            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900 mb-4"
-            style={{
-              fontSize: "clamp(32px, 5vw, 64px)",
-              letterSpacing: "-0.035em",
-              lineHeight: 1.08,
-            }}
-          >
+          </Eyebrow>
+          <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.02] text-[clamp(2.4rem,5.4vw,4.5rem)] text-balance">
             Setup once.{" "}
-            <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              Quote forever.
-            </span>
+            <span className="mark-live mark-live-anim">Quote forever.</span>
           </h1>
-          <p className="text-slate-500 max-w-lg mx-auto text-lg leading-relaxed mb-4">
+          <p className="mt-6 text-ink-soft max-w-xl text-lg leading-relaxed text-pretty">
             One-time setup fee to get your templates built and your team trained,
             then a flat monthly rate. No per-quote fees. No surprises.
           </p>
-          <p className="text-slate-400 text-sm">All prices in AUD incl. GST</p>
         </Container>
       </section>
 
-      {/* Pricing cards */}
-      <section className="pb-24 bg-slate-50">
+      {/* Pricing — set as a multi-option proposal, the way Quotie sends them */}
+      <section className="bg-paper pb-20 lg:pb-28">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
-            {tiers.map((tier) => {
+          <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint border-t-2 border-ink pt-4 mb-6">
+            <span className="text-ink">Proposal</span>
+            <span className="leader" aria-hidden />
+            <span>{tiers.length} options</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
+            {tiers.map((tier, i) => {
               const Icon = tier.icon;
               return (
-                <div
-                  key={tier.id}
-                  className={`relative rounded-2xl overflow-hidden ${
-                    tier.popular
-                      ? "ring-2 ring-brand-blue shadow-2xl shadow-brand-blue/10 bg-white"
-                      : "border border-slate-200 bg-white shadow-sm"
-                  }`}
-                >
-                  {tier.popular && (
-                    <div className="bg-gradient-to-r from-brand-blue to-brand-cyan text-white text-xs font-bold text-center py-2 tracking-wider uppercase">
-                      Most Popular
-                    </div>
-                  )}
-                  <div className="p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          tier.popular
-                            ? "bg-gradient-to-br from-brand-blue to-brand-cyan"
-                            : "bg-slate-100"
-                        }`}
-                      >
-                        <Icon
-                          weight="duotone"
-                          className={`w-5 h-5 ${
-                            tier.popular ? "text-white" : "text-slate-600"
-                          }`}
-                        />
-                      </div>
-                      <h3 className="text-xl font-bold text-slate-900 font-[family-name:var(--font-jakarta)]">
-                        {tier.name}
-                      </h3>
-                    </div>
-
-                    <div className="mb-6">
-                      {tier.setup !== null ? (
-                        <div>
-                          <div className="flex items-baseline gap-1 mb-1">
-                            <span className="text-4xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
-                              ${tier.setup.toLocaleString()}
-                            </span>
-                            <span className="text-slate-500 text-sm">AUD setup</span>
-                          </div>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-lg font-bold text-slate-700">
-                              + ${tier.monthly}/mo
-                            </span>
-                            <span className="text-slate-400 text-xs">AUD</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="text-3xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
-                          Let&apos;s Talk
-                        </div>
-                      )}
-                    </div>
-
-                    <p className="text-slate-500 text-sm leading-relaxed mb-6">
-                      {tier.description}
-                    </p>
-
-                    <button
-                      onClick={() => openLeadModal(`pricing_${tier.id}`)}
-                      className={`w-full py-3 rounded-xl text-sm font-bold transition-all duration-200 mb-8 ${
+                <Reveal key={tier.id} delay={i * 0.07} className="h-full">
+                  <div
+                    className={`sheet rounded-lg overflow-hidden h-full flex flex-col ${
+                      tier.popular ? "!border-ink ring-1 ring-ink" : ""
+                    }`}
+                  >
+                    <div
+                      className={`px-6 sm:px-7 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] flex items-center justify-between ${
                         tier.popular
-                          ? "bg-gradient-to-r from-brand-blue to-brand-cyan text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20"
-                          : "bg-slate-900 text-white hover:bg-slate-800"
+                          ? "bg-ink text-white"
+                          : "border-b border-rule text-ink-faint"
                       }`}
                     >
-                      {tier.cta}
-                    </button>
+                      <span>Option {i + 1}</span>
+                      {tier.popular && <span className="text-brand-cyan">Most Popular</span>}
+                    </div>
 
-                    <ul className="space-y-3">
-                      {tier.features.map((f) => (
-                        <li key={f} className="flex items-start gap-3 text-sm">
-                          <Check weight="duotone" className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                          <span className="text-slate-700">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Icon weight="duotone" className="w-6 h-6 text-brand-blue shrink-0" />
+                        <h3 className="font-jakarta font-extrabold text-ink text-2xl tracking-[-0.03em]">
+                          {tier.name}
+                        </h3>
+                      </div>
+                      <p className="text-ink-soft text-[15px] leading-relaxed mb-6 text-pretty">
+                        {tier.description}
+                      </p>
+
+                      {/* Figures */}
+                      <div className="border-t-2 border-ink mb-6">
+                        {tier.setup !== null ? (
+                          <>
+                            <div className="flex items-baseline gap-2.5 py-3 border-b border-rule">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                                One-time setup
+                              </span>
+                              <span className="leader" aria-hidden />
+                              <span className="tnum font-jakarta font-extrabold text-ink text-[34px] leading-none tracking-[-0.03em]">
+                                ${tier.setup.toLocaleString()}
+                              </span>
+                            </div>
+                            <div className="flex items-baseline gap-2.5 py-3 border-b border-rule">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                                Monthly
+                              </span>
+                              <span className="leader" aria-hidden />
+                              <span className="tnum font-jakarta font-bold text-ink text-xl tracking-[-0.02em]">
+                                + ${tier.monthly}/mo
+                              </span>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="py-3 border-b border-rule font-jakarta font-extrabold text-ink text-[34px] leading-none tracking-[-0.03em] min-h-[calc(34px+1.5rem+1px)] md:min-h-[111px] flex items-center">
+                            Let&apos;s Talk
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={() => openLeadModal(`pricing_${tier.id}`)}
+                        className={buttonClass(
+                          tier.popular ? "brand" : "ink",
+                          "lg",
+                          "w-full mb-7",
+                        )}
+                      >
+                        {tier.cta}
+                        <ArrowRight weight="bold" className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                      </button>
+
+                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint mb-1">
+                        Scope
+                      </div>
+                      <ul className="border-t border-rule">
+                        {tier.features.map((f) => (
+                          <li
+                            key={f}
+                            className="flex items-start gap-2.5 py-2.5 border-b border-rule text-sm text-ink"
+                          >
+                            <Check weight="bold" className="w-3.5 h-3.5 text-brand-blue flex-shrink-0 mt-1" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>
 
-          {/* Money-back badge */}
-          <div className="mt-12 flex justify-center">
-            <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-sm text-emerald-800">
-              <ShieldCheck weight="duotone" className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-              <span>
-                <strong>Hands-on onboarding included.</strong> We build your
-                templates, train your team, and make sure you&apos;re confident
-                before going live.
-              </span>
-            </div>
+          {/* Onboarding note */}
+          <div className="mt-10 flex items-start gap-3 border-y border-rule py-5 text-[15px] text-ink-soft">
+            <ShieldCheck weight="duotone" className="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-ink">Hands-on onboarding included.</strong>{" "}
+              We build your
+              templates, train your team, and make sure you&apos;re confident
+              before going live.
+            </span>
           </div>
         </Container>
       </section>
 
       {/* FAQ */}
-      <section className="py-24 bg-white border-t border-slate-100">
+      <section className="bg-sheet border-y border-rule py-20 lg:py-28">
         <Container>
-          <SectionHeader
-            badge="Pricing FAQ"
-            badgeIcon={<Question weight="duotone" className="w-4 h-4" />}
-            title="Common questions"
-            gradient="questions"
-            subtitle="Everything you need to know about plans and billing."
-            dark={false}
-            className="mb-14"
-          />
-          <div className="max-w-3xl mx-auto grid gap-6">
-            {faqs.map((faq) => (
-              <div
-                key={faq.q}
-                className="rounded-xl border border-slate-200 bg-slate-50 p-6"
-              >
-                <h3 className="font-semibold text-slate-900 mb-2">{faq.q}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  {faq.a}
-                </p>
-              </div>
-            ))}
+          <div className="grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-10 lg:gap-20 items-start">
+            <div className="lg:sticky lg:top-28">
+              <SectionHeader
+                badge="Pricing FAQ"
+                title="Common questions"
+                gradient="questions"
+                subtitle="Everything you need to know about plans and billing."
+              />
+            </div>
+            <div className="border-t-2 border-ink">
+              {faqs.map((faq) => (
+                <div key={faq.q} className="py-6 border-b border-rule">
+                  <h3 className="font-jakarta font-bold text-ink text-[17px] tracking-[-0.01em] mb-2">
+                    {faq.q}
+                  </h3>
+                  <p className="text-ink-soft leading-relaxed text-pretty">{faq.a}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-24" style={{ background: "#08080c" }}>
-        <Container className="text-center">
-          <SectionHeader
-            title="Not sure which plan fits?"
-            gradient="which plan fits?"
-            subtitle="Book a free 20-minute demo and we'll recommend the right setup for your business."
-            dark
-            className="mb-10"
-          />
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="/demo"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
-            >
-              Schedule a Demo
-              <ArrowRight weight="duotone" className="w-4 h-4" />
-            </a>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/[0.1] text-sm font-medium text-white/60 hover:text-white hover:border-white/20 transition-all duration-300"
-            >
-              Get in Touch
-            </a>
+      <section className="bg-deep py-20 lg:py-28">
+        <Container>
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_auto] gap-8 lg:gap-16 items-end">
+            <SectionHeader
+              title="Not sure which plan fits?"
+              gradient="which plan fits?"
+              subtitle="Book a free 20-minute demo and we'll recommend the right setup for your business."
+              dark
+            />
+            <div className="flex flex-wrap items-center gap-3">
+              <ButtonLink href="/demo" variant="light" size="lg">
+                Schedule a Demo
+                <ArrowRight weight="bold" className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </ButtonLink>
+              <ButtonLink href="/contact" variant="ghost-dark" size="lg">
+                Get in Touch
+              </ButtonLink>
+            </div>
           </div>
         </Container>
       </section>

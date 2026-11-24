@@ -27,8 +27,8 @@ export default function Eyebrow({
       <span className={dark ? "text-brand-cyan" : "text-brand-blue"}>{children}</span>
       {trail !== undefined && (
         <>
-          <span className="leader" aria-hidden />
-          <span>{trail}</span>
+          <span className="leader hidden sm:block" aria-hidden />
+          <span className="hidden sm:inline">{trail}</span>
         </>
       )}
     </div>

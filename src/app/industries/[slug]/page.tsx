@@ -4,10 +4,11 @@ import Container from "@/components/ui/Container";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
 import { industries, getIndustry } from "../_data/industries";
 import Image from "next/image";
+import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
+import { ButtonLink } from "@/components/ui/Button";
 import {
   CheckCircle,
-  Quotes,
-  Star,
   XCircle,
   SunHorizon,
   HouseLine,
@@ -64,144 +65,103 @@ export default async function IndustryPage({
 
   if (!industry) notFound();
 
+  const HeroIcon = INDUSTRY_ICONS[industry.slug];
+  const headlineWords = industry.heroHeadline.split(" ");
+
   return (
     <>
-      {/* Hero — tighter, gets to content faster */}
-      <section className="relative pt-24 sm:pt-28 pb-8 sm:pb-10" style={{ background: "#08080c" }}>
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] opacity-20 blur-3xl"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(59,130,246,0.5) 0%, rgba(57,185,229,0.2) 50%, transparent 70%)",
-            }}
-          />
-        </div>
+      {/* Hero */}
+      <section className="relative bg-paper pt-28 sm:pt-32 lg:pt-40 pb-12 lg:pb-16 overflow-hidden">
+        <Container className="relative">
+          {HeroIcon && (
+            <HeroIcon
+              weight="duotone"
+              aria-hidden
+              className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 text-brand-blue/[0.09] pointer-events-none select-none"
+              style={{ width: "clamp(200px, 20vw, 300px)", height: "clamp(200px, 20vw, 300px)" }}
+            />
+          )}
+          <div className="relative max-w-3xl">
+            <Eyebrow className="mb-6">{industry.name} Quoting Software</Eyebrow>
 
-        <Container className="relative z-10">
-          {/* Decorative industry icon */}
-          {(() => {
-            const HeroIcon = INDUSTRY_ICONS[industry.slug];
-            return HeroIcon ? (
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none select-none" style={{ right: "clamp(40px, 5vw, 120px)" }}>
-                <HeroIcon
-                  weight="duotone"
-                  className="text-brand-cyan/[0.07]"
-                  style={{ width: "clamp(200px, 20vw, 320px)", height: "clamp(200px, 20vw, 320px)" }}
-                />
-              </div>
-            ) : null;
-          })()}
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-xs font-semibold text-white/50 mb-5">
-              {industry.name} Quoting Software
-            </div>
-
-            <h1
-              className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5"
-              style={{
-                fontSize: "clamp(30px, 4.5vw, 58px)",
-                lineHeight: 1.08,
-                letterSpacing: "-0.035em",
-              }}
-            >
-              {industry.heroHeadline.split(" ").slice(0, -2).join(" ")}{" "}
-              <span className="bg-gradient-to-r from-[#3b82f6] to-brand-cyan bg-clip-text text-transparent">
-                {industry.heroHeadline.split(" ").slice(-2).join(" ")}
+            <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.05] text-[clamp(2.1rem,4.6vw,3.75rem)] text-balance">
+              {headlineWords.slice(0, -2).join(" ")}{" "}
+              <span className="mark-live mark-live-anim">
+                {headlineWords.slice(-2).join(" ")}
               </span>
             </h1>
 
-            <p
-              className="text-white/50 max-w-xl mb-8"
-              style={{ fontSize: "clamp(15px, 1.15vw, 18px)", lineHeight: 1.7 }}
-            >
+            <p className="mt-6 text-ink-soft max-w-xl text-lg leading-relaxed text-pretty">
               {industry.heroSubheadline}
             </p>
-
           </div>
         </Container>
       </section>
 
-      {/* Two-column: Pain Points + Features side by side */}
-      <section
-        className="py-12 sm:py-16 border-t border-white/[0.05]"
-        style={{ background: "#08080c" }}
-      >
+      {/* Pain points + features, side by side */}
+      <section className="bg-sheet border-y border-rule py-16 lg:py-20">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-            {/* Pain Points */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
-                The problem
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6 font-[family-name:var(--font-jakarta)]">
+              <Eyebrow className="mb-4">The problem</Eyebrow>
+              <h2 className="font-jakarta font-extrabold text-ink text-2xl sm:text-3xl tracking-[-0.03em] mb-6">
                 Sound familiar?
               </h2>
-              <div className="space-y-3">
+              <ul className="border-t-2 border-ink">
                 {industry.painPoints.map((point, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4"
-                  >
-                    <XCircle weight="duotone" className="w-5 h-5 text-red-400/70 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-white/50 leading-relaxed">{point}</p>
-                  </div>
+                  <li key={i} className="flex items-start gap-3 py-4 border-b border-rule">
+                    <XCircle weight="fill" className="w-5 h-5 text-red-600/80 flex-shrink-0 mt-0.5" />
+                    <p className="text-[15px] text-ink-soft leading-relaxed">{point}</p>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
-            {/* Features */}
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
-                The fix
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6 font-[family-name:var(--font-jakarta)]">
+              <Eyebrow className="mb-4">The fix</Eyebrow>
+              <h2 className="font-jakarta font-extrabold text-ink text-2xl sm:text-3xl tracking-[-0.03em] mb-6">
                 What Quotie gives you
               </h2>
-              <div className="space-y-3">
+              <ul className="border-t-2 border-ink">
                 {industry.features.map((feature, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4"
-                  >
-                    <CheckCircle weight="duotone" className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-white/60 leading-relaxed">{feature}</p>
-                  </div>
+                  <li key={i} className="flex items-start gap-3 py-4 border-b border-rule">
+                    <CheckCircle weight="fill" className="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" />
+                    <p className="text-[15px] text-ink leading-relaxed">{feature}</p>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Industry Content — detailed paragraphs */}
+      {/* Industry content — detailed paragraphs */}
       {industry.content && industry.content.length > 0 && (
-        <section
-          className="py-16 sm:py-20 border-t border-white/[0.05]"
-          style={{ background: "#08080c" }}
-        >
+        <section className="bg-paper py-20 lg:py-24">
           <Container>
-            <div className="max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
-                Quotie for {industry.name}
+            <div className="grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-10 lg:gap-20 items-start">
+              <div className="lg:sticky lg:top-28">
+                <Eyebrow className="mb-5">Quotie for {industry.name}</Eyebrow>
+                <h2 className="font-jakarta font-extrabold text-ink tracking-[-0.03em] leading-[1.1] text-[clamp(1.75rem,3.4vw,2.6rem)] text-balance">
+                  How it works for{" "}
+                  <span className="mark-live">
+                    {industry.name.toLowerCase()} businesses
+                  </span>
+                </h2>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-10 font-[family-name:var(--font-jakarta)]">
-                How it works for{" "}
-                <span className="bg-gradient-to-r from-[#3b82f6] to-brand-cyan bg-clip-text text-transparent">
-                  {industry.name.toLowerCase()} businesses
-                </span>
-              </h2>
 
-              <div className="space-y-8">
+              <div className="border-t-2 border-ink">
                 {industry.content.map((section, i) => (
-                  <div key={i}>
-                    <h3 className="text-lg font-bold text-white mb-2 font-[family-name:var(--font-jakarta)]">
-                      {section.heading}
-                    </h3>
-                    <p className="text-white/45 leading-relaxed">
-                      {section.text}
-                    </p>
-                  </div>
+                  <Reveal key={i}>
+                    <div className="py-7 border-b border-rule">
+                      <h3 className="font-jakarta font-bold text-ink text-xl tracking-[-0.02em] mb-2">
+                        {section.heading}
+                      </h3>
+                      <p className="text-ink-soft leading-relaxed text-pretty">
+                        {section.text}
+                      </p>
+                    </div>
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -209,190 +169,132 @@ export default async function IndustryPage({
         </section>
       )}
 
-      {/* Showcase */}
+      {/* Showcase — real proposal pages, blurred for customer privacy */}
       {industry.showcaseId && industry.showcasePages && (
-        <section
-          className="py-16 sm:py-20 border-t border-white/[0.05]"
-          style={{ background: "#08080c" }}
-        >
+        <section className="bg-deep py-20 lg:py-24 overflow-hidden">
           <Container>
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-4">
+            <div className="max-w-2xl">
+              <Eyebrow dark trail={`${industry.showcasePages} pages`} className="mb-5">
                 Real quotes
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-[family-name:var(--font-jakarta)]">
+              </Eyebrow>
+              <h2 className="font-jakarta font-extrabold text-white tracking-[-0.03em] leading-[1.1] text-[clamp(1.75rem,3.4vw,2.6rem)] mb-3">
                 What a {industry.name.toLowerCase()} proposal looks like
               </h2>
-              <p className="text-sm text-white/35">
+              <p className="text-white/60">
                 Professional, branded, and built to win jobs.
               </p>
             </div>
 
-            <div className="relative">
-              <div className="flex gap-3 overflow-hidden justify-center">
-                {Array.from({
-                  length: Math.min(industry.showcasePages!, 5),
-                }).map((_, i) => {
-                  const pageNum = i + 1;
-                  const padded = industry.showcasePad
-                    ? String(pageNum).padStart(2, "0")
-                    : String(pageNum);
-                  const src = `/showcase/${industry.showcaseId}/page-${padded}.webp`;
+            <div className="mt-10 -mx-5 sm:-mx-8 px-5 sm:px-8 flex gap-4 sm:gap-5 overflow-x-auto scrollbar-hide pb-4">
+              {Array.from({
+                length: Math.min(industry.showcasePages!, 5),
+              }).map((_, i) => {
+                const pageNum = i + 1;
+                const padded = industry.showcasePad
+                  ? String(pageNum).padStart(2, "0")
+                  : String(pageNum);
+                const src = `/showcase/${industry.showcaseId}/page-${padded}.webp`;
 
-                  return (
-                    <div
-                      key={i}
-                      className="relative flex-shrink-0 w-40 sm:w-48 rounded-lg overflow-hidden border border-white/[0.08]"
-                      style={{
-                        transform: `rotate(${(i - 2) * 1.5}deg)`,
-                        opacity: 1 - Math.abs(i - 2) * 0.15,
-                      }}
-                    >
+                return (
+                  <figure key={i} className="flex-shrink-0 w-44 sm:w-52 lg:flex-1 lg:w-auto">
+                    <div className="rounded-md overflow-hidden bg-white ring-1 ring-white/10 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)]">
                       <Image
                         src={src}
                         alt={`${industry.name} proposal page ${pageNum}`}
                         width={384}
                         height={512}
-                        className="w-full aspect-[3/4] object-cover object-top blur-[4px]"
+                        className="w-full aspect-[3/4] object-cover object-top blur-[6px] scale-[1.04]"
                       />
-                      {i !== 2 && (
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            backdropFilter: `blur(${Math.abs(i - 2) * 2}px)`,
-                            background: "rgba(8,8,12,0.2)",
-                          }}
-                        />
-                      )}
                     </div>
-                  );
-                })}
-              </div>
-
-              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#08080c] to-transparent pointer-events-none" />
+                    <figcaption className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
+                      Page {String(pageNum).padStart(2, "0")}
+                    </figcaption>
+                  </figure>
+                );
+              })}
             </div>
 
-            <div className="mt-6 text-center">
-              <p className="text-sm text-white/30">
-                {industry.showcasePages}-page professional proposal
-              </p>
-            </div>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">
+              {industry.showcasePages}-page professional proposal
+            </p>
           </Container>
         </section>
       )}
 
       {/* Testimonial */}
       {industry.testimonial && (
-        <section
-          className="py-16 sm:py-20 border-t border-white/[0.05]"
-          style={{ background: "#08080c" }}
-        >
+        <section className="bg-sheet border-b border-rule py-20 lg:py-24">
           <Container>
-            <div className="max-w-2xl mx-auto text-center">
-              <div className="flex justify-center gap-1 mb-6">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    weight="duotone"
-                    className="w-5 h-5 text-yellow-400 fill-yellow-400"
-                  />
-                ))}
-              </div>
-
-              <Quotes weight="duotone" className="w-8 h-8 text-white/10 mx-auto mb-4" />
-
-              <blockquote className="text-xl sm:text-2xl font-medium text-white/80 leading-relaxed mb-8 font-[family-name:var(--font-jakarta)]">
+            <figure className="max-w-4xl border-t-2 border-ink pt-8">
+              <Eyebrow className="mb-6">Reference</Eyebrow>
+              <blockquote className="font-jakarta font-semibold text-ink text-xl sm:text-2xl lg:text-[28px] leading-[1.35] tracking-[-0.02em] text-pretty">
                 &ldquo;{industry.testimonial.quote}&rdquo;
               </blockquote>
-
-              <div className="flex items-center justify-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/30 to-cyan-500/20 border border-white/[0.1] flex items-center justify-center text-sm font-bold text-white">
-                  {industry.testimonial.author[0]}
-                </div>
-                <div className="text-left">
-                  <div className="text-sm font-semibold text-white">
-                    {industry.testimonial.author}
-                  </div>
-                  <div className="text-xs text-white/40">
-                    {industry.testimonial.role},{" "}
-                    {industry.testimonial.company}
-                  </div>
-                </div>
-              </div>
-            </div>
+              <figcaption className="mt-6 text-sm text-ink-soft">
+                <span className="font-semibold text-ink">
+                  {industry.testimonial.author}
+                </span>{" "}
+                — {industry.testimonial.role}, {industry.testimonial.company}
+              </figcaption>
+            </figure>
           </Container>
         </section>
       )}
 
       {/* Stats + CTA buttons */}
-      <section
-        className="py-16 sm:py-20 border-t border-white/[0.05]"
-        style={{ background: "#08080c" }}
-      >
+      <section className="bg-paper py-20 lg:py-24">
         <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            {industry.stats && (
-              <div className="grid grid-cols-3 gap-6 sm:gap-10 mb-10">
-                {industry.stats.map((stat) => (
-                  <div key={stat.label}>
-                    <div className="text-3xl sm:text-4xl font-extrabold text-white font-[family-name:var(--font-jakarta)] mb-1">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/30">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            )}
+          {industry.stats && (
+            <dl className="grid grid-cols-3 border-t-2 border-ink mb-10">
+              {industry.stats.map((stat, i) => (
+                <div
+                  key={stat.label}
+                  className={`py-6 border-b border-rule ${
+                    i > 0 ? "pl-3 sm:pl-6 border-l" : ""
+                  } pr-2`}
+                >
+                  <dd className="font-jakarta font-extrabold text-ink text-[26px] sm:text-5xl tracking-[-0.04em] tnum">
+                    {stat.value}
+                  </dd>
+                  <dt className="mt-1.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.1em] sm:tracking-[0.12em] text-ink-faint">
+                    {stat.label}
+                  </dt>
+                </div>
+              ))}
+            </dl>
+          )}
 
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <a
-                href="/demo"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-[10px] text-[15px] font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,232,237,0.1)]"
-                style={{ background: "#e8e8ed", color: "#08080c" }}
-              >
-                Schedule a Demo
-              </a>
-              <a
-                href="/pricing"
-                className="text-[15px] transition-colors duration-300 hover:text-white/70"
-                style={{ color: "rgba(232,232,237,0.4)" }}
-              >
-                See Pricing →
-              </a>
-            </div>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <ButtonLink href="/demo" variant="ink" size="lg">
+              Schedule a Demo
+            </ButtonLink>
+            <a
+              href="/pricing"
+              className="text-[15px] font-semibold text-ink hover:text-brand-blue transition-colors"
+            >
+              See Pricing →
+            </a>
           </div>
         </Container>
       </section>
 
-      {/* CTA Form */}
-      <section
-        className="py-16 sm:py-20 border-t border-white/[0.05]"
-        style={{ background: "#08080c" }}
-      >
+      {/* CTA form */}
+      <section className="bg-deep py-20 lg:py-24">
         <Container>
-          <div className="relative rounded-2xl border border-white/[0.08] overflow-hidden">
-            <div className="absolute inset-0 pointer-events-none">
-              <div
-                className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-30"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.3), transparent 60%)",
-                }}
-              />
-            </div>
-
-            <div className="relative z-10 px-6 sm:px-12 py-14 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 font-[family-name:var(--font-jakarta)]">
+          <div className="sheet rounded-xl overflow-hidden">
+            <div className="h-1.5 bg-gradient-to-r from-brand-blue to-brand-cyan" />
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="p-7 sm:p-10 lg:p-14 lg:border-r border-rule flex flex-col justify-center">
+                <h2 className="font-jakarta font-extrabold text-ink tracking-[-0.03em] leading-[1.08] text-[clamp(1.9rem,3.6vw,2.75rem)] text-balance mb-4">
                   Ready to quote {industry.name.toLowerCase()} jobs faster?
                 </h2>
-                <p className="text-white/40 text-lg leading-relaxed">
+                <p className="text-ink-soft text-lg leading-relaxed text-pretty">
                   Join {industry.name.toLowerCase()} businesses across Australia
                   and New Zealand who use Quotie to win more work.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-6">
+              <div className="p-7 sm:p-10 lg:p-14 bg-paper/60">
                 <LeadCaptureForm
                   source={`industry_${industry.slug}_cta`}
                   compact

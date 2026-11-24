@@ -15,13 +15,18 @@ import {
   PlugsConnected,
   ArrowRight,
   Check,
+  CaretDown,
   Signature,
   MapPin,
   PhoneCall,
 } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
-import { useLeadModal } from "@/components/lead-capture/LeadModalProvider";
+import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
+import SectionHeader from "@/components/ui/SectionHeader";
+import { ButtonLink } from "@/components/ui/Button";
+import { SignMock } from "@/components/sections/platform/AppMocks";
 
 /* ═══════════════════════════════════════════════════════════════
    FEATURE DEEP-DIVE GRID — detailed cards, mixed sizes
@@ -196,80 +201,124 @@ const explorerFeatures = [
   },
 ];
 
+type Feature = (typeof features)[number];
+
+/** One feature set as a line item: name | what it does | what's included. */
+function FeatureRow({ f, dark = false }: { f: Feature; dark?: boolean }) {
+  const Icon = f.icon;
+  return (
+    <div
+      className={`grid md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)_minmax(0,1fr)] gap-x-10 gap-y-4 py-8 lg:py-10 border-b ${
+        dark ? "border-deep-rule" : "border-rule"
+      }`}
+    >
+      <div className="flex items-start gap-3">
+        <Icon
+          weight="duotone"
+          className={`w-6 h-6 shrink-0 mt-0.5 ${dark ? "text-brand-cyan" : "text-brand-blue"}`}
+        />
+        <h3
+          className={`font-jakarta font-extrabold text-xl lg:text-[22px] tracking-[-0.025em] leading-tight ${
+            dark ? "text-white" : "text-ink"
+          }`}
+        >
+          {f.title}
+        </h3>
+      </div>
+      <p className={`leading-relaxed text-pretty ${dark ? "text-white/65" : "text-ink-soft"}`}>
+        {f.description}
+      </p>
+      {f.bullets && (
+        <ul className="space-y-2">
+          {f.bullets.map((b) => (
+            <li key={b} className="flex items-start gap-2.5 text-sm">
+              <Check
+                weight="bold"
+                className={`w-3.5 h-3.5 shrink-0 mt-1 ${dark ? "text-brand-cyan" : "text-brand-blue"}`}
+              />
+              <span className={dark ? "text-white/75" : "text-ink"}>{b}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 function FeatureExplorer() {
   const [activeId, setActiveId] = useState("template");
   const active = explorerFeatures.find((f) => f.id === activeId)!;
 
   return (
-    <section className="border-t border-white/[0.04]">
-      <Container className="py-14 lg:py-32">
-        <div className="text-center mb-10 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.03] text-white/40 text-xs font-semibold mb-6">
-            How It Works
+    <section className="bg-paper py-20 lg:py-28">
+      <Container>
+        <div className="grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-10 lg:gap-20 items-start">
+          <div className="lg:sticky lg:top-28">
+            <Reveal>
+              <SectionHeader
+                badge="How It Works"
+                title="Follow the quote from build to close."
+              />
+            </Reveal>
+
+            {/* Tab bar */}
+            <div className="flex flex-wrap gap-2 mt-8">
+              {explorerFeatures.map((f) => {
+                const Icon = f.icon;
+                const isActive = f.id === activeId;
+                return (
+                  <button
+                    key={f.id}
+                    onClick={() => setActiveId(f.id)}
+                    aria-pressed={isActive}
+                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-semibold border whitespace-nowrap transition-colors duration-200 ${
+                      isActive
+                        ? "bg-ink text-white border-ink"
+                        : "bg-sheet text-ink-soft border-rule-strong hover:text-ink hover:border-ink"
+                    }`}
+                  >
+                    <Icon weight="duotone" className="w-4 h-4" />
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <h2
-            className="font-[family-name:var(--font-jakarta)] font-extrabold text-white"
-            style={{ fontSize: "clamp(28px, 3vw, 44px)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
-          >
-            Follow the quote from build to close.
-          </h2>
-        </div>
 
-        {/* Tab bar */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-          {explorerFeatures.map((f) => {
-            const Icon = f.icon;
-            const isActive = f.id === activeId;
-            return (
-              <button
-                key={f.id}
-                onClick={() => setActiveId(f.id)}
-                className={`flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-200 border ${
-                  isActive
-                    ? `${f.activeBg} text-white`
-                    : "border-transparent text-white/35 hover:text-white/60 hover:bg-white/[0.03]"
-                }`}
+          {/* Content */}
+          <div className="min-h-[420px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeId}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.22 }}
               >
-                <Icon weight="duotone" className={`w-4 h-4 ${isActive ? f.color : ""}`} />
-                {f.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Content */}
-        <div className="max-w-2xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeId}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.25 }}
-            >
-              <h3 className="text-lg font-bold text-white mb-8 text-center font-[family-name:var(--font-jakarta)]">
-                {active.content.title}
-              </h3>
-              <div className="space-y-0">
-                {active.content.steps.map((step, i) => (
-                  <div key={i} className="flex gap-5">
-                    <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-xs font-bold text-white/50">
-                        {i + 1}
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue pb-4">
+                  {active.content.title}
+                </h3>
+                <ol className="border-t-2 border-ink">
+                  {active.content.steps.map((step, i) => (
+                    <li
+                      key={i}
+                      className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4 py-6 border-b border-rule"
+                    >
+                      <span className="font-mono text-sm text-brand-blue pt-1">
+                        0{i + 1}
+                      </span>
+                      <div>
+                        <div className="font-jakarta font-bold text-ink text-lg tracking-[-0.02em] mb-1">
+                          {step.label}
+                        </div>
+                        <div className="text-ink-soft leading-relaxed">{step.detail}</div>
                       </div>
-                      {i < active.content.steps.length - 1 && (
-                        <div className="w-px flex-1 bg-gradient-to-b from-white/10 to-transparent min-h-[32px]" />
-                      )}
-                    </div>
-                    <div className="pb-8">
-                      <div className="text-white font-semibold text-sm mb-1">{step.label}</div>
-                      <div className="text-white/35 text-sm">{step.detail}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                    </li>
+                  ))}
+                </ol>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </Container>
     </section>
@@ -280,194 +329,204 @@ function FeatureExplorer() {
    PAGE
    ═══════════════════════════════════════════════════════════════ */
 
+const FORM_FIELDS = [
+  { label: "Job Type", value: "Solar Install" },
+  { label: "Panel System", value: "13kW — Tier 1" },
+  { label: "Inverter", value: "10kW Hybrid" },
+  { label: "Battery", value: "16kWh" },
+];
+
 export default function FeaturesPage() {
+  const hero = features[0];
+  const HeroIcon = hero.icon;
+  const byTitle = (t: string) => features.find((f) => f.title === t)!;
+
+  const create = [byTitle("Instant PDF Generation"), byTitle("Multi-Option Proposals")];
+  const sendSign = [byTitle("Accept & Sign Online"), byTitle("Email & Unified Inbox")];
+  const followUp = [
+    byTitle("Follow-Up Dashboard"),
+    byTitle("Callback Leads"),
+    byTitle("Site Visits & Road Days"),
+    byTitle("Pipeline, Analytics & Profit"),
+    byTitle("Notifications"),
+  ];
+
   return (
-    <div style={{ background: "#08080c" }}>
+    <div className="bg-paper">
       {/* Hero */}
-      <section className="relative overflow-hidden pt-20">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-brand-blue/8 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-brand-cyan/5 rounded-full blur-[100px]" />
-        </div>
-        <Container className="relative z-10 py-16 sm:py-24 lg:py-36 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/40 mb-6">
-            Platform Features
-          </div>
-          <h1
-            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5 max-w-3xl mx-auto"
-            style={{ fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1.06, letterSpacing: "-0.035em" }}
+      <section className="relative overflow-hidden">
+        <Container className="pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
+          <Eyebrow
+            trail={`${features.length + bottomFeatures.length} line items`}
+            className="mb-6 max-w-xl"
           >
+            Platform Features
+          </Eyebrow>
+          <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.02] text-[clamp(2.4rem,5.4vw,4.5rem)] max-w-4xl text-balance">
             Every tool your quoting{" "}
-            <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              workflow needs.
-            </span>
+            <span className="mark-live mark-live-anim">workflow needs.</span>
           </h1>
-          <p className="text-white/40 max-w-xl mx-auto text-lg leading-relaxed">
+          <p className="mt-6 text-ink-soft max-w-xl text-lg leading-relaxed text-pretty">
             Templates, PDFs, sending, tracking, follow-ups, jobs — one platform, no gaps.
           </p>
         </Container>
       </section>
 
-      {/* Main feature grid */}
-      <section className="border-t border-white/[0.04]">
-        <Container className="py-24 lg:py-32">
-          {/* Hero card — Smart Quote Forms */}
-          {(() => {
-            const hero = features[0];
-            const HeroIcon = hero.icon;
-            return (
-              <div className="relative group mb-6 rounded-2xl p-px bg-gradient-to-b from-cyan-500/20 via-transparent to-transparent overflow-hidden">
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/5" />
-                <div className="relative rounded-[15px] bg-[#0a0a10] p-8 sm:p-10 lg:p-12">
-                  <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/[0.03] rounded-full blur-[80px] pointer-events-none" />
-                  <div className="relative lg:flex lg:items-start lg:gap-16">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-5">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-cyan-400/20 rounded-xl blur-lg" />
-                          <div className="relative w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                            <HeroIcon weight="duotone" className="w-6 h-6 text-cyan-400" />
-                          </div>
-                        </div>
-                        <h3 className="text-xl lg:text-2xl font-extrabold text-white font-[family-name:var(--font-jakarta)] tracking-tight">
-                          {hero.title}
-                        </h3>
-                      </div>
-                      <p className="text-white/40 text-sm lg:text-[15px] leading-relaxed max-w-xl mb-8 lg:mb-0">
-                        {hero.description}
-                      </p>
-                    </div>
+      {/* Create the quote */}
+      <section className="bg-sheet border-y border-rule py-20 lg:py-28">
+        <Container>
+          <Eyebrow trail="01" className="mb-10">
+            Create the quote
+          </Eyebrow>
 
-                    {/* Mock form UI */}
-                    <div className="lg:min-w-[400px] space-y-3">
-                      {[
-                        { label: "Job Type", value: "Solar Install" },
-                        { label: "Panel System", value: "13kW — Tier 1" },
-                        { label: "Inverter", value: "10kW Hybrid" },
-                        { label: "Battery", value: "16kWh" },
-                      ].map((field) => (
-                        <div key={field.label} className="flex items-center justify-between rounded-lg bg-white/[0.03] border border-white/[0.06] px-4 py-2.5">
-                          <span className="text-white/30 text-xs font-medium">{field.label}</span>
-                          <span className="text-white/60 text-xs font-semibold">{field.value}</span>
-                        </div>
-                      ))}
-                      <div className="flex items-center gap-2 pt-3">
-                        <div className="flex-1 rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 py-2 text-center text-[10px] font-medium text-white/30">
-                          Save as Template
-                        </div>
-                        <div className="flex-1 rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 py-2 text-center text-[10px] font-medium text-white/30">
-                          Save as Draft
-                        </div>
-                        <div className="flex-1 rounded-lg bg-brand-blue px-3 py-2 text-center text-[10px] font-semibold text-white">
-                          Create Quote
-                        </div>
+          {/* Lead feature — Smart Quote Forms */}
+          <Reveal>
+            <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-10 lg:gap-16 items-center pb-12 lg:pb-16 border-b-2 border-ink">
+              <div>
+                <div className="flex items-center gap-3 mb-5">
+                  <HeroIcon weight="duotone" className="w-8 h-8 text-brand-blue shrink-0" />
+                  <h3 className="font-jakarta font-extrabold text-ink text-3xl lg:text-[40px] tracking-[-0.035em] leading-tight">
+                    {hero.title}
+                  </h3>
+                </div>
+                <p className="text-ink-soft text-lg leading-relaxed max-w-xl text-pretty">
+                  {hero.description}
+                </p>
+                <ul className="mt-7 border-t border-rule max-w-xl">
+                  {hero.bullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-2.5 py-2.5 border-b border-rule text-[15px] text-ink"
+                    >
+                      <Check weight="bold" className="w-3.5 h-3.5 text-brand-blue shrink-0 mt-1.5" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Mock form UI — the app side wears the deep navy */}
+              <div
+                className="rounded-xl bg-deep border border-deep-rule shadow-[0_30px_60px_-30px_rgba(8,17,32,0.7)] p-5 sm:p-7"
+                aria-hidden
+              >
+                <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-brand-cyan mb-5">
+                  New quote
+                </div>
+                <div className="space-y-3.5">
+                  {FORM_FIELDS.map((field) => (
+                    <div key={field.label}>
+                      <div className="text-xs font-medium text-white/60 mb-1.5">{field.label}</div>
+                      <div className="flex items-center justify-between rounded-md border border-brand-cyan/50 bg-brand-cyan/10 px-3 py-2.5 text-[13px] font-medium text-white">
+                        {field.value}
+                        <CaretDown weight="bold" className="w-3 h-3 text-white/40" />
                       </div>
                     </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-2 pt-5 text-center text-[11px]">
+                  <div className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-2.5 font-medium text-white/55">
+                    Save as Template
+                  </div>
+                  <div className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-2.5 font-medium text-white/55">
+                    Save as Draft
+                  </div>
+                  <div className="rounded-md bg-brand-blue px-2 py-2.5 font-semibold text-white">
+                    Create Quote
                   </div>
                 </div>
               </div>
-            );
-          })()}
+            </div>
+          </Reveal>
 
-          {/* Feature grid — 5 cards in a modern layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-            {features.slice(1).map((f) => {
-              const Icon = f.icon;
-              const iconBgMap: Record<string, string> = {
-                blue: "bg-blue-500/10 border-blue-500/20",
-                amber: "bg-amber-500/10 border-amber-500/20",
-                rose: "bg-rose-500/10 border-rose-500/20",
-                violet: "bg-violet-500/10 border-violet-500/20",
-                emerald: "bg-emerald-500/10 border-emerald-500/20",
-                pink: "bg-pink-500/10 border-pink-500/20",
-                sky: "bg-sky-500/10 border-sky-500/20",
-                orange: "bg-orange-500/10 border-orange-500/20",
-                lime: "bg-lime-500/10 border-lime-500/20",
-              };
-              const glowDotMap: Record<string, string> = {
-                blue: "bg-blue-400/20",
-                amber: "bg-amber-400/20",
-                rose: "bg-rose-400/20",
-                violet: "bg-violet-400/20",
-                emerald: "bg-emerald-400/20",
-                pink: "bg-pink-400/20",
-                sky: "bg-sky-400/20",
-                orange: "bg-orange-400/20",
-                lime: "bg-lime-400/20",
-              };
-              const borderMap: Record<string, string> = {
-                blue: "from-blue-500/25",
-                amber: "from-amber-500/25",
-                rose: "from-rose-500/25",
-                violet: "from-violet-500/25",
-                emerald: "from-emerald-500/25",
-                pink: "from-pink-500/25",
-                sky: "from-sky-500/25",
-                orange: "from-orange-500/25",
-                lime: "from-lime-500/25",
-              };
-              return (
-                <div
-                  key={f.title}
-                  className="group relative rounded-2xl p-px bg-gradient-to-b from-white/[0.08] to-transparent hover:from-white/[0.15] transition-all duration-300 overflow-hidden"
-                  style={{ background: undefined }}
-                >
-                  {/* Gradient border on hover */}
-                  <div className={`absolute inset-0 rounded-2xl p-px bg-gradient-to-b ${borderMap[f.accent]} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+          {create.map((f) => (
+            <Reveal key={f.title}>
+              <FeatureRow f={f} />
+            </Reveal>
+          ))}
+        </Container>
+      </section>
 
-                  <div className="relative rounded-[15px] bg-[#0c0c12] p-6 sm:p-7 h-full flex flex-col">
-                    {/* Ambient glow */}
-                    <div className={`absolute -top-10 -right-10 w-40 h-40 ${glowDotMap[f.accent]} rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-
-                    <div className="relative flex items-center gap-3.5 mb-4">
-                      <div className="relative">
-                        <div className={`absolute inset-0 ${glowDotMap[f.accent]} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                        <div className={`relative w-10 h-10 rounded-xl ${iconBgMap[f.accent]} border flex items-center justify-center`}>
-                          <Icon weight="duotone" className={`w-5 h-5 ${f.color}`} />
-                        </div>
+      {/* Send it, get it signed */}
+      <section className="bg-deep text-white py-20 lg:py-28 overflow-hidden">
+        <Container>
+          <Eyebrow dark trail="02" className="mb-10">
+            Send it, get it signed
+          </Eyebrow>
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-10 lg:gap-14 items-start">
+            <div className="border-t border-deep-rule">
+              {sendSign.map((f) => {
+                const Icon = f.icon;
+                return (
+                  <Reveal key={f.title}>
+                    <div className="py-8 border-b border-deep-rule">
+                      <div className="flex items-start gap-3 mb-3">
+                        <Icon weight="duotone" className="w-6 h-6 shrink-0 mt-0.5 text-brand-cyan" />
+                        <h3 className="font-jakarta font-extrabold text-white text-xl lg:text-[22px] tracking-[-0.025em] leading-tight">
+                          {f.title}
+                        </h3>
                       </div>
-                      <h3 className="text-[15px] font-bold text-white font-[family-name:var(--font-jakarta)] tracking-tight">
-                        {f.title}
-                      </h3>
-                    </div>
-
-                    <p className="text-white/35 text-[13px] leading-relaxed mb-5 flex-1">
-                      {f.description}
-                    </p>
-
-                    {f.bullets && (
-                      <ul className="space-y-2 border-t border-white/[0.04] pt-4">
+                      <p className="text-white/65 leading-relaxed text-pretty">{f.description}</p>
+                      <ul className="mt-5 grid sm:grid-cols-2 gap-x-6 gap-y-2">
                         {f.bullets.map((b) => (
-                          <li key={b} className="flex items-center gap-2.5">
-                            <Check weight="duotone" className={`w-3.5 h-3.5 ${f.color} flex-shrink-0 opacity-60`} />
-                            <span className="text-white/40 text-xs">{b}</span>
+                          <li key={b} className="flex items-start gap-2.5 text-sm text-white/75">
+                            <Check weight="bold" className="w-3.5 h-3.5 shrink-0 mt-1 text-brand-cyan" />
+                            {b}
                           </li>
                         ))}
                       </ul>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </div>
+            <Reveal delay={0.1} className="lg:sticky lg:top-28">
+              <div aria-hidden>
+                <SignMock />
+              </div>
+              <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+                Real Quotie screen, sample data
+              </p>
+            </Reveal>
           </div>
+        </Container>
+      </section>
 
-          {/* Bottom row — 4 compact cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
-            {bottomFeatures.map((f) => {
+      {/* Follow up and win */}
+      <section className="bg-paper py-20 lg:py-28">
+        <Container>
+          <Eyebrow trail="03" className="mb-2">
+            Follow up and win
+          </Eyebrow>
+          <div className="border-t-2 border-ink mt-8">
+            {followUp.map((f) => (
+              <Reveal key={f.title}>
+                <FeatureRow f={f} />
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Run the job — CRM, jobs, calendar, integrations & automations */}
+      <section id="integrations" className="bg-sheet border-y border-rule py-20 lg:py-28 scroll-mt-16">
+        <Container>
+          <Eyebrow trail="04" className="mb-10">
+            Run the job
+          </Eyebrow>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10 border-t-2 border-ink pt-10">
+            {bottomFeatures.map((f, i) => {
               const Icon = f.icon;
               return (
-                <div
-                  key={f.title}
-                  className="group rounded-2xl p-px bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.12] transition-all duration-300"
-                >
-                  <div className="rounded-[15px] bg-[#0c0c12] p-5 sm:p-6 h-full">
-                    <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-3.5">
-                      <Icon weight="duotone" className={`w-4 h-4 ${f.color}`} />
-                    </div>
-                    <h3 className="text-sm font-bold text-white mb-1.5 font-[family-name:var(--font-jakarta)]">{f.title}</h3>
-                    <p className="text-white/35 text-xs leading-relaxed">{f.description}</p>
-                  </div>
-                </div>
+                <Reveal key={f.title} delay={i * 0.06}>
+                  <Icon weight="duotone" className="w-7 h-7 text-brand-blue mb-4" />
+                  <h3 className="font-jakarta font-extrabold text-ink text-lg tracking-[-0.02em] mb-2">
+                    {f.title}
+                  </h3>
+                  <p className="text-ink-soft text-[15px] leading-relaxed text-pretty">
+                    {f.description}
+                  </p>
+                </Reveal>
               );
             })}
           </div>
@@ -478,31 +537,26 @@ export default function FeaturesPage() {
       <FeatureExplorer />
 
       {/* Bottom CTA */}
-      <section className="border-t border-white/[0.04]">
-        <Container className="py-24 lg:py-32 text-center">
-          <h2
-            className="font-[family-name:var(--font-jakarta)] font-extrabold text-white mb-5"
-            style={{ fontSize: "clamp(28px, 3vw, 48px)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
-          >
-            See it for yourself.
-          </h2>
-          <p className="text-white/40 text-lg max-w-md mx-auto mb-10">
-            Book a free demo and we&apos;ll walk you through Quotie — personalised for your trade.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="/demo"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
-            >
-              Schedule a Demo
-              <ArrowRight weight="duotone" className="w-4 h-4" />
-            </a>
-            <a
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/[0.1] text-sm font-medium text-white/60 hover:text-white hover:border-white/20 transition-all duration-300"
-            >
-              View Pricing
-            </a>
+      <section className="bg-deep py-20 lg:py-28">
+        <Container>
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_auto] gap-8 lg:gap-16 items-end">
+            <div>
+              <h2 className="font-jakarta font-extrabold text-white tracking-[-0.035em] leading-[1.05] text-[clamp(2rem,4.2vw,3.5rem)]">
+                See it for yourself.
+              </h2>
+              <p className="mt-5 text-white/65 text-lg max-w-md leading-relaxed">
+                Book a free demo and we&apos;ll walk you through Quotie — personalised for your trade.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <ButtonLink href="/demo" variant="light" size="lg">
+                Schedule a Demo
+                <ArrowRight weight="bold" className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </ButtonLink>
+              <ButtonLink href="/pricing" variant="ghost-dark" size="lg">
+                View Pricing
+              </ButtonLink>
+            </div>
           </div>
         </Container>
       </section>

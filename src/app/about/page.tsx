@@ -2,6 +2,9 @@ import { ArrowRight, MapPin, Heart, Lightning, Crosshair } from "@phosphor-icons
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
+import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
+import { ButtonLink } from "@/components/ui/Button";
 
 export const metadata = createMetadata({
   title: "About Quotie — Australian-Built Quoting Software for Trades",
@@ -35,30 +38,20 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section
-        className="relative min-h-[65vh] flex items-center overflow-hidden pt-20"
-        style={{ background: "#08080c" }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 left-1/3 w-[350px] h-[350px] bg-brand-cyan/8 rounded-full blur-[80px]" />
-        </div>
-        <Container className="relative z-10 py-24">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/50 mb-6">
-              <MapPin weight="duotone" className="w-4 h-4" />
-              Central Coast, NSW, Australia
-            </div>
-            <h1
-              className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-6"
-              style={{ fontSize: "clamp(32px, 5vw, 68px)", lineHeight: 1.06, letterSpacing: "-0.035em" }}
-            >
-              Australian-Built Quoting Software for{" "}
-              <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-                Trades
+      <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-14 lg:pb-20">
+        <Container>
+          <div className="max-w-4xl">
+            <Eyebrow className="mb-6">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin weight="fill" className="w-3.5 h-3.5" />
+                Central Coast, NSW, Australia
               </span>
+            </Eyebrow>
+            <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.04] text-[clamp(2.2rem,5vw,4.25rem)] text-balance">
+              Australian-Built Quoting Software for{" "}
+              <span className="mark-live mark-live-anim">Trades</span>
             </h1>
-            <p className="text-white/40 text-lg leading-relaxed max-w-xl">
+            <p className="mt-6 text-ink-soft text-lg leading-relaxed max-w-xl text-pretty">
               We built Quotie for the businesses that keep Australia running — the electricians, plumbers, roofers, and solar installers who deserve better tools.
             </p>
           </div>
@@ -66,17 +59,16 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="py-24 bg-white">
+      <section className="bg-sheet border-y border-rule py-20 lg:py-24">
         <Container>
-          <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-1.5 text-sm font-semibold text-slate-600 mb-8">
-              Our Story
-            </div>
-            <div className="space-y-6 text-slate-600 text-lg leading-relaxed">
+          <div className="grid lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] gap-8 lg:gap-16 items-start">
+            <Eyebrow className="lg:sticky lg:top-28">Our Story</Eyebrow>
+            <div className="max-w-2xl">
+            <div className="space-y-6 text-ink-soft text-lg leading-relaxed text-pretty">
               <p>
                 Quotie was founded by{" "}
-                <strong className="text-slate-900">Lachlan Boys</strong> and{" "}
-                <strong className="text-slate-900">Buzz Brady</strong> on the
+                <strong className="text-ink">Lachlan Boys</strong> and{" "}
+                <strong className="text-ink">Buzz Brady</strong> on the
                 Central Coast of New South Wales. Both Aussie born and raised.
               </p>
               <p>
@@ -113,87 +105,84 @@ export default function AboutPage() {
                 New Zealand — and constantly improved based on feedback from the
                 people who use it every day.
               </p>
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
       {/* Founders */}
-      <section className="py-20 bg-slate-50 border-t border-slate-100">
+      <section className="bg-paper py-20 lg:py-24">
         <Container>
-          <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-600 mb-10">
-              The Team
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-blue to-brand-cyan flex items-center justify-center mb-5">
-                  <span className="text-lg font-bold text-white">LB</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-1 font-[family-name:var(--font-jakarta)]">
+          <Eyebrow trail="2 founders" className="mb-8 max-w-md">The Team</Eyebrow>
+          <div className="grid grid-cols-1 sm:grid-cols-2 border-t-2 border-ink">
+            <Reveal>
+              <div className="py-8 sm:pr-10 border-b border-rule h-full">
+                <div className="font-mono text-xs text-ink-faint mb-4">LB</div>
+                <h3 className="font-jakarta font-extrabold text-ink text-2xl lg:text-3xl tracking-[-0.03em] mb-1">
                   Lachlan Boys
                 </h3>
-                <p className="text-brand-blue text-sm font-semibold mb-3">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
                   Co-Founder
                 </p>
-                <p className="text-slate-500 text-sm leading-relaxed">
+                <p className="text-ink-soft leading-relaxed text-pretty">
                   Professional estimator turned founder. Locky spent years in the
                   trades industry quoting work and built the original system that
                   became Quotie. He knows what tradies need because he&apos;s
                   lived it.
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-blue to-brand-cyan flex items-center justify-center mb-5">
-                  <span className="text-lg font-bold text-white">BB</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-1 font-[family-name:var(--font-jakarta)]">
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="py-8 sm:pl-10 sm:border-l border-b border-rule h-full">
+                <div className="font-mono text-xs text-ink-faint mb-4">BB</div>
+                <h3 className="font-jakarta font-extrabold text-ink text-2xl lg:text-3xl tracking-[-0.03em] mb-1">
                   Buzz Brady
                 </h3>
-                <p className="text-brand-blue text-sm font-semibold mb-3">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
                   Co-Founder &amp; Developer
                 </p>
-                <p className="text-slate-500 text-sm leading-relaxed">
+                <p className="text-ink-soft leading-relaxed text-pretty">
                   Software developer who took Locky&apos;s concept and rebuilt it
                   from the ground up. Buzz built the modern platform, the
                   infrastructure, and the tech that powers every quote Quotie
                   generates.
                 </p>
               </div>
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
 
       {/* Values */}
-      <section className="py-24 bg-white border-t border-slate-100">
+      <section className="bg-sheet border-y border-rule py-20 lg:py-24">
         <Container>
           <SectionHeader
             badge="What we stand for"
             title="Built around three things"
             gradient="three things"
             subtitle="Everything we build at Quotie comes back to these three values."
-            dark={false}
-            className="mb-16"
+            className="mb-12 lg:mb-14"
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map((value) => {
+          <div className="grid grid-cols-1 md:grid-cols-3 border-t-2 border-ink">
+            {values.map((value, i) => {
               const Icon = value.icon;
               return (
-                <div
-                  key={value.title}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-sm"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-cyan/10 border border-brand-blue/20 flex items-center justify-center mb-5">
-                    <Icon weight="duotone" className="w-6 h-6 text-brand-blue" />
+                <Reveal key={value.title} delay={i * 0.08}>
+                  <div
+                    className={`py-8 border-b border-rule h-full ${
+                      i > 0 ? "md:pl-8 md:border-l" : ""
+                    } ${i < values.length - 1 ? "md:pr-8" : ""}`}
+                  >
+                    <Icon weight="duotone" className="w-6 h-6 text-brand-blue mb-5" />
+                    <h3 className="font-jakarta font-extrabold text-ink text-2xl tracking-[-0.03em] mb-3">
+                      {value.title}
+                    </h3>
+                    <p className="text-ink-soft leading-relaxed text-pretty">
+                      {value.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 font-[family-name:var(--font-jakarta)]">
-                    {value.title}
-                  </h3>
-                  <p className="text-slate-500 leading-relaxed text-sm">
-                    {value.description}
-                  </p>
-                </div>
+                </Reveal>
               );
             })}
           </div>
@@ -201,46 +190,38 @@ export default function AboutPage() {
       </section>
 
       {/* Geography strip */}
-      <section
-        className="py-20 border-t border-white/[0.06]"
-        style={{ background: "#08080c" }}
-      >
-        <Container className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-sm text-white/50 mb-6">
-            <MapPin weight="duotone" className="w-4 h-4 text-brand-cyan" />
-            Built on the Central Coast — used across Australia &amp; New Zealand
+      <section className="bg-deep py-16 lg:py-20">
+        <Container>
+          <div className="grid md:grid-cols-2 gap-6 md:gap-16 items-baseline">
+            <p className="font-jakarta font-extrabold text-white text-2xl lg:text-3xl tracking-[-0.03em] leading-tight text-balance flex items-start gap-3">
+              <MapPin weight="fill" className="w-6 h-6 text-brand-cyan shrink-0 mt-1" />
+              <span>Built on the Central Coast — used across Australia &amp; New Zealand</span>
+            </p>
+            <p className="text-white/60 leading-relaxed max-w-md text-pretty">
+              Our customers are everywhere from Cairns to Christchurch. We keep
+              Australian business hours and we pick up the phone.
+            </p>
           </div>
-          <p className="text-white/30 text-sm max-w-md mx-auto">
-            Our customers are everywhere from Cairns to Christchurch. We keep
-            Australian business hours and we pick up the phone.
-          </p>
         </Container>
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-white border-t border-slate-100">
-        <Container className="text-center">
+      <section className="bg-paper py-20 lg:py-24">
+        <Container>
           <SectionHeader
             title="Want to see it in action?"
             gradient="in action?"
             subtitle="Book a free demo and we'll show you exactly how Quotie works for your trade."
-            dark={false}
-            className="mb-10"
+            className="mb-9"
           />
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="/demo"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300"
-            >
+          <div className="flex flex-wrap items-center gap-3">
+            <ButtonLink href="/demo" variant="ink" size="lg">
               Schedule a Demo
-              <ArrowRight weight="duotone" className="w-4 h-4" />
-            </a>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-all duration-300"
-            >
+              <ArrowRight weight="bold" className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </ButtonLink>
+            <ButtonLink href="/contact" variant="outline" size="lg">
               Get in Touch
-            </a>
+            </ButtonLink>
           </div>
         </Container>
       </section>

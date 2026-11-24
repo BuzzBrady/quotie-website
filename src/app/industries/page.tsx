@@ -1,7 +1,3 @@
-"use client";
-
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   Sun,
@@ -14,207 +10,98 @@ import {
   Leaf,
   Hammer,
   ArrowRight,
-} from "@phosphor-icons/react";
+} from "@phosphor-icons/react/ssr";
 import Container from "@/components/ui/Container";
+import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
+import { ButtonLink } from "@/components/ui/Button";
 
 const industryData = [
-  { slug: "solar", name: "Solar", icon: Sun, color: "#f59e0b", desc: "Complex solar system configurations built into beautiful, branded proposals." },
-  { slug: "roofing", name: "Roofing", icon: House, color: "#ef4444", desc: "Multi-section roof measuring, material options, and instant proposals." },
-  { slug: "electrical", name: "Electrical", icon: Lightning, color: "#3b82f6", desc: "Accurate electrical quotes with automatic labour and materials calculations." },
-  { slug: "cleaning", name: "Cleaning", icon: Sparkle, color: "#8b5cf6", desc: "Service options and frequencies quoted professionally in under a minute." },
-  { slug: "plumbing", name: "Plumbing", icon: Drop, color: "#06b6d4", desc: "On-site quoting with consistent pricing across your whole team." },
-  { slug: "hvac", name: "HVAC", icon: Wind, color: "#10b981", desc: "System options, installation complexity, and warranty terms — one proposal." },
-  { slug: "painting", name: "Painting", icon: PaintBrush, color: "#ec4899", desc: "Quote different scopes and finishes with proposals that match your quality." },
-  { slug: "landscaping", name: "Landscaping", icon: Leaf, color: "#22c55e", desc: "Materials, labour, and project milestones in one professional quote." },
-  { slug: "building", name: "Building", icon: Hammer, color: "#f97316", desc: "Multi-stage builds with consistent pricing and professional proposals." },
+  { slug: "solar", name: "Solar", icon: Sun, desc: "Complex solar system configurations built into beautiful, branded proposals." },
+  { slug: "roofing", name: "Roofing", icon: House, desc: "Multi-section roof measuring, material options, and instant proposals." },
+  { slug: "electrical", name: "Electrical", icon: Lightning, desc: "Accurate electrical quotes with automatic labour and materials calculations." },
+  { slug: "cleaning", name: "Cleaning", icon: Sparkle, desc: "Service options and frequencies quoted professionally in under a minute." },
+  { slug: "plumbing", name: "Plumbing", icon: Drop, desc: "On-site quoting with consistent pricing across your whole team." },
+  { slug: "hvac", name: "HVAC", icon: Wind, desc: "System options, installation complexity, and warranty terms — one proposal." },
+  { slug: "painting", name: "Painting", icon: PaintBrush, desc: "Quote different scopes and finishes with proposals that match your quality." },
+  { slug: "landscaping", name: "Landscaping", icon: Leaf, desc: "Materials, labour, and project milestones in one professional quote." },
+  { slug: "building", name: "Building", icon: Hammer, desc: "Multi-stage builds with consistent pricing and professional proposals." },
 ];
 
 export default function IndustriesPage() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [autoIndex, setAutoIndex] = useState(0);
-  const isHovering = hoveredIndex !== null;
-  const activeIndex = isHovering ? hoveredIndex : autoIndex;
-  const active = industryData[activeIndex];
-
-  const isHoveringRef = useRef(isHovering);
-  isHoveringRef.current = isHovering;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isHoveringRef.current) {
-        setAutoIndex((prev) => (prev + 1) % industryData.length);
-      }
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div style={{ background: "#08080c" }} className="min-h-screen">
+    <div className="bg-paper">
       {/* Hero */}
-      <section className="relative pt-20">
-        <div className="absolute inset-0 pointer-events-none overflow-visible">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-15 blur-[150px]"
-            style={{ background: `radial-gradient(circle, ${active?.color || "rgba(59,130,246,0.4)"} 0%, transparent 70%)`, transition: "background 0.5s ease" }}
-          />
-        </div>
-        <Container className="relative z-10 pt-16 sm:pt-24 lg:pt-36 pb-8 sm:pb-12 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/40 mb-6">
+      <section className="pt-28 sm:pt-32 lg:pt-40 pb-12 lg:pb-16">
+        <Container>
+          <Eyebrow trail={`${industryData.length} trades`} className="mb-6 max-w-md">
             Built for Trades
-          </div>
-          <h1
-            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5 max-w-3xl mx-auto"
-            style={{ fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1.06, letterSpacing: "-0.035em" }}
-          >
+          </Eyebrow>
+          <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.03] text-[clamp(2.3rem,5vw,4.25rem)] max-w-3xl text-balance">
             Quoting software for{" "}
-            <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              every trade.
-            </span>
+            <span className="mark-live mark-live-anim">every trade.</span>
           </h1>
-          <p className="text-white/40 max-w-lg mx-auto text-lg leading-relaxed">
+          <p className="mt-6 text-ink-soft max-w-lg text-lg leading-relaxed text-pretty">
             Whether you&apos;re quoting solar systems or cleaning contracts, Quotie adapts to how your trade actually works.
           </p>
         </Container>
       </section>
 
-      {/* Orbital layout */}
-      <section className="pb-24 lg:pb-32">
+      {/* The trades — a ledger, one line per industry */}
+      <section className="pb-20 lg:pb-28">
         <Container>
-          {/* Desktop: orbital ring */}
-          <div className="hidden lg:block relative mx-auto" style={{ width: "700px", height: "700px" }}>
-            {/* Center content */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center w-64">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.slug}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div
-                      className="text-3xl font-extrabold font-[family-name:var(--font-jakarta)] mb-3"
-                      style={{ color: active.color }}
-                    >
-                      {active.name}
-                    </div>
-                    <p className="text-white/45 text-sm leading-relaxed mb-5">
-                      {active.desc}
-                    </p>
-                    <Link
-                      href={`/industries/${active.slug}`}
-                      className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-                      style={{ color: active.color }}
-                    >
-                      Learn more
-                      <ArrowRight weight="duotone" className="w-4 h-4" />
-                    </Link>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Orbit ring */}
-            <div
-              className="absolute inset-8 rounded-full border border-white/[0.04]"
-            />
-
-            {/* Industry circles */}
+          <ul className="border-t-2 border-ink">
             {industryData.map((industry, i) => {
               const Icon = industry.icon;
-              const angle = (i / industryData.length) * 360 - 90;
-              const radius = 290;
-              const x = Math.cos((angle * Math.PI) / 180) * radius;
-              const y = Math.sin((angle * Math.PI) / 180) * radius;
-              const isActive = activeIndex === i;
-
               return (
-                <Link
-                  key={industry.slug}
-                  href={`/industries/${industry.slug}`}
-                  className="absolute group"
-                  style={{
-                    left: `calc(50% + ${x}px - 40px)`,
-                    top: `calc(50% + ${y}px - 40px)`,
-                  }}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
-                  <div
-                    className="w-20 h-20 rounded-full flex flex-col items-center justify-center transition-all duration-300 border"
-                    style={{
-                      background: isActive ? `${industry.color}15` : "rgba(255,255,255,0.02)",
-                      borderColor: isActive ? `${industry.color}40` : "rgba(255,255,255,0.07)",
-                      transform: isActive ? "scale(1.15)" : "scale(1)",
-                      boxShadow: isActive ? `0 0 40px ${industry.color}20` : "none",
-                    }}
-                  >
-                    <Icon
-                      weight="duotone"
-                      className="w-5 h-5 mb-1 transition-colors duration-300"
-                      style={{ color: isActive ? industry.color : "rgba(255,255,255,0.35)" }}
-                    />
-                    <span
-                      className="text-[10px] font-semibold transition-colors duration-300"
-                      style={{ color: isActive ? industry.color : "rgba(255,255,255,0.3)" }}
+                <li key={industry.slug}>
+                  <Reveal delay={Math.min(i, 5) * 0.04}>
+                    <Link
+                      href={`/industries/${industry.slug}`}
+                      className="group grid grid-cols-[minmax(0,1fr)_auto] md:grid-cols-[56px_240px_minmax(0,1fr)_auto] gap-x-4 md:gap-x-6 gap-y-1.5 items-center py-5 md:py-6 border-b border-rule transition-colors duration-200 hover:bg-sheet md:px-3 md:-mx-3"
                     >
-                      {industry.name}
-                    </span>
-                  </div>
-                </Link>
+                      <span className="font-mono text-xs text-ink-faint tnum hidden md:block">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="flex items-center gap-3">
+                        <Icon weight="duotone" className="w-6 h-6 text-brand-blue shrink-0" />
+                        <span className="font-jakarta font-extrabold text-ink text-xl md:text-2xl tracking-[-0.03em] group-hover:text-brand-blue transition-colors">
+                          {industry.name}
+                        </span>
+                      </span>
+                      <span className="order-last col-span-2 md:order-none md:col-span-1 text-ink-soft text-[15px] leading-relaxed">
+                        {industry.desc}
+                      </span>
+                      <ArrowRight
+                        weight="bold"
+                        className="w-4 h-4 text-ink-faint group-hover:text-brand-blue group-hover:translate-x-1 transition-[color,transform] duration-200"
+                      />
+                    </Link>
+                  </Reveal>
+                </li>
               );
             })}
-          </div>
-
-          {/* Mobile: vertical list with colored accents */}
-          <div className="lg:hidden space-y-3">
-            {industryData.map((industry) => {
-              const Icon = industry.icon;
-              return (
-                <Link
-                  key={industry.slug}
-                  href={`/industries/${industry.slug}`}
-                  className="group flex items-center gap-4 p-5 rounded-2xl border border-white/[0.07] bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300"
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 border transition-all duration-300"
-                    style={{
-                      background: `${industry.color}10`,
-                      borderColor: `${industry.color}25`,
-                    }}
-                  >
-                    <Icon weight="duotone" className="w-5 h-5" style={{ color: industry.color }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-white font-semibold text-sm mb-0.5">{industry.name}</div>
-                    <div className="text-white/35 text-xs truncate">{industry.desc}</div>
-                  </div>
-                  <ArrowRight weight="duotone" className="w-4 h-4 text-white/15 group-hover:text-white/40 transition-colors flex-shrink-0" />
-                </Link>
-              );
-            })}
-          </div>
+          </ul>
         </Container>
       </section>
 
       {/* Bottom CTA */}
-      <section className="border-t border-white/[0.05]">
-        <Container className="py-20">
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-8 sm:p-12 text-center">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 font-[family-name:var(--font-jakarta)]">
-              Don&apos;t see your trade?
-            </h2>
-            <p className="text-white/40 max-w-md mx-auto mb-8">
-              Quotie works for any service business that needs to quote. If your
-              trade isn&apos;t listed, we&apos;d still love to show you how it works.
-            </p>
-            <a
-              href="/demo"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-[10px] text-[15px] font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,232,237,0.1)]"
-              style={{ background: "#e8e8ed", color: "#08080c" }}
-            >
+      <section className="bg-sheet border-t border-rule">
+        <Container className="py-20 lg:py-24">
+          <div className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-8 items-end">
+            <div>
+              <h2 className="font-jakarta font-extrabold text-ink tracking-[-0.03em] leading-[1.08] text-[clamp(1.9rem,4vw,3rem)]">
+                Don&apos;t see your trade?
+              </h2>
+              <p className="mt-4 text-ink-soft max-w-md text-lg leading-relaxed text-pretty">
+                Quotie works for any service business that needs to quote. If your
+                trade isn&apos;t listed, we&apos;d still love to show you how it works.
+              </p>
+            </div>
+            <ButtonLink href="/demo" variant="ink" size="lg">
               Schedule a Demo
-            </a>
+              <ArrowRight weight="bold" className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </ButtonLink>
           </div>
         </Container>
       </section>
