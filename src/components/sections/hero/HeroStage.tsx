@@ -8,8 +8,6 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import {
-  CaretDown,
-  Check,
   Eye,
   FilePdf,
   PaperPlaneTilt,
@@ -20,6 +18,7 @@ import {
   type Selections,
 } from "@/components/sections/live-demo/demoData";
 import EngineRun from "@/components/sections/EngineRun";
+import PhoneForm from "./PhoneForm";
 
 /**
  * The hero plays the whole product on a loop: three answers go into a form,
@@ -78,28 +77,6 @@ function CountUp({ value }: { value: number }) {
   return <>{fmt(display)}</>;
 }
 
-function Pill({
-  children,
-  selected,
-  tapped,
-}: {
-  children: React.ReactNode;
-  selected: boolean;
-  tapped: boolean;
-}) {
-  return (
-    <span
-      className={`px-3 py-1.5 rounded-md text-xs font-medium border transition-colors duration-300 ${
-        selected
-          ? "bg-brand-cyan/15 border-brand-cyan/60 text-white"
-          : "bg-white/[0.03] border-white/10 text-white/45"
-      } ${tapped ? "tap-ring" : ""}`}
-    >
-      {children}
-    </span>
-  );
-}
-
 export default function HeroStage() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-80px" });
@@ -119,7 +96,6 @@ export default function HeroStage() {
     return () => clearTimeout(t);
   }, [step, inView, reduce]);
 
-  const sel = selectionsAt(step);
   // The finished quote for the three answers — only shown once the engine has run.
   const finalLines = useMemo(() => solar.compute(selectionsAt(3)!).lines, []);
   const total = finalLines.reduce((sum, l) => sum + l.amount, 0);
@@ -132,92 +108,15 @@ export default function HeroStage() {
   return (
     <div ref={ref} className="relative" aria-hidden>
       <div className="grid grid-cols-12 items-start">
-        {/* The form — the app side, so it wears the deep navy */}
-        <div className="col-span-12 sm:col-start-1 sm:col-span-6 row-start-1 sm:mt-14 relative z-0">
-          <div className="rounded-xl bg-deep border border-deep-rule shadow-[0_30px_60px_-30px_rgba(8,17,32,0.7)] p-4 sm:p-5 sm:pr-[4.25rem]">
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
-                New quote
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-brand-cyan">
-                Solar &amp; Electrical
-              </span>
-            </div>
-
-            <div className="space-y-3.5">
-              <div>
-                <div className="text-xs font-medium text-white/60 mb-1.5">
-                  System size
-                </div>
-                <div
-                  key={`size-${step === 1}`}
-                  className={`flex items-center justify-between rounded-md border px-3 py-2 text-xs font-medium transition-colors duration-300 ${
-                    sel
-                      ? "border-brand-cyan/60 bg-brand-cyan/15 text-white"
-                      : "border-white/10 bg-white/[0.03] text-white/35"
-                  } ${step === 1 ? "tap-ring" : ""}`}
-                >
-                  {sel ? "10kW system" : "Select…"}
-                  <CaretDown weight="bold" className="w-3 h-3 text-white/40" />
-                </div>
-              </div>
-
-              <div>
-                <div className="text-xs font-medium text-white/60 mb-1.5">
-                  Storeys
-                </div>
-                <div className="flex gap-2" key={`st-${step === 2}`}>
-                  <Pill selected={step < 2} tapped={false}>
-                    Single
-                  </Pill>
-                  <Pill selected={step >= 2} tapped={step === 2}>
-                    Double
-                  </Pill>
-                </div>
-              </div>
-
-              <div>
-                <div className="text-xs font-medium text-white/60 mb-1.5">
-                  Battery
-                </div>
-                <div className="flex gap-2" key={`bt-${step === 3}`}>
-                  <Pill selected={step < 3} tapped={false}>
-                    None
-                  </Pill>
-                  <Pill selected={step >= 3} tapped={step === 3}>
-                    10kWh
-                  </Pill>
-                  <Pill selected={false} tapped={false}>
-                    16kWh
-                  </Pill>
-                </div>
-              </div>
-            </div>
-
-            <div
-              key={`gen-${step === 4}`}
-              className={`mt-5 flex items-center justify-center gap-2 rounded-md px-3 py-2.5 text-xs font-semibold transition-colors duration-300 ${
-                generated || running
-                  ? "bg-white/[0.06] text-white/70 border border-white/10"
-                  : "bg-brand-blue text-white border border-transparent"
-              } ${step === 4 ? "tap-ring" : ""}`}
-            >
-              {generated ? (
-                <>
-                  <Check weight="bold" className="w-3.5 h-3.5 text-brand-cyan" />
-                  Quote generated
-                </>
-              ) : running ? (
-                "Sending to your engine…"
-              ) : (
-                "Generate quote"
-              )}
-            </div>
+        {/* The form — a mockup of the app's mobile quote-creation screen */}
+        <div className="col-span-12 sm:col-start-1 sm:col-span-5 row-start-1 sm:mt-8 relative z-0">
+          <div className="mx-auto max-w-[290px] sm:max-w-none">
+            <PhoneForm step={step} running={running} generated={generated} />
           </div>
         </div>
 
         {/* The quote — paper */}
-        <div className="col-span-12 sm:col-start-6 sm:col-span-7 row-start-2 sm:row-start-1 relative z-10 -mt-3 mx-3 sm:mx-0 sm:mt-0">
+        <div className="col-span-12 sm:col-start-6 sm:col-span-7 row-start-2 sm:row-start-1 relative z-10 mt-5 sm:mt-0 sm:ml-4">
           <div className="sheet rounded-lg relative overflow-hidden">
             <div className="h-1 bg-gradient-to-r from-brand-blue to-brand-cyan" />
             <div className="px-5 pt-4 pb-3 border-b border-rule flex items-start justify-between gap-4">

@@ -325,7 +325,7 @@ The site reads like a quote document: cool paper, ink text, hairline rules. Toke
 - Primitives in `src/components/ui/`: `Container`, `SectionHeader` (light by default; `dark` for `bg-deep` sections), `Eyebrow`, `Reveal`, `Button`/`ButtonLink`.
 - No glow orbs, glass cards, purple gradients or pill badges. Small radii (`rounded-lg`), rules over boxes.
 - Product visuals are coded mockups of real app screens (`src/components/sections/platform/AppMocks.tsx`) — labels/colours mirror `quote-pro-working`. Sample data only. Update them when the app UI changes.
-- The hero (`sections/hero/HeroStage.tsx`) autoplays form → generate → engine run → quote → sent → viewed → signed, using the same demo data as the interactive demo.
+- The hero (`sections/hero/HeroStage.tsx`) autoplays form → generate → engine run → quote → sent → viewed → signed, using the same demo data as the interactive demo. The form is a phone mockup of the app's mobile quote-creation screen (`sections/hero/PhoneForm.tsx`, mirrors `quote-pro-working/src/components/quote-creation` mobile layout: header row, section tab strip, flat sections, sticky Create Quote bar) — update it when that screen changes.
 - `/opt-in` and `/apply` are NOT part of this system — leave their styling alone.
 
 ### Animation philosophy
