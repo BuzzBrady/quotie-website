@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, DM_Sans, DM_Mono } from "next/font/google";
 import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import SiteChrome from "@/components/layout/SiteChrome";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -20,6 +20,13 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-dm",
+  display: "swap",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-dm-mono",
   display: "swap",
 });
 
@@ -63,9 +70,9 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${jakarta.variable} ${dmSans.variable} antialiased`}
+      className={`${jakarta.variable} ${dmSans.variable} ${dmMono.variable} antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-[#08080c]">
+      <body className="min-h-screen flex flex-col bg-paper text-ink">
         <SoftwareApplicationSchema />
         <OrganizationSchema />
         <SmoothScroll />

@@ -5,8 +5,7 @@ import Hero from "@/components/sections/Hero";
 import SocialProof from "@/components/sections/SocialProof";
 import LiveDemo from "@/components/sections/live-demo/LiveDemo";
 import SelectionDiff from "@/components/sections/SelectionDiff";
-import CoreIdea from "@/components/sections/CoreIdea";
-import WhatYouGet from "@/components/sections/WhatYouGet";
+import Platform from "@/components/sections/platform/Platform";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Testimonials from "@/components/sections/Testimonials";
 import FAQ from "@/components/sections/FAQ";
@@ -28,8 +27,7 @@ export default function HomePage() {
       <SocialProof />
       <LiveDemo />
       <SelectionDiff />
-      <CoreIdea />
-      <WhatYouGet />
+      <Platform />
       <HowItWorks />
       <Testimonials />
       <FAQ />

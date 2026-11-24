@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Sun,
   HouseLine,
@@ -15,6 +15,7 @@ import {
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
 import {
   VERTICALS,
@@ -45,29 +46,7 @@ function optionsFor(field: SelectField, s: Selections) {
   return field.options.filter((o) => avail.includes(o.value));
 }
 
-function FadeIn({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-20px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const FadeIn = Reveal;
 
 /** Counts toward the new total instead of jumping. */
 function AnimatedTotal({ value }: { value: number }) {
@@ -200,23 +179,19 @@ function QuotePreview({
   );
 
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-white shadow-2xl shadow-black/40 border border-white/[0.08]">
+    <div className="sheet relative rounded-lg overflow-hidden">
       {/* Branded header bar */}
-      <div className="h-1.5 bg-gradient-to-r from-brand-blue to-brand-cyan" />
-      <div className="px-5 sm:px-7 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between gap-4">
+      <div className="h-1 bg-gradient-to-r from-brand-blue to-brand-cyan" />
+      <div className="px-5 sm:px-7 pt-5 pb-4 border-b border-rule flex items-center justify-between gap-4">
         <div className="min-w-0">
-          <div className="font-bold text-slate-900 font-[family-name:var(--font-jakarta)] text-[15px] sm:text-lg leading-tight truncate">
+          <div className="font-bold text-ink font-jakarta text-[15px] sm:text-lg leading-tight truncate">
             {vertical.docTitle}
           </div>
-          <div className="text-[11px] text-slate-400 mt-0.5">
+          <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wide text-ink-faint mt-1">
             Quote #1042 · Prepared for Sample Client
           </div>
         </div>
-        <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-blue to-brand-cyan flex items-center justify-center flex-shrink-0">
-          <span className="text-white text-xs font-extrabold font-[family-name:var(--font-jakarta)]">
-            Q
-          </span>
-        </div>
+        <img src="/logo.svg" alt="" className="w-8 h-8 flex-shrink-0" width={32} height={32} />
       </div>
 
       {/* Line items */}
@@ -234,23 +209,24 @@ function QuotePreview({
             >
               <div
                 key={lineFlash.ids.has(line.id) ? `f-${lineFlash.token}` : "s"}
-                className={`flex items-baseline justify-between gap-4 py-2.5 border-b border-slate-100 rounded-md -mx-2 px-2 ${
+                className={`flex items-baseline gap-2.5 py-2.5 border-b border-rule rounded-sm -mx-2 px-2 ${
                   lineFlash.ids.has(line.id) ? "demo-flash" : ""
                 }`}
               >
                 <div className="min-w-0">
-                  <div className="text-[13px] sm:text-sm font-semibold text-slate-800">
+                  <div className="text-[13px] sm:text-sm font-semibold text-ink">
                     {line.label}
                   </div>
                   {line.detail && (
-                    <div className="text-[11px] sm:text-xs text-slate-400">
+                    <div className="text-[11px] sm:text-xs text-ink-faint">
                       {line.detail}
                     </div>
                   )}
                 </div>
+                <span className="leader" aria-hidden />
                 <div
-                  className={`text-[13px] sm:text-sm font-bold whitespace-nowrap ${
-                    line.amount < 0 ? "text-emerald-600" : "text-slate-800"
+                  className={`font-mono tnum text-[13px] sm:text-sm font-medium whitespace-nowrap ${
+                    line.amount < 0 ? "text-emerald-700" : "text-ink"
                   }`}
                 >
                   {line.amount < 0 ? `−${fmt(line.amount)}` : fmt(line.amount)}
@@ -262,19 +238,20 @@ function QuotePreview({
       </div>
 
       {/* Total bar */}
-      <div className="mx-5 sm:mx-7 mb-4 rounded-xl bg-gradient-to-r from-brand-blue/[0.06] to-brand-cyan/[0.08] border border-brand-cyan/20 px-4 py-3 flex items-center justify-between">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+      <div className="mx-5 sm:mx-7 mb-5 border-t-2 border-ink pt-3 flex items-baseline gap-2.5">
+        <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-ink-soft">
           Total inc. GST
         </div>
-        <div className="text-xl sm:text-2xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
+        <span className="leader" aria-hidden />
+        <div className="tnum text-2xl sm:text-[28px] font-extrabold tracking-tight text-ink font-jakarta">
           <AnimatedTotal value={total} />
         </div>
       </div>
 
       {/* Scope of works — sentences that rewrite themselves */}
       <div className="px-5 sm:px-7 pb-6">
-        <div className="rounded-xl bg-slate-50 border border-slate-100 px-4 py-3.5">
-          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2.5">
+        <div className="rounded-md bg-paper border border-rule px-4 py-3.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint mb-2.5">
             Scope of works
           </div>
           <AnimatePresence initial={false}>
@@ -309,7 +286,7 @@ function QuotePreview({
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
-                      className="text-[12px] sm:text-[13px] leading-relaxed text-slate-600"
+                      className="text-[12px] sm:text-[13px] leading-relaxed text-ink-soft"
                     >
                       {item.text}
                     </motion.span>
@@ -377,19 +354,13 @@ export default function LiveDemo() {
   return (
     <section
       id="live-demo"
-      className="py-16 lg:py-24 border-t border-white/[0.04]"
-      style={{ background: "#08080c" }}
+      className="py-20 lg:py-28 bg-sheet border-y border-rule scroll-mt-16"
     >
       <Container>
         <FadeIn>
           <SectionHeader
             badge="See it work"
-            badgeIcon={
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan" />
-              </span>
-            }
+            trail="Live — go on, change something"
             title="Fill in the form. The quote writes itself."
             gradient="The quote writes itself."
             subtitle="Five trades, five different kinds of pricing logic. Your real engine is built to however your business quotes — whatever the logic, we build it."
@@ -398,8 +369,8 @@ export default function LiveDemo() {
 
         {/* Vertical tabs — swipeable row on mobile, centered wrap on desktop */}
         <FadeIn delay={0.1}>
-          <div className="mt-10 mb-8 lg:mb-10 -mx-6 px-6 sm:mx-0 sm:px-0">
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 sm:pb-0 sm:flex-wrap sm:justify-center">
+          <div className="mt-10 mb-8 lg:mb-10 -mx-5 px-5 sm:mx-0 sm:px-0">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 sm:pb-0 sm:flex-wrap">
               {VERTICALS.map((v) => {
                 const Icon = TAB_ICONS[v.id as keyof typeof TAB_ICONS];
                 const active = v.id === activeId;
@@ -407,10 +378,11 @@ export default function LiveDemo() {
                   <button
                     key={v.id}
                     onClick={() => switchVertical(v)}
-                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[13px] font-semibold border whitespace-nowrap flex-shrink-0 transition-all duration-300 ${
+                    aria-pressed={active}
+                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-semibold border whitespace-nowrap flex-shrink-0 transition-colors duration-200 ${
                       active
-                        ? "bg-gradient-to-r from-brand-blue to-brand-cyan text-white border-transparent shadow-lg shadow-brand-cyan/20"
-                        : "bg-white/[0.03] text-white/50 border-white/[0.08] hover:text-white/80 hover:border-white/[0.15]"
+                        ? "bg-ink text-white border-ink"
+                        : "bg-sheet text-ink-soft border-rule-strong hover:text-ink hover:border-ink"
                     }`}
                   >
                     <Icon weight="duotone" className="w-4 h-4" />
@@ -420,7 +392,7 @@ export default function LiveDemo() {
               })}
               <Link
                 href="/demo"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[13px] font-semibold border border-dashed border-white/[0.15] text-white/40 whitespace-nowrap flex-shrink-0 transition-all duration-300 hover:text-white/80 hover:border-brand-cyan/40"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-semibold border border-dashed border-rule-strong text-brand-blue whitespace-nowrap flex-shrink-0 transition-colors duration-200 hover:border-brand-blue"
               >
                 Your trade →
               </Link>
@@ -434,11 +406,10 @@ export default function LiveDemo() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="text-center text-[13px] text-white/50 mt-5 px-2"
+                className="text-sm text-ink-soft mt-5"
               >
-                <span className="text-brand-cyan mr-1.5">◆</span>
                 This example shows:{" "}
-                <span className="text-white/80 font-medium">
+                <span className="mark-live text-ink font-semibold">
                   {vertical.capability}
                 </span>
               </motion.p>
@@ -448,10 +419,10 @@ export default function LiveDemo() {
 
         {/* Form + live quote */}
         <FadeIn delay={0.15}>
-          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6 lg:gap-10 items-start">
             {/* Left: the form your team sees */}
-            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-8">
-              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-5 sm:mb-6">
+            <div className="rounded-xl border border-deep-rule bg-deep p-5 sm:p-8 shadow-[0_30px_60px_-30px_rgba(8,17,32,0.6)]">
+              <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-brand-cyan mb-5 sm:mb-6">
                 The form you or your team fills in
               </div>
               <div className="space-y-5 sm:space-y-6">
@@ -550,7 +521,7 @@ export default function LiveDemo() {
                 })}
               </div>
 
-              <div className="mt-6 sm:mt-8 pt-5 border-t border-white/[0.06] text-xs text-white/30 leading-relaxed">
+              <div className="mt-6 sm:mt-8 pt-5 border-t border-white/[0.08] text-xs text-white/50 leading-relaxed">
                 In the real thing this form is yours — your fields, your
                 products, your rules. Built by us during onboarding.
               </div>
@@ -558,7 +529,6 @@ export default function LiveDemo() {
 
             {/* Right: the quote reacting */}
             <div className="relative lg:sticky lg:top-28">
-              <div className="absolute -inset-6 bg-gradient-to-br from-brand-blue/10 to-brand-cyan/10 rounded-3xl blur-2xl pointer-events-none" />
               <div className="relative">
                 <QuotePreview
                   vertical={vertical}
@@ -575,17 +545,17 @@ export default function LiveDemo() {
             quote card is below the fold */}
         <div className="lg:hidden sticky bottom-4 z-20 mt-6 pointer-events-none">
           <div className="max-w-md mx-auto pointer-events-auto">
-            <div className="flex items-center justify-between rounded-2xl border border-brand-cyan/30 bg-[#0d0d14]/95 backdrop-blur-md px-5 py-3.5 shadow-2xl shadow-black/60">
+            <div className="flex items-center justify-between rounded-xl border border-brand-cyan/40 bg-deep/95 backdrop-blur-md px-5 py-3.5 shadow-[0_20px_40px_-12px_rgba(8,17,32,0.6)]">
               <div className="flex items-center gap-2.5">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan" />
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-widest text-white/50">
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/60">
                   Live total
                 </span>
               </div>
-              <div className="text-xl font-extrabold text-white font-[family-name:var(--font-jakarta)]">
+              <div className="tnum text-xl font-extrabold text-white font-jakarta">
                 <AnimatedTotal value={total} />
               </div>
             </div>
@@ -594,16 +564,16 @@ export default function LiveDemo() {
 
         {/* DFY caption */}
         <FadeIn delay={0.2}>
-          <div className="max-w-2xl mx-auto text-center mt-12">
-            <p className="text-white/60 leading-relaxed">
-              <span className="text-white font-semibold">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-12 mt-14 pt-8 border-t border-rule">
+            <p className="text-ink-soft text-lg leading-relaxed text-pretty">
+              <span className="text-ink font-semibold">
                 You never build any of this.
               </span>{" "}
               During onboarding we sit down with you, map out your pricing, and
               build your form, your logic, and your templates. You — or your
               team — just answer the questions.
             </p>
-            <p className="text-sm text-white/40 leading-relaxed mt-4">
+            <p className="text-ink-soft leading-relaxed text-pretty">
               Tiered rates, travel zones, supplier price lists, minimum
               callouts, margin rules, compatibility charts — if you can explain
               how you price a job, we can build it into your engine.

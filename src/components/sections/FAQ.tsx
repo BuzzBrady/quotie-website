@@ -1,44 +1,58 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus } from "@phosphor-icons/react";
+import { Plus } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { FAQS } from "@/lib/faqData";
 
 function AccordionItem({
   item,
+  index,
   isOpen,
   onToggle,
 }: {
   item: (typeof FAQS)[number];
+  index: number;
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const id = `faq-${index}`;
   return (
-    <div className="border-b border-white/[0.07]">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left gap-4"
-      >
-        <span className="text-[15px] sm:text-base font-medium text-white/90">
-          {item.q}
-        </span>
-        <span className="flex-shrink-0 w-6 h-6 rounded-full border border-white/[0.12] flex items-center justify-center">
-          {isOpen ? (
-            <Minus weight="duotone" className="w-3 h-3 text-white/60" />
-          ) : (
-            <Plus weight="duotone" className="w-3 h-3 text-white/60" />
-          )}
-        </span>
-      </button>
+    <div className="border-b border-rule">
+      <h3>
+        <button
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          aria-controls={id}
+          className="group w-full flex items-center justify-between py-5 text-left gap-6"
+        >
+          <span
+            className={`font-jakarta font-bold text-[17px] tracking-[-0.01em] transition-colors ${
+              isOpen ? "text-brand-blue" : "text-ink group-hover:text-brand-blue"
+            }`}
+          >
+            {item.q}
+          </span>
+          <Plus
+            weight="bold"
+            className={`flex-shrink-0 w-4 h-4 text-ink-faint transition-transform duration-300 ${
+              isOpen ? "rotate-45 text-brand-blue" : ""
+            }`}
+          />
+        </button>
+      </h3>
       <div
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ maxHeight: isOpen ? "300px" : "0px" }}
+        id={id}
+        className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
       >
-        <p className="pb-5 text-sm sm:text-[15px] text-white/45 leading-relaxed">
-          {item.a}
-        </p>
+        <div className="overflow-hidden">
+          <p className="pb-6 pr-10 text-ink-soft leading-relaxed text-pretty">
+            {item.a}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -48,20 +62,21 @@ export default function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="py-16 lg:py-24" style={{ background: "#08080c" }}>
+    <section className="bg-paper py-20 lg:py-28">
       <Container>
-        <div className="max-w-2xl mx-auto">
-          <div className="mb-12">
+        <div className="grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-10 lg:gap-20 items-start">
+          <div className="lg:sticky lg:top-28">
             <SectionHeader
               badge="Common Questions"
               title="Got questions? We've got answers."
             />
           </div>
 
-          <div>
+          <div className="border-t-2 border-ink">
             {FAQS.map((faq, i) => (
               <AccordionItem
                 key={i}
+                index={i}
                 item={faq}
                 isOpen={openIdx === i}
                 onToggle={() => setOpenIdx(openIdx === i ? null : i)}

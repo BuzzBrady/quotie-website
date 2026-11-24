@@ -1,126 +1,136 @@
 "use client";
 
-import { CaretDown } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowRight, Play, X } from "@phosphor-icons/react";
+import Container from "@/components/ui/Container";
+import Eyebrow from "@/components/ui/Eyebrow";
+import { ButtonLink } from "@/components/ui/Button";
+import HeroStage from "@/components/sections/hero/HeroStage";
+
+const EXPLAINER_SRC =
+  "https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/QuotieExplainer23.mp4";
+
+function ExplainerDialog({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (open && !el.open) el.showModal();
+    if (!open && el.open) el.close();
+  }, [open]);
+
+  return (
+    <dialog
+      ref={ref}
+      onClose={onClose}
+      onClick={(e) => {
+        if (e.target === ref.current) onClose();
+      }}
+      className="m-auto w-[min(960px,calc(100vw-2rem))] bg-transparent p-0 backdrop:bg-deep/80 backdrop:backdrop-blur-sm"
+    >
+      {open && (
+        <div className="relative">
+          <button
+            onClick={onClose}
+            aria-label="Close video"
+            className="absolute -top-11 right-0 inline-flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-white"
+          >
+            Close <X weight="bold" className="w-4 h-4" />
+          </button>
+          <div
+            className="rounded-xl overflow-hidden bg-black shadow-2xl"
+            style={{ aspectRatio: "16 / 9" }}
+          >
+            <video
+              src={EXPLAINER_SRC}
+              className="w-full h-full object-cover"
+              controls
+              autoPlay
+              playsInline
+            />
+          </div>
+        </div>
+      )}
+    </dialog>
+  );
+}
 
 export default function Hero() {
-  return (
-    <section
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: "#08080c" }}
-    >
-      {/* Ambient gradient orbs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="animate-blob absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(31,97,170,0.6) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="animate-blob absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full opacity-15"
-          style={{
-            animationDelay: "7s",
-            background:
-              "radial-gradient(circle, rgba(57,185,229,0.5) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="animate-blob absolute top-1/2 left-1/2 w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10"
-          style={{
-            animationDelay: "14s",
-            background:
-              "radial-gradient(circle, rgba(139,92,246,0.4) 0%, transparent 70%)",
-          }}
-        />
-      </div>
+  const [videoOpen, setVideoOpen] = useState(false);
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-8 xl:px-12 pt-32 pb-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          {/* Left: copy */}
+  return (
+    <section className="relative overflow-hidden bg-paper">
+      {/* One soft wash behind the stage — the only atmosphere on the page */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 78% 38%, rgba(57,185,229,0.16) 0%, transparent 70%)",
+        }}
+      />
+
+      <Container className="relative pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
+        <div className="grid lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] gap-12 lg:gap-12 items-center">
+          {/* Copy */}
           <div>
-            <h1
-              className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-brand-text mb-5"
-              style={{
-                fontSize: "clamp(36px, 5.5vw, 80px)",
-                lineHeight: 1.06,
-                letterSpacing: "-0.035em",
-              }}
-            >
-              Powerful custom quoting,
-              <br />
-              <span className="bg-gradient-to-r from-[#3b82f6] to-brand-cyan bg-clip-text text-transparent">
+            <Eyebrow trail="Prepared for: your business" className="mb-6 max-w-md">
+              Quote no. 0001
+            </Eyebrow>
+
+            <h1 className="font-jakarta font-extrabold text-ink tracking-[-0.04em] leading-[1.02] text-[clamp(2.4rem,4.4vw,3.7rem)] text-balance">
+              Powerful custom quoting,{" "}
+              <span className="mark-live mark-live-anim">
                 built for your business.
               </span>
             </h1>
 
-            <p
-              className="text-brand-muted max-w-[420px] mb-8"
-              style={{
-                fontFamily: "var(--font-dm)",
-                fontSize: "clamp(15px, 2vw, 18px)",
-                lineHeight: 1.7,
-              }}
-            >
+            <p className="mt-6 text-ink-soft max-w-[30rem] text-[17px] leading-relaxed text-pretty">
               Every answer you or your team enters changes the quote — line items
               appear, prices recalculate, wording rewrites itself. We build all
               of that for your business. You just fill in a form.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-              <a
-                href="/demo"
-                className="group inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-[10px] text-[14px] sm:text-[15px] font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,232,237,0.1)]"
-                style={{
-                  background: "#e8e8ed",
-                  color: "#08080c",
-                  letterSpacing: "-0.01em",
-                }}
-              >
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <ButtonLink href="/demo" variant="ink" size="lg">
                 Schedule A Demo
-              </a>
-              <a
-                href="#live-demo"
-                className="text-[14px] sm:text-[15px] transition-colors duration-300 hover:text-white/80"
-                style={{ color: "rgba(232,232,237,0.45)" }}
+                <ArrowRight
+                  weight="bold"
+                  className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                />
+              </ButtonLink>
+              <button
+                onClick={() => setVideoOpen(true)}
+                className="group inline-flex items-center gap-2.5 rounded-lg px-4 py-3.5 text-[15px] font-semibold text-ink hover:text-brand-blue transition-colors"
               >
-                Try it below &darr;
-              </a>
+                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-rule-strong bg-sheet transition-colors group-hover:border-brand-blue">
+                  <Play weight="fill" className="w-3 h-3 translate-x-px" />
+                </span>
+                Watch the explainer
+              </button>
             </div>
-          </div>
 
-          {/* Right: video */}
-          <div className="relative flex items-center justify-center">
-            <div
-              className="absolute inset-0 rounded-2xl opacity-30 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(ellipse, rgba(31,97,170,0.4) 0%, transparent 70%)",
-              }}
-            />
-            <div
-              className="relative w-full rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/50"
-              style={{ aspectRatio: "16 / 9" }}
+            <a
+              href="#live-demo"
+              className="mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint hover:text-ink transition-colors"
             >
-              <video
-                src="https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/QuotieExplainer23.mp4"
-                className="absolute inset-0 w-full h-full object-cover"
-                controls
-                playsInline
-                preload="auto"
-              />
-            </div>
+              <ArrowDown weight="bold" className="w-3.5 h-3.5" />
+              Or try it yourself below
+            </a>
           </div>
-        </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
-        <span className="text-xs text-white/20 tracking-widest uppercase">
-          Scroll
-        </span>
-        <CaretDown weight="duotone" className="w-4 h-4 text-white/20" />
-      </div>
+          {/* The product, playing */}
+          <HeroStage />
+        </div>
+      </Container>
+
+      <ExplainerDialog open={videoOpen} onClose={() => setVideoOpen(false)} />
     </section>
   );
 }

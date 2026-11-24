@@ -1,90 +1,86 @@
 "use client";
 
-import { CheckCircle } from "@phosphor-icons/react";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
 import Container from "@/components/ui/Container";
+import Eyebrow from "@/components/ui/Eyebrow";
 
-const TRUST_SIGNALS = [
-  "No credit card required",
-  "We handle the setup",
-  "Cancel anytime",
-];
+const INCLUDED = [
+  ["Template build", "Included"],
+  ["Pricing logic configured", "Included"],
+  ["Your branding", "Included"],
+  ["Team training", "Included"],
+] as const;
 
+/** The close of the page — set like the acceptance block of a quote. */
 export default function CTA() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-120px" });
+
   return (
-    <section className="relative py-16 lg:py-24 overflow-hidden">
-      {/* Gradient bg */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700" />
+    <section className="bg-deep py-20 lg:py-28">
+      <Container>
+        <div ref={ref} className="sheet rounded-xl overflow-hidden">
+          <div className="h-1.5 bg-gradient-to-r from-brand-blue to-brand-cyan" />
+          <div className="grid lg:grid-cols-2">
+            {/* The offer */}
+            <div className="p-7 sm:p-10 lg:p-14 lg:border-r border-rule">
+              <Eyebrow trail="Acceptance">Quote no. 0001</Eyebrow>
+              <h2 className="mt-6 font-jakarta font-extrabold text-ink tracking-[-0.035em] leading-[1.05] text-[clamp(2rem,4vw,3.25rem)] text-balance">
+                Get a quoting system built for{" "}
+                <span className="mark-live">your business</span>
+              </h2>
+              <p className="mt-5 text-ink-soft text-lg leading-relaxed max-w-md text-pretty">
+                The examples above are a fraction of what your system will do.
+                Tell us about your trade and we&apos;ll build a quoting system
+                that fits the way you actually price.
+              </p>
 
-      {/* Animated orbs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="animate-blob absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-30"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="animate-blob absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20"
-          style={{
-            animationDelay: "8s",
-            background:
-              "radial-gradient(circle, rgba(139,92,246,0.4) 0%, transparent 70%)",
-          }}
-        />
-      </div>
+              <dl className="mt-9 border-t border-rule">
+                {INCLUDED.map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="flex items-baseline gap-3 py-2.5 border-b border-rule text-[15px]"
+                  >
+                    <dt className="font-medium text-ink">{k}</dt>
+                    <span className="leader" aria-hidden />
+                    <dd className="font-mono text-xs uppercase tracking-[0.1em] text-brand-blue">
+                      {v}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
 
-      <Container className="relative z-10">
-        <div className="max-w-2xl mx-auto text-center">
-          {/* Heading */}
-          <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4 font-[family-name:var(--font-jakarta)]"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            Get a quoting system built for{" "}
-            <span className="relative inline-block">
-              your business
-              {/* Underline SVG */}
-              <svg
-                className="absolute -bottom-1 left-0 w-full"
-                viewBox="0 0 200 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M2 6 C50 2, 150 2, 198 6"
-                  stroke="rgba(255,255,255,0.5)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </h2>
-
-          <p className="text-blue-100/70 text-base sm:text-lg mb-10 leading-relaxed">
-            The examples above are a fraction of what your system will do. Tell
-            us about your trade and we&apos;ll build a quoting system that fits
-            the way you actually price.
-          </p>
-
-          {/* Lead capture form */}
-          <div className="bg-white/[0.08] backdrop-blur-sm rounded-2xl border border-white/[0.15] p-6 sm:p-8 mb-8">
-            <LeadCaptureForm source="landing_page_cta" />
-          </div>
-
-          {/* Trust signals */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {TRUST_SIGNALS.map((signal) => (
-              <div
-                key={signal}
-                className="flex items-center gap-2 text-sm text-blue-100/60"
-              >
-                <CheckCircle weight="duotone" className="w-4 h-4 text-blue-200/60" />
-                {signal}
+              <div className="mt-8 max-w-[240px]" aria-hidden>
+                <svg viewBox="0 0 190 46" className="w-full h-12 overflow-visible" fill="none">
+                  <path
+                    pathLength={1}
+                    style={{ "--sig-len": 1 } as React.CSSProperties}
+                    className={`sig-path ${inView ? "is-drawn" : ""}`}
+                    d="M6 34c8-14 16-26 22-26 5 0 1 14-3 24-2 6 6-10 14-12 5-1 2 8 6 8 5 0 8-10 14-10 4 0 2 9 7 9 6 0 9-16 16-22 4-3 3 10-1 20-2 5 8-9 15-9 5 0 3 8 9 8 9 0 22-6 40-12"
+                    stroke="#1f61aa"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <div className="border-t border-rule-strong pt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
+                  Your signature goes here
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* The form */}
+            <div className="p-7 sm:p-10 lg:p-14 bg-paper/60 flex flex-col justify-center">
+              <h3 className="font-jakarta font-bold text-ink text-xl tracking-[-0.02em] mb-1.5">
+                Tell us about your business
+              </h3>
+              <p className="text-sm text-ink-soft mb-6">
+                We handle the setup. You start quoting.
+              </p>
+              <LeadCaptureForm source="landing_page_cta" />
+            </div>
           </div>
         </div>
       </Container>

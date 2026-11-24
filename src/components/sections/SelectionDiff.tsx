@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import { Plus, ArrowsLeftRight, TextT } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
 import {
   VERTICALS,
@@ -89,93 +88,65 @@ const CALLOUTS = [
   },
 ] as const;
 
-function FadeIn({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-20px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function QuoteCard({ quote }: { quote: (typeof QUOTES)[number] }) {
   const isDouble = quote.selection === "Double";
   return (
-    <div className="rounded-2xl overflow-hidden bg-white shadow-xl shadow-black/30 border border-white/[0.08]">
-      <div className="h-1 bg-gradient-to-r from-brand-blue to-brand-cyan" />
-      <div className="px-5 sm:px-6 pt-5 pb-3 border-b border-slate-100">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+    <div className="sheet rounded-lg overflow-hidden h-full flex flex-col">
+      <div className="px-5 sm:px-6 py-4 border-b border-rule flex items-center justify-between gap-3">
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">
           Storeys
-        </div>
-        <div
-          className={`inline-flex px-3 py-1 rounded-lg text-sm font-bold ${
+        </span>
+        <span
+          className={`px-3 py-1 rounded-md text-sm font-semibold border ${
             isDouble
-              ? "bg-brand-cyan/10 text-brand-blue border border-brand-cyan/30"
-              : "bg-slate-100 text-slate-600 border border-slate-200"
+              ? "bg-ink text-white border-ink"
+              : "bg-sheet text-ink-soft border-rule-strong"
           }`}
         >
           {quote.selection}
-        </div>
+        </span>
       </div>
-      <div className="px-5 sm:px-6 py-3">
+      <div className="px-5 sm:px-6 py-2 flex-1">
         {quote.lines.map((line) => (
           <div
             key={line.label}
-            className={`flex items-baseline justify-between gap-3 py-2 border-b border-slate-100 -mx-2 px-2 rounded-md ${
-              line.changed ? "bg-brand-cyan/[0.08]" : ""
-            }`}
+            className="flex items-baseline gap-2.5 py-2.5 border-b border-rule"
           >
             <div className="min-w-0">
-              <div className="text-[13px] font-semibold text-slate-800 flex items-center gap-2">
-                {line.label}
+              <div className="text-sm font-semibold text-ink">
+                <span className={line.changed ? "mark-live" : ""}>{line.label}</span>
                 {line.isNew && (
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-brand-blue bg-brand-cyan/15 px-1.5 py-0.5 rounded">
+                  <span className="ml-2 align-middle font-mono text-[9.5px] uppercase tracking-[0.12em] text-brand-blue border border-brand-blue/40 px-1.5 py-0.5 rounded">
                     New
                   </span>
                 )}
               </div>
               {line.detail && (
-                <div className="text-[11px] text-slate-400">{line.detail}</div>
+                <div className="text-xs text-ink-faint mt-0.5">{line.detail}</div>
               )}
             </div>
-            <div className="text-[13px] font-bold text-slate-800 whitespace-nowrap">
-              {line.amount}
+            <span className="leader" aria-hidden />
+            <div className="font-mono tnum text-sm font-medium text-ink whitespace-nowrap">
+              <span className={line.changed ? "mark-live" : ""}>{line.amount}</span>
             </div>
           </div>
         ))}
-        <div className="flex items-baseline justify-between pt-3 pb-1">
-          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+        <div className="flex items-baseline gap-2.5 border-t-2 border-ink -mt-px pt-3 pb-2">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
             Total inc. GST
           </div>
-          <div className="text-xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
+          <span className="leader" aria-hidden />
+          <div className="tnum text-2xl font-extrabold tracking-tight text-ink font-jakarta">
             {quote.total}
           </div>
         </div>
       </div>
-      <div className="px-5 sm:px-6 pb-5">
-        <p
-          className={`text-[12px] leading-relaxed rounded-lg px-3 py-2 border ${
-            isDouble
-              ? "text-slate-600 bg-brand-cyan/[0.06] border-brand-cyan/20"
-              : "text-slate-500 bg-slate-50 border-slate-100"
-          }`}
-        >
-          {quote.scope}
+      <div className="px-5 sm:px-6 pb-5 pt-2">
+        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint mb-1.5">
+          Scope of works
+        </div>
+        <p className="text-[13px] leading-relaxed text-ink-soft">
+          <span className={isDouble ? "mark-live" : ""}>{quote.scope}</span>
         </p>
       </div>
     </div>
@@ -184,58 +155,51 @@ function QuoteCard({ quote }: { quote: (typeof QUOTES)[number] }) {
 
 export default function SelectionDiff() {
   return (
-    <section
-      className="py-16 lg:py-24 border-t border-white/[0.04]"
-      style={{ background: "#08080c" }}
-    >
+    <section className="bg-paper py-20 lg:py-28">
       <Container>
-        <FadeIn>
+        <Reveal>
           <SectionHeader
             badge="One answer changed"
+            trail="Highlighted = nobody typed it"
             title="Same form. One different answer. A completely different quote."
             gradient="A completely different quote."
           />
-        </FadeIn>
+        </Reveal>
 
-        <FadeIn delay={0.1}>
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-10 max-w-4xl mx-auto mt-12 items-start">
-            {QUOTES.map((q) => (
-              <QuoteCard key={q.selection} quote={q} />
-            ))}
-          </div>
-        </FadeIn>
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-10 lg:gap-14 mt-12 lg:mt-16 items-start">
+          <Reveal delay={0.1}>
+            <div className="grid md:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+              {QUOTES.map((q) => (
+                <QuoteCard key={q.selection} quote={q} />
+              ))}
+            </div>
+          </Reveal>
 
-        <FadeIn delay={0.2}>
-          <div className="max-w-3xl mx-auto mt-12">
-            <div className="grid sm:grid-cols-3 gap-4">
+          <Reveal delay={0.2}>
+            <ul className="border-t-2 border-ink">
               {CALLOUTS.map((c) => {
                 const Icon = c.icon;
                 return (
-                  <div
-                    key={c.title}
-                    className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-5"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-3">
-                      <Icon weight="duotone" className="w-4 h-4 text-brand-cyan" />
-                    </div>
-                    <div className="text-sm font-semibold text-white mb-1">
+                  <li key={c.title} className="py-5 border-b border-rule">
+                    <Icon weight="bold" className="w-4 h-4 text-brand-blue mb-2.5" />
+                    <div className="font-jakarta font-bold text-ink text-[15px] leading-snug mb-1">
                       {c.title}
                     </div>
-                    <div className="text-xs text-white/40 leading-relaxed">
+                    <div className="text-sm text-ink-soft leading-relaxed">
                       {c.detail}
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-            <p className="text-center text-white/50 leading-relaxed mt-10 max-w-xl mx-auto">
+            </ul>
+            <p className="text-ink-soft leading-relaxed mt-6 text-pretty">
               One dropdown. Three changes — a new line item, a different labour
               rate, and rewritten scope wording. Nobody typed any of it.
               That&apos;s the difference between a quoting tool and a pricing
               system that actually knows your business.
             </p>
-          </div>
-        </FadeIn>
+          </Reveal>
+        </div>
       </Container>
     </section>
   );

@@ -109,8 +109,8 @@ function LeadCaptureModal({
       <div
         className="absolute inset-0 transition-all duration-300 ease-out"
         style={{
-          backgroundColor: visible ? "rgba(0, 0, 0, 0.7)" : "rgba(0, 0, 0, 0)",
-          backdropFilter: visible ? "blur(8px)" : "blur(0px)",
+          backgroundColor: visible ? "rgba(8, 17, 32, 0.6)" : "rgba(8, 17, 32, 0)",
+          backdropFilter: visible ? "blur(6px)" : "blur(0px)",
         }}
         onClick={onClose}
       />
@@ -125,32 +125,30 @@ function LeadCaptureModal({
         }}
       >
         <div
-          className="absolute -inset-4 rounded-3xl opacity-40 blur-2xl pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(59,130,246,0.3), rgba(139,92,246,0.15), transparent 70%)",
-          }}
-        />
-
-        <div className="relative rounded-2xl border border-white/[0.12] bg-slate-900/95 backdrop-blur-xl shadow-2xl shadow-black/40 overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent" />
+          role="dialog"
+          aria-modal="true"
+          aria-label="Get started with Quotie"
+          className="sheet relative rounded-xl overflow-hidden"
+        >
+          <div className="h-1.5 bg-gradient-to-r from-brand-blue to-brand-cyan" />
 
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 p-2 rounded-xl text-white/30 hover:text-white/70 hover:bg-white/[0.08] transition-all duration-200"
+            aria-label="Close"
+            className="absolute top-4 right-4 z-10 p-2 rounded-lg text-ink-faint hover:text-ink hover:bg-ink/5 transition-colors duration-200"
           >
-            <X weight="duotone" className="w-5 h-5" />
+            <X weight="bold" className="w-4 h-4" />
           </button>
 
           <div className="px-6 sm:px-8 pt-8 pb-2">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/[0.08] mb-4">
-                <img src="/logo.svg" alt="Quotie" className="w-7 h-7" />
+            <div className="mb-6">
+              <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-3">
+                Get started
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2 font-[family-name:var(--font-jakarta)]">
+              <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-ink mb-2 font-jakarta">
                 Let&apos;s get you quoting
               </h3>
-              <p className="text-sm text-white/40 max-w-xs mx-auto">
+              <p className="text-sm text-ink-soft max-w-xs">
                 Tell us about your business and we&apos;ll reach out to get you
                 set up.
               </p>

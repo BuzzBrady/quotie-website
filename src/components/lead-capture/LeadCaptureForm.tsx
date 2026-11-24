@@ -104,11 +104,11 @@ export default function LeadCaptureForm({
   if (submitted) {
     return (
       <div className={`flex flex-col items-center gap-3 py-6 ${className}`}>
-        <div className="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
-          <CheckCircle weight="duotone" className="w-7 h-7 text-emerald-400" />
+        <div className="w-14 h-14 rounded-full bg-wash flex items-center justify-center">
+          <CheckCircle weight="fill" className="w-7 h-7 text-brand-blue" />
         </div>
-        <h3 className="text-xl font-bold text-white">We&apos;ll be in touch!</h3>
-        <p className="text-blue-100/70 text-sm text-center max-w-sm">
+        <h3 className="text-xl font-bold font-jakarta text-ink">We&apos;ll be in touch!</h3>
+        <p className="text-ink-soft text-sm text-center max-w-sm">
           Thanks {form.full_name.split(" ")[0]}. One of the Quotie team will
           reach out shortly to learn more about your business.
         </p>
@@ -117,10 +117,10 @@ export default function LeadCaptureForm({
   }
 
   const inputBase =
-    "w-full rounded-xl border border-white/[0.12] bg-white/[0.06] backdrop-blur-sm px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-all duration-200 focus:border-blue-400/50 focus:bg-white/[0.08] focus:ring-1 focus:ring-blue-400/20";
+    "w-full rounded-lg border border-rule-strong bg-sheet px-4 py-3 text-[15px] text-ink placeholder:text-ink-faint outline-none transition-[border-color,box-shadow] duration-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-cyan/30";
 
   const selectBase =
-    "w-full rounded-xl border border-white/[0.12] bg-white/[0.06] backdrop-blur-sm px-4 py-3 text-sm text-white outline-none transition-all duration-200 focus:border-blue-400/50 focus:bg-white/[0.08] focus:ring-1 focus:ring-blue-400/20 appearance-none";
+    "w-full rounded-lg border border-rule-strong bg-sheet px-4 py-3 text-[15px] text-ink outline-none transition-[border-color,box-shadow] duration-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-cyan/30 appearance-none";
 
   return (
     <div className={className}>
@@ -132,6 +132,7 @@ export default function LeadCaptureForm({
         >
           <input
             name="full_name"
+            aria-label="Your name"
             type="text"
             placeholder="Your name *"
             value={form.full_name}
@@ -141,6 +142,7 @@ export default function LeadCaptureForm({
           />
           <input
             name="email"
+            aria-label="Work email"
             type="email"
             placeholder="Work email *"
             value={form.email}
@@ -157,6 +159,7 @@ export default function LeadCaptureForm({
         >
           <input
             name="phone"
+            aria-label="Phone number"
             type="tel"
             placeholder="Phone number"
             value={form.phone}
@@ -165,6 +168,7 @@ export default function LeadCaptureForm({
           />
           <input
             name="company_name"
+            aria-label="Company name"
             type="text"
             placeholder="Company name"
             value={form.company_name}
@@ -176,24 +180,25 @@ export default function LeadCaptureForm({
         <div className="relative">
           <select
             name="trade_type"
+            aria-label="What trade are you in?"
             value={form.trade_type}
             onChange={handleChange}
             className={selectBase}
             style={{
-              color: form.trade_type ? "white" : "rgba(255,255,255,0.3)",
+              color: form.trade_type ? undefined : "var(--color-ink-faint)",
             }}
           >
             <option value="" disabled>
               What trade are you in?
             </option>
             {TRADE_TYPES.map((t) => (
-              <option key={t} value={t} className="bg-slate-900 text-white">
+              <option key={t} value={t} className="text-ink">
                 {t}
               </option>
             ))}
           </select>
           <svg
-            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30"
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -207,12 +212,12 @@ export default function LeadCaptureForm({
           </svg>
         </div>
 
-        {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+        {error && <p role="alert" className="text-red-700 text-sm">{error}</p>}
 
         <button
           type="submit"
           disabled={submitting}
-          className="w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-slate-900 shadow-lg transition-all duration-200 hover:shadow-xl hover:shadow-white/10 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full group inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-6 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-brand-blue disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {submitting ? (
             <>
@@ -222,12 +227,12 @@ export default function LeadCaptureForm({
           ) : (
             <>
               Get Started
-              <ArrowRight weight="duotone" className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight weight="bold" className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </>
           )}
         </button>
 
-        <p className="text-[11px] text-white/20 text-center pt-1">
+        <p className="text-xs text-ink-faint pt-1">
           No spam, ever. We&apos;ll reach out to learn about your business.
         </p>
       </form>

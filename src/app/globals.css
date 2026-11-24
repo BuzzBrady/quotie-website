@@ -8,8 +8,24 @@
   --color-brand-text: #e8e8ed;
   --color-brand-muted: rgba(232, 232, 237, 0.5);
 
+  /* Paper system (2026-11 redesign) — the site reads like a quote document:
+     cool paper, ink text, hairline rules. Cyan is reserved for "the engine
+     changed this"; deep navy is reserved for app/engine moments. */
+  --color-paper: #f3f5f9;
+  --color-sheet: #ffffff;
+  --color-ink: #0b1626;
+  --color-ink-soft: #46546a;
+  --color-ink-faint: #66758b;
+  --color-rule: #dde3ec;
+  --color-rule-strong: #c3ccd9;
+  --color-wash: #e4f5fc;
+  --color-deep: #081120;
+  --color-deep-2: #101d33;
+  --color-deep-rule: rgba(255, 255, 255, 0.09);
+
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-dm: "DM Sans", sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 /* Scrollbar hide utility */
@@ -30,6 +46,7 @@
 
 body {
   font-family: var(--font-dm);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -240,3 +257,145 @@ body {
 .showcase-fade-in > *:nth-child(8) { animation-delay: 280ms; }
 .showcase-fade-in > *:nth-child(9) { animation-delay: 320ms; }
 .showcase-fade-in > *:nth-child(n+10) { animation-delay: 360ms; }
+
+
+/* ------------------------------------------------------------------ */
+/* Paper system                                                        */
+/* ------------------------------------------------------------------ */
+
+::selection {
+  background: rgba(57, 185, 229, 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* A sheet of paper: hairline edge + soft stacked shadow. */
+.sheet {
+  background: var(--color-sheet);
+  border: 1px solid var(--color-rule);
+  box-shadow:
+    0 1px 0 rgba(11, 22, 38, 0.02),
+    0 2px 4px rgba(11, 22, 38, 0.03),
+    0 12px 24px -8px rgba(11, 22, 38, 0.08),
+    0 32px 64px -24px rgba(11, 22, 38, 0.14);
+}
+.sheet-flat {
+  background: var(--color-sheet);
+  border: 1px solid var(--color-rule);
+}
+
+/* Dotted leader between a label and its figure, like a quote line item. */
+.leader {
+  flex: 1 1 0%;
+  min-width: 1rem;
+  height: 1px;
+  align-self: flex-end;
+  margin-bottom: 0.38em;
+  background-image: radial-gradient(circle, var(--leader-color, var(--color-rule-strong)) 1px, transparent 1.2px);
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  height: 2px;
+}
+
+/* Cyan highlighter — means "the engine changed / customised this". */
+.mark-live {
+  background-image: linear-gradient(
+    transparent 58%,
+    rgba(57, 185, 229, 0.38) 58%,
+    rgba(57, 185, 229, 0.38) 94%,
+    transparent 94%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 0.08em;
+  margin: 0 -0.08em;
+}
+.mark-live-anim {
+  background-size: 0% 100%;
+  animation: markSweep 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s forwards;
+}
+@keyframes markSweep {
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Signature stroke draws itself */
+.sig-path {
+  stroke-dasharray: var(--sig-len, 600);
+  stroke-dashoffset: var(--sig-len, 600);
+}
+.sig-path.is-drawn {
+  animation: draw 1.6s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+}
+
+/* Tap ripple for the autoplay hero */
+@keyframes tapRing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(57, 185, 229, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(57, 185, 229, 0);
+  }
+}
+.tap-ring {
+  animation: tapRing 0.7s ease-out 1;
+}
+
+@keyframes stampIn {
+  0% {
+    opacity: 0;
+    transform: rotate(-8deg) scale(1.5);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(1);
+  }
+}
+.stamp-in {
+  animation: stampIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes marqueeX {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-x {
+  animation: marqueeX 60s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mark-live-anim {
+    animation: none;
+    background-size: 100% 100%;
+  }
+  .sig-path,
+  .sig-path.is-drawn {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .tap-ring,
+  .stamp-in,
+  .marquee-x,
+  .animate-blob,
+  .animate-float,
+  .demo-flash {
+    animation: none;
+  }
+}

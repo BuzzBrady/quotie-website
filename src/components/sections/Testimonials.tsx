@@ -1,11 +1,9 @@
-"use client";
-
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Star, CaretLeft, CaretRight } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
 
+// Real customers only — see CLAUDE.md. Do not add or edit quotes here
+// without the customer's words.
 const TESTIMONIALS = [
   {
     name: "Jed Bolton",
@@ -15,8 +13,6 @@ const TESTIMONIALS = [
     metricLabel: "Closed in one month",
     quote:
       "I couldn't believe how quickly we closed $360k in a single month once we had Quotie dialled in. The multi-option proposals are a game changer — clients love being able to choose what works for them.",
-    avatar: "JB",
-    color: "from-emerald-500 to-teal-600",
   },
   {
     name: "Benjamin Hughes",
@@ -26,8 +22,6 @@ const TESTIMONIALS = [
     metricLabel: "Job tracking, approval to install",
     quote:
       "Quotie has been a great resource for our company. For solar installs we need a way to store data and track each job's progress from approval to installation and Quotie handles this perfectly. For anyone looking for a similar solution this would be a great option to check out!",
-    avatar: "BH",
-    color: "from-blue-500 to-indigo-600",
   },
   {
     name: "Cooper Kelly",
@@ -37,8 +31,6 @@ const TESTIMONIALS = [
     metricLabel: "Pipeline visibility",
     quote:
       "I know exactly where every single quote is at, every single day. Who needs a follow-up, who's ready to go. Complete visibility into the pipeline for the first time ever.",
-    avatar: "CK",
-    color: "from-cyan-500 to-blue-600",
   },
 ] as const;
 
@@ -49,206 +41,89 @@ const STATS = [
   { value: "100%", label: "Pipeline visibility" },
 ];
 
-function Stars() {
-  return (
-    <div className="flex gap-1">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} weight="duotone" className="w-4 h-4 text-amber-400 fill-amber-400" />
-      ))}
-    </div>
-  );
-}
-
 export default function Testimonials() {
-  const [active, setActive] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [dragStart, setDragStart] = useState<number | null>(null);
-
-  const next = useCallback(() => {
-    setActive((a) => (a + 1) % TESTIMONIALS.length);
-  }, []);
-
-  const prev = useCallback(() => {
-    setActive((a) => (a - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  }, []);
-
-  useEffect(() => {
-    timerRef.current = setInterval(next, 5000);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [next]);
-
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(next, 5000);
-  }, [next]);
-
-  const t = TESTIMONIALS[active];
+  const [lead, ...rest] = TESTIMONIALS;
 
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="bg-sheet border-y border-rule py-20 lg:py-28">
       <Container>
-        <div className="mb-14">
+        <Reveal>
           <SectionHeader
             badge="Trusted by real businesses"
-            badgeIcon={<Star weight="duotone" className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />}
+            trail="References"
             title="Built with businesses. Backed by results."
             gradient="Backed by results."
-            dark={false}
           />
-        </div>
+        </Reveal>
 
-        {/* Carousel */}
-        <div className="relative max-w-4xl mx-auto mb-16">
-          {/* Desktop crossfade */}
-          <div className="hidden md:block">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="grid md:grid-cols-5 rounded-2xl overflow-hidden shadow-xl border border-slate-100"
-              >
-                {/* Metric left */}
-                <div
-                  className={`md:col-span-2 flex flex-col items-center justify-center p-10 text-center bg-gradient-to-br ${t.color}`}
-                >
-                  <div className="text-5xl font-extrabold text-white font-[family-name:var(--font-jakarta)] mb-2">
-                    {t.metric}
-                  </div>
-                  <div className="text-white/70 text-sm font-medium">
-                    {t.metricLabel}
-                  </div>
-                </div>
-
-                {/* Quote right */}
-                <div className="md:col-span-3 p-8 lg:p-10 bg-white flex flex-col justify-between">
-                  <div>
-                    <Stars />
-                    <blockquote className="mt-4 text-slate-700 leading-relaxed text-[17px]">
-                      &ldquo;{t.quote}&rdquo;
-                    </blockquote>
-                  </div>
-                  <div className="mt-6 flex items-center gap-3">
-                    <div
-                      className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center text-white text-sm font-bold`}
-                    >
-                      {t.avatar}
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-900">{t.name}</div>
-                      <div className="text-sm text-slate-500">
-                        {t.role}, {t.company}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Mobile swipeable */}
-          <div
-            className="md:hidden"
-            onTouchStart={(e) => setDragStart(e.touches[0].clientX)}
-            onTouchEnd={(e) => {
-              if (dragStart === null) return;
-              const diff = dragStart - e.changedTouches[0].clientX;
-              if (Math.abs(diff) > 40) {
-                diff > 0 ? next() : prev();
-                resetTimer();
-              }
-              setDragStart(null);
-            }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="rounded-2xl overflow-hidden shadow-lg border border-slate-100"
-              >
-                <div
-                  className={`bg-gradient-to-br ${t.color} p-6 text-center`}
-                >
-                  <div className="text-4xl font-extrabold text-white font-[family-name:var(--font-jakarta)]">
-                    {t.metric}
-                  </div>
-                  <div className="text-white/70 text-sm mt-1">
-                    {t.metricLabel}
-                  </div>
-                </div>
-                <div className="p-6 bg-white">
-                  <Stars />
-                  <blockquote className="mt-3 text-slate-700 leading-relaxed text-[15px]">
-                    &ldquo;{t.quote}&rdquo;
-                  </blockquote>
-                  <div className="mt-4 flex items-center gap-3">
-                    <div
-                      className={`w-9 h-9 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center text-white text-xs font-bold`}
-                    >
-                      {t.avatar}
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-900 text-sm">
-                        {t.name}
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        {t.role}, {t.company}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Controls */}
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button
-              onClick={() => { prev(); resetTimer(); }}
-              className="p-3 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
-            >
-              <CaretLeft weight="duotone" className="w-5 h-5" />
-            </button>
-            <div className="flex gap-3">
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setActive(i); resetTimer(); }}
-                  className="p-1.5"
-                >
-                  <span className={`block h-2 rounded-full transition-all duration-300 ${
-                    i === active ? "bg-slate-800 w-6" : "bg-slate-300 w-2"
-                  }`} />
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => { next(); resetTimer(); }}
-              className="p-3 rounded-full border border-slate-200 text-slate-400 hover:text-slate-700 hover:border-slate-300 transition-colors"
-            >
-              <CaretRight weight="duotone" className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Stats bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {STATS.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="text-3xl font-extrabold text-slate-900 font-[family-name:var(--font-jakarta)]">
-                {s.value}
+        {/* Lead reference */}
+        <Reveal delay={0.1}>
+          <figure className="mt-12 lg:mt-16 grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-8 lg:gap-16 items-end border-t-2 border-ink pt-8">
+            <div>
+              <div className="font-jakarta font-extrabold text-ink tracking-[-0.05em] leading-[0.95] text-[clamp(4rem,11vw,8.5rem)] tnum">
+                {lead.metric}
               </div>
-              <div className="text-sm text-slate-500 mt-1">{s.label}</div>
+              <div className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue">
+                {lead.metricLabel}
+              </div>
             </div>
+            <div>
+              <blockquote className="font-jakarta font-semibold text-ink text-xl sm:text-2xl lg:text-[28px] leading-[1.35] tracking-[-0.02em] text-pretty">
+                &ldquo;{lead.quote}&rdquo;
+              </blockquote>
+              <figcaption className="mt-5 text-sm text-ink-soft">
+                <span className="font-semibold text-ink">{lead.name}</span> —{" "}
+                {lead.role}, {lead.company}
+              </figcaption>
+            </div>
+          </figure>
+        </Reveal>
+
+        <div className="mt-12 lg:mt-16 grid md:grid-cols-2 gap-x-12 gap-y-10 border-t border-rule pt-10">
+          {rest.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.08}>
+              <figure>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-jakarta font-extrabold text-ink text-3xl tracking-[-0.04em]">
+                    {t.metric}
+                  </span>
+                  <span className="leader" aria-hidden />
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-brand-blue text-right">
+                    {t.metricLabel}
+                  </span>
+                </div>
+                <blockquote className="mt-4 text-ink-soft text-[17px] leading-relaxed text-pretty">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+                <figcaption className="mt-4 text-sm text-ink-soft">
+                  <span className="font-semibold text-ink">{t.name}</span> —{" "}
+                  {t.role}, {t.company}
+                </figcaption>
+              </figure>
+            </Reveal>
           ))}
         </div>
+
+        {/* Stats */}
+        <Reveal>
+          <dl className="mt-14 lg:mt-20 grid grid-cols-2 md:grid-cols-4 border-t-2 border-ink">
+            {STATS.map((s, i) => (
+              <div
+                key={s.label}
+                className={`py-6 md:px-6 border-b md:border-b-0 border-rule ${
+                  i > 0 ? "md:border-l" : "md:pl-0"
+                } ${i % 2 === 1 ? "pl-6 border-l md:border-l" : ""}`}
+              >
+                <dd className="font-jakarta font-extrabold text-ink text-4xl tracking-[-0.04em] tnum">
+                  {s.value}
+                </dd>
+                <dt className="mt-1 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-faint">
+                  {s.label}
+                </dt>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </Container>
     </section>
   );
