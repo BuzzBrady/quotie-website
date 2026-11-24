@@ -1,7 +1,8 @@
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import LeadCaptureForm from "@/components/lead-capture/LeadCaptureForm";
-import { CheckCircle, Star } from "@phosphor-icons/react/ssr";
+import Eyebrow from "@/components/ui/Eyebrow";
+import { CheckCircle } from "@phosphor-icons/react/ssr";
 
 export const metadata = createMetadata({
   title: "Book a Free Demo — See Quotie in Action",
@@ -45,77 +46,59 @@ export default function DemoPage() {
   return (
     <>
       {/* Main hero */}
-      <section
-        className="relative flex items-center overflow-hidden pt-20"
-        style={{ background: "#08080c" }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-brand-blue/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-cyan/8 rounded-full blur-[80px]" />
-        </div>
-
-        <Container className="relative z-10 py-12 sm:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section className="relative overflow-hidden bg-paper">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(55% 50% at 80% 35%, rgba(57,185,229,0.14) 0%, transparent 70%)",
+          }}
+        />
+        <Container className="relative pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Left: copy */}
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-semibold text-white/50 mb-6">
+              <Eyebrow className="mb-6">
                 Free, no-obligation demo
-              </div>
-              <h1
-                className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-white mb-5"
-                style={{ fontSize: "clamp(32px, 4.5vw, 64px)", lineHeight: 1.06, letterSpacing: "-0.035em" }}
-              >
-                See Quotie{" "}
-                <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">
-                  in Action
-                </span>
+              </Eyebrow>
+              <h1 className="font-jakarta font-extrabold tracking-[-0.04em] leading-[1.02] text-ink text-[clamp(2.4rem,5vw,4rem)] mb-5">
+                See Quotie <span className="mark-live">in Action</span>
               </h1>
-              <p className="text-white/40 text-lg leading-relaxed mb-8 max-w-md">
+              <p className="text-ink-soft text-lg leading-relaxed mb-9 max-w-md text-pretty">
                 Book a free demo and we&apos;ll show you how to quote faster and close more work — personalised for your trade and your business.
               </p>
 
-              <ul className="space-y-4 mb-10">
+              <ul className="border-t-2 border-ink mb-10">
                 {expectations.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle weight="duotone" className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
-                    <span className="text-white/60 text-sm">{item}</span>
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 py-3.5 border-b border-rule"
+                  >
+                    <CheckCircle weight="fill" className="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" />
+                    <span className="text-ink text-[15px] leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02]">
-                <div className="flex items-center gap-0.5 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} weight="duotone" className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  ))}
-                </div>
-                <p className="text-white/50 text-sm italic">
+              <figure className="border-l-[3px] border-brand-cyan pl-5">
+                <blockquote className="font-jakarta font-semibold text-ink text-lg leading-snug tracking-[-0.01em] text-pretty">
                   &ldquo;I couldn&apos;t believe how quickly we closed $360k in a single month as soon as we had Quotie dialled in.&rdquo;
-                </p>
-                <p className="text-white/30 text-xs mt-2">— Jed Bolton, Director, Bolton EC</p>
-              </div>
+                </blockquote>
+                <figcaption className="text-ink-soft text-sm mt-2.5">— Jed Bolton, Director, Bolton EC</figcaption>
+              </figure>
             </div>
 
             {/* Right: form */}
-            <div className="relative">
-              <div
-                className="absolute -inset-6 rounded-3xl opacity-30 blur-2xl pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, rgba(59,130,246,0.25), rgba(57,185,229,0.1), transparent 70%)",
-                }}
-              />
-              <div className="relative rounded-2xl border border-white/[0.1] bg-slate-900/80 backdrop-blur-xl shadow-2xl shadow-black/40 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent" />
-                <div className="p-8">
-                  <h2 className="text-xl font-bold text-white mb-1 font-[family-name:var(--font-jakarta)]">
-                    Book your free demo
-                  </h2>
-                  <p className="text-white/40 text-sm mb-6">
-                    Takes 30 seconds. We&apos;ll be in touch within one business day.
-                  </p>
-                  <LeadCaptureForm source="demo_page" />
-                </div>
+            <div className="sheet rounded-xl overflow-hidden lg:sticky lg:top-28">
+              <div className="h-1.5 bg-gradient-to-r from-brand-blue to-brand-cyan" />
+              <div className="p-6 sm:p-9">
+                <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-ink mb-1.5 font-jakarta">
+                  Book your free demo
+                </h2>
+                <p className="text-ink-soft text-[15px] mb-6">
+                  Takes 30 seconds. We&apos;ll be in touch within one business day.
+                </p>
+                <LeadCaptureForm source="demo_page" />
               </div>
             </div>
           </div>
@@ -123,33 +106,25 @@ export default function DemoPage() {
       </section>
 
       {/* Testimonials */}
-      <section
-        className="py-20 border-t border-white/[0.06]"
-        style={{ background: "#08080c" }}
-      >
+      <section className="bg-sheet border-y border-rule py-16 lg:py-24">
         <Container>
-          <p className="text-center text-white/25 text-sm uppercase tracking-widest font-semibold mb-10">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
             What our customers say
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 border-t-2 border-ink">
             {testimonials.map((t) => (
-              <div
+              <figure
                 key={t.author}
-                className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-6"
+                className="py-7 border-b border-rule md:border-b-0 flex flex-col"
               >
-                <div className="flex items-center gap-0.5 mb-4">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} weight="duotone" className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                  ))}
-                </div>
-                <p className="text-white/50 text-sm leading-relaxed mb-5 italic">
+                <blockquote className="text-ink-soft text-[16px] leading-relaxed mb-5 text-pretty">
                   &ldquo;{t.quote}&rdquo;
-                </p>
-                <div>
-                  <p className="text-white/70 text-sm font-semibold">{t.author}</p>
-                  <p className="text-white/30 text-xs">{t.role}</p>
-                </div>
-              </div>
+                </blockquote>
+                <figcaption className="mt-auto pt-4 border-t border-rule">
+                  <p className="text-ink text-sm font-semibold">{t.author}</p>
+                  <p className="text-ink-faint text-sm">{t.role}</p>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </Container>

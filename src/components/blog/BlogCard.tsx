@@ -1,81 +1,17 @@
 import Link from 'next/link';
 import type { PostMeta } from '@/lib/mdx';
 import { CATEGORY_LABELS } from '@/lib/blogConstants';
-import {
-  Lightning,
-  Trophy,
-  Lightbulb,
-  Rocket,
-  TrendUp,
-} from '@phosphor-icons/react/ssr';
-
-const CATEGORY_STYLES: Record<
-  string,
-  {
-    gradient: string;
-    icon: React.ComponentType<{ weight: 'duotone'; className: string }>;
-    accent: string;
-    pattern: string;
-  }
-> = {
-  'quoting-tips': {
-    gradient: 'from-brand-blue/40 to-brand-cyan/25',
-    icon: Lightning,
-    accent: 'text-brand-cyan/30',
-    pattern: 'bg-[radial-gradient(circle_at_80%_20%,rgba(57,185,229,0.15),transparent_50%)]',
-  },
-  sales: {
-    gradient: 'from-emerald-600/35 to-teal-500/20',
-    icon: Trophy,
-    accent: 'text-emerald-400/30',
-    pattern: 'bg-[radial-gradient(circle_at_20%_80%,rgba(52,211,153,0.12),transparent_50%)]',
-  },
-  'industry-insights': {
-    gradient: 'from-violet-600/35 to-blue-500/20',
-    icon: Lightbulb,
-    accent: 'text-violet-400/30',
-    pattern: 'bg-[radial-gradient(circle_at_70%_70%,rgba(139,92,246,0.12),transparent_50%)]',
-  },
-  'product-updates': {
-    gradient: 'from-orange-500/35 to-amber-500/20',
-    icon: Rocket,
-    accent: 'text-orange-400/30',
-    pattern: 'bg-[radial-gradient(circle_at_30%_30%,rgba(251,146,60,0.12),transparent_50%)]',
-  },
-  'business-growth': {
-    gradient: 'from-emerald-500/35 to-cyan-500/20',
-    icon: TrendUp,
-    accent: 'text-emerald-400/30',
-    pattern: 'bg-[radial-gradient(circle_at_60%_40%,rgba(16,185,129,0.12),transparent_50%)]',
-  },
-};
-
-const DEFAULT_STYLE = CATEGORY_STYLES['quoting-tips'];
 
 interface BlogCardProps {
   post: PostMeta;
   featured?: boolean;
 }
 
-function Fallback({ category, className }: { category: string; className?: string }) {
-  const style = CATEGORY_STYLES[category] ?? DEFAULT_STYLE;
-  const Icon = style.icon;
-  return (
-    <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient} ${className ?? ''}`}>
-      <div className={`absolute inset-0 ${style.pattern}`} />
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
-      <Icon weight="duotone" className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 ${style.accent}`} />
-    </div>
-  );
-}
-
+/**
+ * Featured: a large sheet with the post image.
+ * Default: one row in the ledger of posts — stack these inside a
+ * `border-t-2 border-ink` container (see blog/page.tsx).
+ */
 export default function BlogCard({ post, featured = false }: BlogCardProps) {
   const categoryLabel = CATEGORY_LABELS[post.category] ?? post.category;
   const hasImage = !!post.image;
@@ -84,48 +20,39 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
     return (
       <Link
         href={`/blog/${post.slug}`}
-        className="group block rounded-2xl overflow-hidden border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300"
+        className="group sheet rounded-lg overflow-hidden grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
       >
-        <div className="relative h-64 lg:h-80 overflow-hidden">
-          {hasImage ? (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={post.image}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08080c] via-[#08080c]/60 to-[#08080c]/30" />
-            </>
-          ) : (
-            <Fallback category={post.category} />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 to-transparent" />
-        </div>
+        {hasImage && (
+          <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-[340px] overflow-hidden border-b lg:border-b-0 lg:border-r border-rule bg-paper">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={post.image}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+            />
+          </div>
+        )}
 
-        <div className="p-6 lg:p-8">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-blue/20 text-brand-cyan border border-brand-blue/30">
-              {categoryLabel}
-            </span>
-            <span className="text-white/30 text-xs uppercase tracking-wider font-semibold">
-              Featured
-            </span>
+        <div className={`p-6 sm:p-8 lg:p-10 flex flex-col ${hasImage ? '' : 'lg:col-span-2'}`}>
+          <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint mb-5">
+            <span className="text-brand-blue">{categoryLabel}</span>
+            <span className="leader" aria-hidden />
+            <span>Featured</span>
           </div>
 
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-white font-[family-name:var(--font-jakarta)] tracking-tight mb-3 group-hover:text-brand-cyan transition-colors">
+          <h2 className="text-2xl lg:text-[32px] font-extrabold text-ink font-jakarta tracking-[-0.03em] leading-[1.12] mb-4 text-balance group-hover:text-brand-blue transition-colors">
             {post.title}
           </h2>
 
-          <p className="text-white/50 leading-relaxed mb-6 text-base">
+          <p className="text-ink-soft leading-relaxed mb-8 text-pretty">
             {post.description}
           </p>
 
-          <div className="flex items-center gap-4 text-white/30 text-sm">
-            <span>{post.author}</span>
-            <span>&middot;</span>
-            <span>{formatDate(post.date)}</span>
-            <span>&middot;</span>
+          <div className="mt-auto pt-4 border-t border-rule flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.1em] text-ink-faint">
+            <span className="text-ink-soft">{post.author}</span>
+            <span aria-hidden>&middot;</span>
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
+            <span aria-hidden>&middot;</span>
             <span>{post.readingTime}</span>
           </div>
         </div>
@@ -136,47 +63,32 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col rounded-2xl overflow-hidden border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.12] transition-all duration-300"
+      className="group grid grid-cols-1 md:grid-cols-[130px_minmax(0,1fr)_auto] gap-x-8 gap-y-2 items-baseline py-6 lg:py-7 border-b border-rule"
     >
-      <div className="relative h-44 overflow-hidden">
-        {hasImage ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={post.image}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#08080c] via-[#08080c]/50 to-[#08080c]/20" />
-          </>
-        ) : (
-          <Fallback category={post.category} />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 to-transparent" />
-        {/* Category badge floating on thumbnail */}
-        <div className="absolute top-3 left-3 z-10">
-          <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-black/40 backdrop-blur-md text-white/80 border border-white/10">
-            {categoryLabel}
-          </span>
-        </div>
+      <div className="flex md:flex-col gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.12em]">
+        <time dateTime={post.date} className="text-ink-faint">
+          {formatDate(post.date)}
+        </time>
+        <span className="text-brand-blue">{categoryLabel}</span>
       </div>
 
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="text-lg font-bold text-white font-[family-name:var(--font-jakarta)] tracking-tight mb-2 group-hover:text-brand-cyan transition-colors leading-snug">
+      <div className="min-w-0">
+        <h3 className="text-xl lg:text-2xl font-extrabold text-ink font-jakarta tracking-[-0.025em] leading-snug mb-1.5 text-balance group-hover:text-brand-blue transition-colors">
           {post.title}
         </h3>
-
-        <p className="text-white/40 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+        <p className="text-ink-soft text-[15px] leading-relaxed line-clamp-2 max-w-2xl">
           {post.description}
         </p>
+      </div>
 
-        <div className="flex items-center gap-3 text-white/25 text-xs mt-auto pt-4 border-t border-white/[0.06]">
-          <span className="font-medium">{post.author}</span>
-          <span>&middot;</span>
-          <span>{formatDate(post.date)}</span>
-          <span>&middot;</span>
-          <span>{post.readingTime}</span>
-        </div>
+      <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-faint md:text-right whitespace-nowrap">
+        {post.readingTime}
+        <span
+          aria-hidden
+          className="ml-2 inline-block text-ink transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-brand-blue"
+        >
+          &rarr;
+        </span>
       </div>
     </Link>
   );

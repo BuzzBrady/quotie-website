@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { EnvelopeSimple, MapPin, ArrowRight, CircleNotch, CheckCircle } from "@phosphor-icons/react";
 import Container from "@/components/ui/Container";
+import Eyebrow from "@/components/ui/Eyebrow";
+import { buttonClass } from "@/components/ui/Button";
 import { supabase } from "@/lib/supabase";
 import { TRADE_TYPES } from "@/lib/constants";
 import { trackLead } from "@/components/seo/MetaPixel";
@@ -96,24 +98,20 @@ export default function ContactClient() {
   };
 
   const inputBase =
-    "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200 focus:border-brand-blue/50 focus:ring-2 focus:ring-brand-blue/10";
+    "w-full rounded-lg border border-rule-strong bg-sheet px-4 py-3 text-[15px] text-ink placeholder:text-ink-faint outline-none transition-[border-color,box-shadow] duration-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-cyan/30";
 
   return (
     <>
       {/* Hero */}
-      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-slate-50 border-b border-slate-100">
-        <Container className="text-center">
-          <h1
-            className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900 mb-4"
-            style={{
-              fontSize: "clamp(28px, 4vw, 56px)",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.08,
-            }}
-          >
-            Get in Touch
+      <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-12 lg:pb-16">
+        <Container>
+          <Eyebrow trail="Central Coast, NSW" className="mb-6 max-w-md">
+            Contact
+          </Eyebrow>
+          <h1 className="font-jakarta font-extrabold tracking-[-0.04em] leading-[1.02] text-ink text-[clamp(2.4rem,5.4vw,4rem)] mb-5">
+            Get in <span className="mark-live">Touch</span>
           </h1>
-          <p className="text-slate-500 text-lg max-w-md mx-auto">
+          <p className="text-ink-soft text-lg leading-relaxed max-w-md text-pretty">
             We&apos;re a small team based on the Central Coast. We read every message and
             reply promptly.
           </p>
@@ -121,38 +119,37 @@ export default function ContactClient() {
       </section>
 
       {/* Main content */}
-      <section className="py-20 bg-white">
+      <section className="bg-sheet border-y border-rule py-16 lg:py-24">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-14 lg:gap-20">
             {/* Form */}
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-2 font-[family-name:var(--font-jakarta)]">
+              <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-ink mb-2 font-jakarta">
                 Send us a message
               </h2>
-              <p className="text-slate-500 text-sm mb-8">
+              <p className="text-ink-soft text-[15px] mb-8">
                 Fill in the form and we&apos;ll get back to you within one
                 business day.
               </p>
 
               {submitted ? (
-                <div className="flex flex-col items-center gap-4 py-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <CheckCircle weight="duotone" className="w-8 h-8 text-emerald-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900">
+                <div className="border-t-2 border-ink pt-8">
+                  <CheckCircle weight="fill" className="w-8 h-8 text-brand-blue mb-4" />
+                  <h3 className="text-xl font-bold font-jakarta text-ink mb-1.5">
                     Message received!
                   </h3>
-                  <p className="text-slate-500 text-sm max-w-sm">
+                  <p className="text-ink-soft text-[15px] max-w-sm">
                     Thanks {form.full_name.split(" ")[0]}. We&apos;ll be in
                     touch shortly.
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <input
                       name="full_name"
                       type="text"
+                      aria-label="Your name"
                       placeholder="Your name *"
                       value={form.full_name}
                       onChange={handleChange}
@@ -162,6 +159,7 @@ export default function ContactClient() {
                     <input
                       name="email"
                       type="email"
+                      aria-label="Work email"
                       placeholder="Work email *"
                       value={form.email}
                       onChange={handleChange}
@@ -169,10 +167,11 @@ export default function ContactClient() {
                       required
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <input
                       name="phone"
                       type="tel"
+                      aria-label="Phone number"
                       placeholder="Phone number"
                       value={form.phone}
                       onChange={handleChange}
@@ -181,6 +180,7 @@ export default function ContactClient() {
                     <input
                       name="company_name"
                       type="text"
+                      aria-label="Company name"
                       placeholder="Company name"
                       value={form.company_name}
                       onChange={handleChange}
@@ -190,22 +190,23 @@ export default function ContactClient() {
                   <div className="relative">
                     <select
                       name="trade_type"
+                      aria-label="What trade are you in?"
                       value={form.trade_type}
                       onChange={handleChange}
                       className={inputBase + " appearance-none"}
                       style={{
-                        color: form.trade_type ? "#0f172a" : "#94a3b8",
+                        color: form.trade_type ? undefined : "var(--color-ink-faint)",
                       }}
                     >
                       <option value="">What trade are you in?</option>
                       {TRADE_TYPES.map((t) => (
-                        <option key={t} value={t}>
+                        <option key={t} value={t} className="text-ink">
                           {t}
                         </option>
                       ))}
                     </select>
                     <svg
-                      className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+                      className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -220,27 +221,35 @@ export default function ContactClient() {
                   </div>
                   <textarea
                     name="message"
+                    aria-label="How can we help?"
                     placeholder="How can we help?"
                     rows={5}
                     value={form.message}
                     onChange={handleChange}
                     className={inputBase + " resize-none"}
                   />
-                  {error && <p className="text-red-500 text-sm">{error}</p>}
+                  {error && (
+                    <p role="alert" className="text-red-700 text-sm">
+                      {error}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-cyan text-sm font-bold text-white shadow-lg hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className={buttonClass("ink", "lg", "w-full sm:w-auto")}
                   >
                     {submitting ? (
                       <>
-                        <CircleNotch weight="duotone" className="w-4 h-4 animate-spin" />
+                        <CircleNotch weight="bold" className="w-4 h-4 animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
                         Send Message
-                        <ArrowRight weight="duotone" className="w-4 h-4" />
+                        <ArrowRight
+                          weight="bold"
+                          className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                        />
                       </>
                     )}
                   </button>
@@ -249,56 +258,52 @@ export default function ContactClient() {
             </div>
 
             {/* Info */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div>
-                <h2 className="text-2xl font-bold text-slate-900 mb-6 font-[family-name:var(--font-jakarta)]">
+                <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
                   Contact details
                 </h2>
-                <div className="space-y-5">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
-                      <EnvelopeSimple weight="duotone" className="w-5 h-5 text-slate-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900 mb-0.5">
-                        Email
-                      </p>
+                <dl className="border-t-2 border-ink">
+                  <div className="flex items-baseline gap-3 py-3.5 border-b border-rule">
+                    <dt className="flex items-center gap-2 text-[15px] font-semibold text-ink">
+                      <EnvelopeSimple weight="bold" className="w-4 h-4 text-brand-blue self-center" />
+                      Email
+                    </dt>
+                    <span className="leader" aria-hidden />
+                    <dd>
                       <a
                         href="mailto:hello@quotie.au"
-                        className="text-sm text-brand-blue hover:underline"
+                        className="text-[15px] font-medium text-brand-blue hover:underline"
                       >
                         hello@quotie.au
                       </a>
-                    </div>
+                    </dd>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
-                      <MapPin weight="duotone" className="w-5 h-5 text-slate-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900 mb-0.5">
-                        Location
-                      </p>
-                      <p className="text-sm text-slate-500">
-                        Central Coast, NSW, Australia
-                      </p>
-                    </div>
+                  <div className="flex items-baseline gap-3 py-3.5 border-b border-rule">
+                    <dt className="flex items-center gap-2 text-[15px] font-semibold text-ink">
+                      <MapPin weight="bold" className="w-4 h-4 text-brand-blue self-center" />
+                      Location
+                    </dt>
+                    <span className="leader" aria-hidden />
+                    <dd className="text-[15px] text-ink-soft text-right">
+                      Central Coast, NSW, Australia
+                    </dd>
                   </div>
-                </div>
+                </dl>
               </div>
 
               {/* FAQ */}
               <div>
-                <h3 className="text-lg font-bold text-slate-900 mb-5 font-[family-name:var(--font-jakarta)]">
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
                   Frequently asked
                 </h3>
-                <div className="space-y-4">
+                <div className="border-t-2 border-ink">
                   {faqs.map((faq) => (
-                    <div key={faq.q} className="border-b border-slate-100 pb-4">
-                      <h4 className="text-sm font-semibold text-slate-900 mb-1">
+                    <div key={faq.q} className="border-b border-rule py-5">
+                      <h4 className="font-jakarta font-bold text-ink text-[16px] tracking-[-0.01em] mb-1.5">
                         {faq.q}
                       </h4>
-                      <p className="text-sm text-slate-500 leading-relaxed">
+                      <p className="text-[15px] text-ink-soft leading-relaxed text-pretty">
                         {faq.a}
                       </p>
                     </div>

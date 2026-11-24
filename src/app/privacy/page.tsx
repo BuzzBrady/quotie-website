@@ -1,5 +1,6 @@
 import { createMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
+import Eyebrow from "@/components/ui/Eyebrow";
 
 export const metadata = createMetadata({
   title: "Privacy Policy | Quotie",
@@ -99,69 +100,60 @@ Email: hello@quotie.au`,
 
 export default function PrivacyPage() {
   return (
-    <>
-      <section className="pt-24 sm:pt-32 pb-10 sm:pb-12 bg-slate-50 border-b border-slate-100">
-        <Container>
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-500 shadow-sm mb-6">
-              Legal
-            </div>
-            <h1
-              className="font-[family-name:var(--font-jakarta)] font-extrabold tracking-tight text-slate-900 mb-4"
-              style={{ fontSize: "clamp(28px, 4vw, 48px)", letterSpacing: "-0.03em" }}
-            >
-              Privacy Policy
-            </h1>
-            <p className="text-slate-500 text-sm">
-              Last updated: 1 January 2026
-            </p>
-          </div>
-        </Container>
-      </section>
+    <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-20 lg:pb-28">
+      <Container>
+        <div className="max-w-3xl mx-auto">
+          <Eyebrow trail="Last updated: 1 January 2026" className="mb-6">
+            Legal
+          </Eyebrow>
+          <h1 className="font-jakarta font-extrabold tracking-[-0.035em] leading-[1.05] text-ink text-[clamp(2rem,4.4vw,3.25rem)] mb-10">
+            Privacy Policy
+          </h1>
 
-      <section className="py-16 bg-white">
-        <Container>
-          <div className="max-w-3xl">
-            <p className="text-slate-600 text-base leading-relaxed mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
-              This Privacy Policy describes how Quotie Pty Ltd (&ldquo;Quotie&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, and shares information about you when you use our platform and services. By using Quotie, you agree to the collection and use of information in accordance with this policy.
-            </p>
+          <div className="sheet rounded-lg overflow-hidden">
+            <div className="h-1 bg-gradient-to-r from-brand-blue to-brand-cyan" />
+            <div className="px-6 py-8 sm:px-10 sm:py-12 lg:px-14">
+              <p className="text-ink text-[17px] leading-relaxed pb-8 mb-8 border-b border-rule text-pretty">
+                This Privacy Policy describes how Quotie Pty Ltd (&ldquo;Quotie&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, and shares information about you when you use our platform and services. By using Quotie, you agree to the collection and use of information in accordance with this policy.
+              </p>
 
-            <div className="space-y-10">
-              {sections.map((section) => (
-                <div key={section.title}>
-                  <h2 className="text-xl font-bold text-slate-900 mb-4 font-[family-name:var(--font-jakarta)]">
-                    {section.title}
-                  </h2>
-                  <div className="text-slate-600 text-sm leading-relaxed whitespace-pre-line">
-                    {section.content.split("\n").map((line, i) => {
+              <div className="space-y-10">
+                {sections.map((section) => (
+                  <div key={section.title}>
+                    <h2 className="text-xl font-bold text-ink mb-4 font-jakarta tracking-[-0.02em]">
+                      {section.title}
+                    </h2>
+                    <div className="text-ink-soft text-[15px] leading-relaxed">
+                      {section.content.split("\n").map((line, i) => {
                       if (line.startsWith("•")) {
                         return (
-                          <p key={i} className="pl-4 mb-1.5">
+                          <p key={i} className="pl-5 -indent-5 mb-2">
                             {line.replace(/\*\*(.*?)\*\*/g, "$1")}
                           </p>
                         );
                       }
                       if (line.startsWith("**") && line.endsWith("**")) {
                         return (
-                          <p key={i} className="font-semibold text-slate-800 mb-2">
+                          <p key={i} className="font-semibold text-ink mb-2">
                             {line.replace(/\*\*/g, "")}
                           </p>
                         );
                       }
-                      if (!line.trim()) return <br key={i} />;
+                      if (!line.trim()) return null;
                       return (
-                        <p key={i} className="mb-2">
+                        <p key={i} className="mb-3">
                           {line.replace(/\*\*(.*?)\*\*/g, "$1")}
                         </p>
                       );
                     })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </Container>
-      </section>
-    </>
+        </div>
+      </Container>
+    </section>
   );
 }

@@ -9,33 +9,33 @@ interface CalloutProps {
 
 const calloutStyles: Record<CalloutType, { border: string; bg: string; label: string; labelColor: string }> = {
   info: {
-    border: 'border-brand-blue/40',
-    bg: 'bg-brand-blue/10',
+    border: 'border-brand-blue',
+    bg: 'bg-wash/60',
     label: 'Info',
-    labelColor: 'text-brand-cyan',
+    labelColor: 'text-brand-blue',
   },
   warning: {
-    border: 'border-amber-500/40',
-    bg: 'bg-amber-500/10',
+    border: 'border-amber-500',
+    bg: 'bg-amber-50',
     label: 'Warning',
-    labelColor: 'text-amber-400',
+    labelColor: 'text-amber-700',
   },
   tip: {
-    border: 'border-emerald-500/40',
-    bg: 'bg-emerald-500/10',
+    border: 'border-emerald-600',
+    bg: 'bg-emerald-50',
     label: 'Tip',
-    labelColor: 'text-emerald-400',
+    labelColor: 'text-emerald-700',
   },
 };
 
 export function Callout({ type = 'info', children }: CalloutProps) {
   const styles = calloutStyles[type];
   return (
-    <div className={`my-6 rounded-xl border ${styles.border} ${styles.bg} p-5`}>
-      <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${styles.labelColor}`}>
+    <div className={`my-8 border-l-[3px] ${styles.border} ${styles.bg} px-5 py-4`}>
+      <p className={`font-mono text-[11px] uppercase tracking-[0.14em] mb-2 ${styles.labelColor}`}>
         {styles.label}
       </p>
-      <div className="text-slate-700 text-sm leading-relaxed [&>p]:mb-0">{children}</div>
+      <div className="text-ink text-[15px] leading-relaxed [&>p]:mb-0 [&>p]:text-ink [&>p]:text-[15px]">{children}</div>
     </div>
   );
 }
@@ -61,7 +61,7 @@ export const mdxComponents: MDXComponentsType = {
     return (
       <h2
         id={id}
-        className="text-2xl font-bold text-slate-900 font-[family-name:var(--font-jakarta)] mt-10 mb-4 tracking-tight scroll-mt-24"
+        className="text-[26px] sm:text-[30px] font-extrabold text-ink font-jakarta mt-14 mb-4 tracking-[-0.03em] leading-[1.15] scroll-mt-32 text-balance"
         {...props}
       >
         <a href={`#${id}`} className="hover:text-brand-blue transition-colors no-underline">
@@ -77,7 +77,7 @@ export const mdxComponents: MDXComponentsType = {
     return (
       <h3
         id={id}
-        className="text-xl font-bold text-slate-800 font-[family-name:var(--font-jakarta)] mt-8 mb-3 tracking-tight scroll-mt-24"
+        className="text-xl sm:text-[22px] font-bold text-ink font-jakarta mt-10 mb-3 tracking-[-0.02em] leading-snug scroll-mt-32"
         {...props}
       >
         {children}
@@ -86,13 +86,13 @@ export const mdxComponents: MDXComponentsType = {
   },
 
   p: ({ children, ...props }) => (
-    <p className="text-slate-600 leading-[1.8] mb-5 text-[1.05rem]" {...props}>
+    <p className="text-ink-soft leading-[1.75] mb-5 text-[17px] text-pretty" {...props}>
       {children}
     </p>
   ),
 
   strong: ({ children, ...props }) => (
-    <strong className="font-semibold text-slate-900" {...props}>
+    <strong className="font-semibold text-ink" {...props}>
       {children}
     </strong>
   ),
@@ -100,7 +100,7 @@ export const mdxComponents: MDXComponentsType = {
   a: ({ children, href, ...props }) => (
     <a
       href={href}
-      className="text-brand-blue underline underline-offset-2 hover:text-brand-cyan transition-colors"
+      className="text-brand-blue font-medium underline decoration-brand-cyan/60 decoration-2 underline-offset-[3px] hover:decoration-brand-blue transition-colors"
       {...props}
     >
       {children}
@@ -108,26 +108,26 @@ export const mdxComponents: MDXComponentsType = {
   ),
 
   ul: ({ children, ...props }) => (
-    <ul className="list-disc list-outside pl-6 mb-5 space-y-2 text-slate-600" {...props}>
+    <ul className="list-disc list-outside pl-6 mb-5 space-y-2 text-ink-soft marker:text-brand-blue" {...props}>
       {children}
     </ul>
   ),
 
   ol: ({ children, ...props }) => (
-    <ol className="list-decimal list-outside pl-6 mb-5 space-y-2 text-slate-600" {...props}>
+    <ol className="list-decimal list-outside pl-6 mb-5 space-y-2 text-ink-soft marker:font-mono marker:text-sm marker:text-brand-blue" {...props}>
       {children}
     </ol>
   ),
 
   li: ({ children, ...props }) => (
-    <li className="leading-relaxed text-[1.02rem]" {...props}>
+    <li className="leading-[1.7] text-[17px] pl-1" {...props}>
       {children}
     </li>
   ),
 
   blockquote: ({ children, ...props }) => (
     <blockquote
-      className="border-l-4 border-brand-blue/40 pl-5 py-1 my-6 bg-slate-50 rounded-r-lg italic text-slate-500"
+      className="border-l-[3px] border-brand-cyan pl-5 my-8 [&>p]:font-jakarta [&>p]:font-semibold [&>p]:text-ink [&>p]:text-xl [&>p]:leading-snug [&>p]:tracking-[-0.01em] [&>p:last-child]:mb-0"
       {...props}
     >
       {children}
@@ -136,7 +136,7 @@ export const mdxComponents: MDXComponentsType = {
 
   pre: ({ children, ...props }) => (
     <pre
-      className="bg-slate-900 text-slate-100 rounded-xl p-5 overflow-x-auto my-6 text-sm leading-relaxed"
+      className="bg-deep text-white/90 rounded-lg p-5 overflow-x-auto my-8 font-mono text-sm leading-relaxed [&_code]:bg-transparent [&_code]:text-inherit [&_code]:p-0"
       {...props}
     >
       {children}
@@ -145,12 +145,35 @@ export const mdxComponents: MDXComponentsType = {
 
   code: ({ children, ...props }) => (
     <code
-      className="bg-slate-100 text-brand-blue rounded px-1.5 py-0.5 text-[0.88em] font-mono"
+      className="bg-paper border border-rule text-ink rounded px-1.5 py-0.5 text-[0.86em] font-mono"
       {...props}
     >
       {children}
     </code>
   ),
 
-  hr: () => <hr className="border-slate-200 my-10" />,
+  hr: () => <hr className="border-rule my-12" />,
+
+  table: ({ children, ...props }) => (
+    <div className="my-8 overflow-x-auto">
+      <table className="w-full text-left text-[15px] border-t-2 border-ink" {...props}>
+        {children}
+      </table>
+    </div>
+  ),
+
+  th: ({ children, ...props }) => (
+    <th
+      className="py-2.5 pr-4 border-b border-rule-strong font-mono text-[11px] uppercase tracking-[0.12em] font-medium text-ink-faint whitespace-nowrap"
+      {...props}
+    >
+      {children}
+    </th>
+  ),
+
+  td: ({ children, ...props }) => (
+    <td className="py-3 pr-4 border-b border-rule text-ink-soft align-top" {...props}>
+      {children}
+    </td>
+  ),
 };

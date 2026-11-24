@@ -5,6 +5,8 @@ import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { createMetadata } from '@/lib/metadata';
 import { SITE_URL, SITE_NAME } from '@/lib/constants';
 import Container from '@/components/ui/Container';
+import Eyebrow from '@/components/ui/Eyebrow';
+import { ButtonLink } from '@/components/ui/Button';
 import BlogCard from '@/components/blog/BlogCard';
 import { mdxComponents, Callout } from '@/components/blog/MDXComponents';
 import { CATEGORY_LABELS } from '@/lib/blogConstants';
@@ -77,93 +79,71 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
-      {/* Article header — dark background */}
-      <section
-        className="relative pt-24 sm:pt-32 pb-10 sm:pb-12 overflow-hidden"
-        style={{ background: '#08080c' }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute top-0 right-1/3 w-80 h-80 rounded-full opacity-10 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #1f61aa, transparent)' }}
-          />
-        </div>
+      {/* Article header */}
+      <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-10 lg:pb-14">
+        <Container>
+          <div className="max-w-[46rem] mx-auto">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint hover:text-ink transition-colors mb-8"
+            >
+              <span aria-hidden>&larr;</span>
+              Back to Blog
+            </Link>
 
-        <Container className="relative z-10 max-w-3xl">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors mb-8"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M10 12L6 8l4-4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Back to Blog
-          </Link>
-
-          <div className="mb-6">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-blue/20 text-brand-cyan border border-brand-blue/30">
+            <Eyebrow
+              trail={<time dateTime={post.date}>{formatDate(post.date)}</time>}
+              className="mb-6"
+            >
               {categoryLabel}
-            </span>
-          </div>
+            </Eyebrow>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white font-[family-name:var(--font-jakarta)] tracking-tight leading-[1.1] mb-6">
-            {post.title}
-          </h1>
+            <h1 className="text-[clamp(2rem,4.6vw,3.4rem)] font-extrabold text-ink font-jakarta tracking-[-0.035em] leading-[1.06] mb-6 text-balance">
+              {post.title}
+            </h1>
 
-          <p className="text-white/50 text-lg leading-relaxed mb-8">{post.description}</p>
+            <p className="text-ink-soft text-lg sm:text-xl leading-relaxed mb-8 text-pretty">
+              {post.description}
+            </p>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/30 text-sm">
-            <span className="font-medium text-white/50">{post.author}</span>
-            <span className="hidden sm:inline">&middot;</span>
-            <span className="hidden sm:inline">{post.authorRole}</span>
-            <span>&middot;</span>
-            <time dateTime={post.date}>{formatDate(post.date)}</time>
-            <span>&middot;</span>
-            <span>{post.readingTime}</span>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 border-t border-rule text-sm text-ink-faint">
+              <span className="font-semibold text-ink">{post.author}</span>
+              <span className="hidden sm:inline" aria-hidden>&middot;</span>
+              <span className="hidden sm:inline">{post.authorRole}</span>
+              <span aria-hidden>&middot;</span>
+              <span>{post.readingTime}</span>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Divider image area */}
-      <div className="h-px bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent" />
+      {/* Article body */}
+      <section className="bg-sheet border-y border-rule py-12 lg:py-20">
+        <Container>
+          <div className="max-w-[46rem] mx-auto">
+            <article className="prose-quotie">
+              <MDXRemote
+                source={post.content}
+                components={{ ...mdxComponents, Callout }}
+              />
+            </article>
 
-      {/* Article body — light background for readability */}
-      <section className="bg-white py-12 lg:py-16">
-        <Container className="max-w-3xl">
-          <article className="prose-quotie">
-            <MDXRemote
-              source={post.content}
-              components={{ ...mdxComponents, Callout }}
-            />
-          </article>
-
-          {/* Inline CTA */}
-          <div className="mt-16 rounded-2xl bg-gradient-to-br from-brand-blue to-brand-cyan p-8 text-white text-center">
-            <h2 className="text-2xl font-bold font-[family-name:var(--font-jakarta)] mb-3">
-              Ready to quote faster?
-            </h2>
-            <p className="text-white/80 mb-6 text-base">
-              See how Quotie helps trades businesses build and send professional proposals in under 30 seconds.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link
-                href="/demo"
-                className="inline-block px-6 py-3 rounded-xl bg-white text-brand-blue font-semibold text-sm hover:bg-white/90 transition-colors"
-              >
-                Book a Demo
-              </Link>
-              <Link
-                href="/features"
-                className="inline-block px-6 py-3 rounded-xl border border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-colors"
-              >
-                See Features
-              </Link>
+            {/* Inline CTA */}
+            <div className="mt-16 border-t-2 border-ink pt-8">
+              <h2 className="text-2xl sm:text-3xl font-extrabold font-jakarta tracking-[-0.03em] text-ink mb-3">
+                Ready to <span className="mark-live">quote faster?</span>
+              </h2>
+              <p className="text-ink-soft mb-6 leading-relaxed max-w-xl">
+                See how Quotie helps trades businesses build and send professional proposals in under 30 seconds.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <ButtonLink href="/demo" variant="ink" size="lg">
+                  Book a Demo
+                </ButtonLink>
+                <ButtonLink href="/features" variant="outline" size="lg">
+                  See Features
+                </ButtonLink>
+              </div>
             </div>
           </div>
         </Container>
@@ -171,12 +151,12 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Related posts */}
       {related.length > 0 && (
-        <section style={{ background: '#08080c' }} className="py-16">
+        <section className="bg-paper py-16 lg:py-20">
           <Container>
-            <h2 className="text-2xl font-bold text-white font-[family-name:var(--font-jakarta)] mb-8">
+            <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
               Related Articles
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="border-t-2 border-ink">
               {related.map((p) => (
                 <BlogCard key={p.slug} post={p} />
               ))}

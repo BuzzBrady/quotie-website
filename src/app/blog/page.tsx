@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/mdx';
 import { createMetadata } from '@/lib/metadata';
 import Container from '@/components/ui/Container';
+import SectionHeader from '@/components/ui/SectionHeader';
 import BlogCard from '@/components/blog/BlogCard';
 import { ALL_CATEGORIES } from '@/lib/blogConstants';
 
@@ -20,43 +21,26 @@ export default function BlogPage() {
   return (
     <>
       {/* Hero */}
-      <section
-        className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
-        style={{ background: '#08080c' }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #1f61aa, transparent)' }}
+      <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-10 lg:pb-14">
+        <Container>
+          <SectionHeader
+            as="h1"
+            badge="Quotie Blog"
+            trail={`${posts.length} ${posts.length === 1 ? 'article' : 'articles'}`}
+            title="Built for Trades"
+            subtitle="Practical guides on quoting, selling, and growing your trade business."
           />
-          <div
-            className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full opacity-10 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #39b9e5, transparent)' }}
-          />
-        </div>
-
-        <Container className="relative z-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] text-white/50 px-4 py-1.5 text-sm font-semibold mb-6">
-              Quotie Blog
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-[family-name:var(--font-jakarta)] mb-4">
-              Built for Trades
-            </h1>
-            <p className="text-white/40 text-lg leading-relaxed">
-              Practical guides on quoting, selling, and growing your trade business.
-            </p>
-          </div>
         </Container>
       </section>
 
       {/* Category filter */}
-      <div style={{ background: '#08080c' }} className="border-b border-white/[0.06] sticky top-[64px] z-20">
+      <div className="bg-paper/90 backdrop-blur-md border-y border-rule sticky top-16 lg:top-[72px] z-20">
         <Container>
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-4">
+          <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 sm:mx-0 sm:px-0">
             <Link
               href="/blog"
-              className="flex-none px-4 py-1.5 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20 transition-all hover:bg-white/15"
+              aria-current="page"
+              className="flex-none py-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-ink border-b-2 border-brand-cyan -mb-px"
             >
               All
             </Link>
@@ -64,7 +48,7 @@ export default function BlogPage() {
               <Link
                 key={cat.slug}
                 href={`/blog/category/${cat.slug}`}
-                className="flex-none px-4 py-1.5 rounded-full text-sm font-medium text-white/50 border border-white/[0.08] hover:text-white hover:border-white/20 transition-all"
+                className="flex-none py-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint border-b-2 border-transparent -mb-px hover:text-ink transition-colors"
               >
                 {cat.label}
               </Link>
@@ -74,29 +58,24 @@ export default function BlogPage() {
       </div>
 
       {/* Content */}
-      <section style={{ background: '#08080c' }} className="py-16 min-h-[60vh]">
+      <section className="bg-paper py-12 lg:py-16 min-h-[60vh]">
         <Container>
           {/* Featured post */}
           {featured && (
-            <div className="mb-12">
-              <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-4">
-                Featured
-              </p>
+            <div className="mb-14 lg:mb-20">
               <BlogCard post={featured} featured />
             </div>
           )}
 
-          {/* Post grid */}
+          {/* Post ledger */}
           {rest.length > 0 && (
             <>
               {featured && (
-                <div className="border-t border-white/[0.06] pt-12 mb-8">
-                  <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-                    Latest Posts
-                  </p>
-                </div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-blue mb-4">
+                  Latest Posts
+                </p>
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="border-t-2 border-ink">
                 {rest.map((post) => (
                   <BlogCard key={post.slug} post={post} />
                 ))}
@@ -105,8 +84,8 @@ export default function BlogPage() {
           )}
 
           {posts.length === 0 && (
-            <div className="text-center py-24">
-              <p className="text-white/30">No posts yet.</p>
+            <div className="py-24">
+              <p className="text-ink-soft">No posts yet.</p>
             </div>
           )}
         </Container>

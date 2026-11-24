@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getCategories, getPostsByCategory } from '@/lib/mdx';
 import { createMetadata } from '@/lib/metadata';
 import Container from '@/components/ui/Container';
+import SectionHeader from '@/components/ui/SectionHeader';
 import BlogCard from '@/components/blog/BlogCard';
 import { ALL_CATEGORIES, CATEGORY_LABELS } from '@/lib/blogConstants';
 
@@ -37,54 +38,31 @@ export default async function BlogCategoryPage({ params }: Props) {
   return (
     <>
       {/* Hero */}
-      <section
-        className="relative pt-32 pb-16 overflow-hidden"
-        style={{ background: '#08080c' }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #1f61aa, transparent)' }}
+      <section className="bg-paper pt-28 sm:pt-32 lg:pt-40 pb-10 lg:pb-14">
+        <Container>
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint hover:text-ink transition-colors mb-8"
+          >
+            <span aria-hidden>&larr;</span>
+            All Posts
+          </Link>
+          <SectionHeader
+            as="h1"
+            badge={label}
+            trail={`${posts.length} ${posts.length === 1 ? 'article' : 'articles'}`}
+            title={label}
           />
-        </div>
-
-        <Container className="relative z-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors mb-6"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M10 12L6 8l4-4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              All Posts
-            </Link>
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/30 bg-brand-blue/10 text-brand-cyan px-4 py-1.5 text-sm font-semibold mb-6">
-              {label}
-            </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white font-[family-name:var(--font-jakarta)] mb-4">
-              {label}
-            </h1>
-            <p className="text-white/40">
-              {posts.length} {posts.length === 1 ? 'article' : 'articles'}
-            </p>
-          </div>
         </Container>
       </section>
 
       {/* Category filter */}
-      <div style={{ background: '#08080c' }} className="border-b border-white/[0.06] sticky top-[64px] z-20">
+      <div className="bg-paper/90 backdrop-blur-md border-y border-rule sticky top-16 lg:top-[72px] z-20">
         <Container>
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-4">
+          <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 sm:mx-0 sm:px-0">
             <Link
               href="/blog"
-              className="flex-none px-4 py-1.5 rounded-full text-sm font-medium text-white/50 border border-white/[0.08] hover:text-white hover:border-white/20 transition-all"
+              className="flex-none py-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint border-b-2 border-transparent -mb-px hover:text-ink transition-colors"
             >
               All
             </Link>
@@ -92,10 +70,11 @@ export default async function BlogCategoryPage({ params }: Props) {
               <Link
                 key={cat.slug}
                 href={`/blog/category/${cat.slug}`}
-                className={`flex-none px-4 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                aria-current={cat.slug === category ? 'page' : undefined}
+                className={`flex-none py-3.5 font-mono text-[11px] uppercase tracking-[0.14em] border-b-2 -mb-px transition-colors ${
                   cat.slug === category
-                    ? 'bg-white/10 text-white border-white/20'
-                    : 'text-white/50 border-white/[0.08] hover:text-white hover:border-white/20'
+                    ? 'text-ink border-brand-cyan'
+                    : 'text-ink-faint border-transparent hover:text-ink'
                 }`}
               >
                 {cat.label}
@@ -106,18 +85,18 @@ export default async function BlogCategoryPage({ params }: Props) {
       </div>
 
       {/* Posts */}
-      <section style={{ background: '#08080c' }} className="py-16 min-h-[50vh]">
+      <section className="bg-paper py-12 lg:py-16 min-h-[50vh]">
         <Container>
           {posts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="border-t-2 border-ink">
               {posts.map((post) => (
                 <BlogCard key={post.slug} post={post} />
               ))}
             </div>
           ) : (
-            <div className="text-center py-24">
-              <p className="text-white/30 mb-4">No posts in this category yet.</p>
-              <Link href="/blog" className="text-brand-cyan text-sm hover:underline">
+            <div className="py-24">
+              <p className="text-ink-soft mb-4">No posts in this category yet.</p>
+              <Link href="/blog" className="text-brand-blue text-sm font-semibold hover:underline">
                 View all posts
               </Link>
             </div>

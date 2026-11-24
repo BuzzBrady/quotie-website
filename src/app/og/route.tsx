@@ -13,6 +13,8 @@ export async function GET(req: NextRequest) {
     "Quoting software built for Australian & NZ trades businesses.";
   const tag = searchParams.get("tag") || "";
 
+  const titleSize = title.length > 50 ? 52 : 66;
+
   return new ImageResponse(
     (
       <div
@@ -21,141 +23,126 @@ export async function GET(req: NextRequest) {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          background: "#08080c",
-          padding: "72px 80px",
+          background: "#f3f5f9",
+          padding: "64px 80px 56px",
           position: "relative",
           fontFamily: "sans-serif",
+          color: "#0b1626",
         }}
       >
-        {/* Background glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: -100,
-            left: -100,
-            width: 700,
-            height: 500,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(ellipse, rgba(59,130,246,0.25) 0%, transparent 70%)",
-          }}
-        />
-
-        {/* Top accent line */}
+        {/* Top brand bar */}
         <div
           style={{
             position: "absolute",
             top: 0,
             left: 0,
             right: 0,
-            height: 3,
-            background: "linear-gradient(90deg, #3b82f6, #39b9e5)",
+            height: 10,
+            display: "flex",
+            background: "linear-gradient(90deg, #1f61aa, #39b9e5)",
           }}
         />
 
-        {/* Logo / brand */}
+        {/* Header row: brand ..... tag */}
+        <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 30,
+              fontWeight: 800,
+              letterSpacing: "-0.03em",
+              color: "#0b1626",
+            }}
+          >
+            {SITE_NAME}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              height: 2,
+              margin: "14px 20px 0",
+              borderBottom: "2px dashed #c3ccd9",
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              fontSize: 18,
+              fontWeight: 600,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#1f61aa",
+            }}
+          >
+            {tag || "quotie.au"}
+          </div>
+        </div>
+
+        {/* Title + highlighter */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              fontSize: titleSize,
+              fontWeight: 800,
+              color: "#0b1626",
+              lineHeight: 1.08,
+              letterSpacing: "-0.04em",
+              maxWidth: 1000,
+            }}
+          >
+            {title}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              width: 260,
+              height: 16,
+              marginTop: 18,
+              background: "rgba(57,185,229,0.55)",
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              fontSize: 25,
+              color: "#46546a",
+              lineHeight: 1.45,
+              maxWidth: 860,
+              marginTop: 30,
+            }}
+          >
+            {subtitle.length > 150 ? `${subtitle.slice(0, 147)}…` : subtitle}
+          </div>
+        </div>
+
+        {/* Foot of the quote */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 12,
-            marginBottom: 48,
+            width: "100%",
+            borderTop: "3px solid #0b1626",
+            paddingTop: 18,
+            fontSize: 18,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "#66758b",
           }}
         >
-          <div
-            style={{
-              width: 44,
-              height: 44,
-              borderRadius: 10,
-              background: "linear-gradient(135deg, #3b82f6, #39b9e5)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: 20,
-                height: 20,
-                borderRadius: 4,
-                background: "white",
-                opacity: 0.9,
-              }}
-            />
+          <div style={{ display: "flex" }}>Quote faster. Close more.</div>
+          <div style={{ display: "flex", flex: 1 }} />
+          <div style={{ display: "flex", color: "#0b1626", fontWeight: 600 }}>
+            quotie.au
           </div>
-          <span
-            style={{
-              fontSize: 26,
-              fontWeight: 700,
-              color: "rgba(232,232,237,0.9)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {SITE_NAME}
-          </span>
-        </div>
-
-        {/* Tag badge */}
-        {tag && (
-          <div
-            style={{
-              display: "flex",
-              marginBottom: 20,
-              padding: "6px 16px",
-              borderRadius: 100,
-              border: "1px solid rgba(59,130,246,0.3)",
-              background: "rgba(59,130,246,0.1)",
-              color: "#60a5fa",
-              fontSize: 15,
-              fontWeight: 600,
-              letterSpacing: "0.01em",
-            }}
-          >
-            {tag}
-          </div>
-        )}
-
-        {/* Title */}
-        <div
-          style={{
-            fontSize: title.length > 50 ? 48 : 60,
-            fontWeight: 800,
-            color: "#e8e8ed",
-            lineHeight: 1.1,
-            letterSpacing: "-0.035em",
-            maxWidth: 900,
-            marginBottom: 24,
-          }}
-        >
-          {title}
-        </div>
-
-        {/* Subtitle */}
-        <div
-          style={{
-            fontSize: 22,
-            color: "rgba(232,232,237,0.45)",
-            lineHeight: 1.5,
-            maxWidth: 700,
-          }}
-        >
-          {subtitle}
-        </div>
-
-        {/* Bottom right — URL */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 48,
-            right: 80,
-            fontSize: 16,
-            color: "rgba(232,232,237,0.2)",
-            letterSpacing: "0.01em",
-          }}
-        >
-          quotie.au
         </div>
       </div>
     ),
