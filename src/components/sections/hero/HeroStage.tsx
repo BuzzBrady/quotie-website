@@ -106,8 +106,21 @@ export default function HeroStage() {
   const lines = generated ? finalLines : [];
 
   return (
-    <div ref={ref} className="relative" aria-hidden>
-      <div className="grid grid-cols-12 items-start">
+    <div ref={ref} className="relative">
+      {/* Says what the viewer is looking at: a cut-down example, on purpose */}
+      <div className="mb-5 sm:mb-2">
+        <div className="flex items-baseline gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-ink-faint">
+          <span className="text-brand-blue">Example form · 3 questions</span>
+          <span className="leader hidden sm:block" aria-hidden />
+          <span className="hidden sm:inline">Minimum input, maximum output</span>
+        </div>
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-soft text-pretty">
+          Your form asks as many questions as your pricing needs, and not one
+          more. <span className="sm:hidden">Minimum input, maximum output.</span>
+        </p>
+      </div>
+
+      <div className="grid grid-cols-12 items-start" aria-hidden>
         {/* The form — a mockup of the app's mobile quote-creation screen */}
         <div className="col-span-12 sm:col-start-1 sm:col-span-5 row-start-1 sm:mt-8 relative z-0">
           <div className="mx-auto max-w-[290px] sm:max-w-none">
@@ -230,7 +243,7 @@ export default function HeroStage() {
       </div>
 
       {/* Status rail — what happens after you hit generate */}
-      <div className="mt-6 sm:mt-7 grid grid-cols-4 gap-2 sm:gap-3">
+      <div className="mt-6 sm:mt-7 grid grid-cols-4 gap-2 sm:gap-3" aria-hidden>
         {RAIL.map((r) => {
           const on = step >= r.at;
           const Icon = r.icon;
