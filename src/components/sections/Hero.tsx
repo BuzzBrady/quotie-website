@@ -6,9 +6,7 @@ import Container from "@/components/ui/Container";
 import Eyebrow from "@/components/ui/Eyebrow";
 import { ButtonLink } from "@/components/ui/Button";
 import HeroStage from "@/components/sections/hero/HeroStage";
-
-const EXPLAINER_SRC =
-  "https://pub-6a618f39fa984c4aa12e520b363259e1.r2.dev/QuotieExplainer23.mp4";
+import VslPlayer from "@/components/vsl/VslPlayer";
 
 function ExplainerDialog({
   open,
@@ -33,7 +31,7 @@ function ExplainerDialog({
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
-      className="m-auto w-[min(960px,calc(100vw-2rem))] bg-transparent p-0 backdrop:bg-deep/80 backdrop:backdrop-blur-sm"
+      className="m-auto w-[min(960px,calc(100vw-2rem),calc((100dvh-13rem)*16/9))] min-w-[min(320px,calc(100vw-2rem))] overflow-visible bg-transparent p-0 backdrop:bg-deep/80 backdrop:backdrop-blur-sm"
     >
       {open && (
         <div className="relative">
@@ -44,18 +42,8 @@ function ExplainerDialog({
           >
             Close <X weight="bold" className="w-4 h-4" />
           </button>
-          <div
-            className="rounded-xl overflow-hidden bg-black shadow-2xl"
-            style={{ aspectRatio: "16 / 9" }}
-          >
-            <video
-              src={EXPLAINER_SRC}
-              className="w-full h-full object-cover"
-              controls
-              autoPlay
-              playsInline
-            />
-          </div>
+          {/* The explainer is a coded video — see src/components/vsl */}
+          <VslPlayer />
         </div>
       )}
     </dialog>

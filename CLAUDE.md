@@ -278,6 +278,8 @@ Do NOT invent testimonials. Do NOT use fake names.
 - Notifications (bell icon, real-time, daily digest)
 - **Pricing catalog** (app nav: "Pricing") — customers edit prices and add/deactivate products themselves via draft → review & publish; in-use products can only be switched off. Business logic, form and wording changes are done by the Quotie team. (Per-company module `catalog_editing` — Buzz confirmed OK to market, Nov 2026.)
 - Sales pipelines — drag opportunities between stages; custom stages (announced to customers in the app's September 2026 updates deck)
+- Automatic pipeline moves — a new lead, a booked site visit, a sent quote, a signature, won and lost each move the card on the default pipeline (live on prod 20 Nov 2026)
+- **Job scheduling** ("Jobs & Scheduling") — crew on jobs and a schedule board: days split into morning / midday / afternoon, time off and events, double-booking warnings, print. Click to edit, no drag and drop. Opt-in per company (module `scheduling`, off until the Quotie team switches it on; live on prod 17 Nov 2026 — Buzz OK'd marketing it, Nov 2026). Signing a quote does NOT create a job: the job is created when the quote is marked won (create-job prompt, with crew picker when scheduling is on).
 - Tasks tab in Follow-Ups, What's Next on the dashboard, nightly road-day itinerary email, multiple quote templates per company, profit breakdown on Review & Send
 - Multi-tenant with row-level security
 
@@ -327,6 +329,15 @@ The site reads like a quote document: cool paper, ink text, hairline rules. Toke
 - Product visuals are coded mockups of real app screens (`src/components/sections/platform/AppMocks.tsx`) — labels/colours mirror `quote-pro-working`. Sample data only. Update them when the app UI changes.
 - The hero (`sections/hero/HeroStage.tsx`) autoplays form → generate → engine run → quote → sent → viewed → signed, using the same demo data as the interactive demo. The form is a phone mockup of the app's mobile quote-creation screen (`sections/hero/PhoneForm.tsx`, mirrors `quote-pro-working/src/components/quote-creation` mobile layout: header row, section tab strip, flat sections, sticky Create Quote bar) — update it when that screen changes.
 - `/opt-in` and `/apply` are NOT part of this system — leave their styling alone.
+
+### Explainer video (coded, Nov 2026)
+"Watch the explainer" in the hero plays a video built in code, not an mp4. Everything is in `src/components/vsl/`.
+
+- `script.ts` is the single source of truth: one entry per voiceover line with its length in seconds. Scene timing, subtitles and the player's duration all derive from it. To retime, change `dur` there.
+- Scenes (`scenes/*.tsx`) are pure functions of time `t` — no timers, no CSS transitions, no framer-motion — so the video can be scrubbed and exported frame by frame. Keep it that way.
+- The picture is the route `/explainer-frame` (noindex, no site chrome, no Meta pixel, `X-Frame-Options: SAMEORIGIN` in `next.config.ts`). `VslPlayer.tsx` embeds it in a 1280×720 iframe so the app mockups always lay out at desktop width, and owns the clock, controls and subtitles. `/explainer-frame?t=42` shows one frame; `?play=1` plays it.
+- Voiceover: none recorded yet. Put the audio file in `/public`, set `VOICEOVER_SRC` in `VslPlayer.tsx` (the audio then becomes the clock) and adjust `dur` values in `script.ts` to match the recording.
+- It reuses the site's mockups (`PhoneForm` pieces, `AppMocks`, `CatalogMock`) plus video-only ones in `vsl/VslMocks.tsx` (pipeline, create-job dialog, schedule board, site visits, calendar). All the positioning rules below apply: nothing quote-like appears before Create Quote is pressed and the engine has run, and the example is labelled as an example.
 
 ### Animation philosophy
 - Simple fade-ins on scroll (`Reveal`)

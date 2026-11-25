@@ -37,13 +37,21 @@ const ROWS = [
 // 3 review dialog · 4 published
 const BEATS = [2200, 1500, 2600, 2800, 4200];
 
-export default function CatalogMock() {
+export default function CatalogMock({
+  step: controlledStep,
+}: {
+  /** Drive the steps from outside (the explainer video) instead of the built-in loop. */
+  step?: number;
+} = {}) {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
-  const [step, setStep] = useState(0);
+  const [ownStep, setStep] = useState(0);
+  const controlled = controlledStep !== undefined;
+  const step = controlled ? controlledStep : ownStep;
 
   useEffect(() => {
+    if (controlled) return;
     // Reduced motion: hold on the draft state, which shows the whole idea.
     // Set in an effect (not during render) so server and client HTML match.
     if (reduced) {
@@ -53,7 +61,7 @@ export default function CatalogMock() {
     if (!inView) return;
     const t = setTimeout(() => setStep((s) => (s + 1) % BEATS.length), BEATS[step]);
     return () => clearTimeout(t);
-  }, [step, inView, reduced]);
+  }, [step, inView, reduced, controlled]);
 
   const s = step;
   const editing = s >= 1 && s <= 3;

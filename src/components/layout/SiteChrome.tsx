@@ -13,6 +13,11 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     pathname === "/apply" ||
     pathname.startsWith("/apply/");
 
+  // The explainer video's picture, loaded in the player's iframe — bare page.
+  if (pathname === "/explainer-frame") {
+    return <>{children}</>;
+  }
+
   if (isAdsPage) {
     return <main className="flex-1">{children}</main>;
   }

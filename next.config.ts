@@ -115,6 +115,19 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // The explainer video's picture is embedded by our own pages only
+        // (src/components/vsl/VslPlayer.tsx), so same-origin framing is allowed.
+        source: "/explainer-frame",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+        ],
+      },
+      {
         source: "/apply/thanks",
         headers: [
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
@@ -126,7 +139,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/((?!apply/thanks).*)",
+        source: "/((?!apply/thanks|explainer-frame).*)",
         headers: [
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },

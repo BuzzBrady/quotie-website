@@ -176,6 +176,9 @@ export default function MetaPixel() {
     if (page) emit(page.event, page.name);
   }, [pathname]);
 
+  // The explainer video's iframe is not a page view — keep the pixel out of it.
+  if (pathname === "/explainer-frame") return null;
+
   return (
     <>
       <Script id="meta-pixel" strategy="afterInteractive">

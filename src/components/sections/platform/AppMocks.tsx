@@ -56,11 +56,14 @@ const NAV: { section?: string; items: { id: string; label: string; icon: typeof 
   { items: [{ id: "settings", label: "Settings", icon: Gear }] },
 ];
 
-function AppWindow({
+export function AppWindow({
   active,
+  scheduling = false,
   children,
 }: {
   active: string;
+  /** Companies with the Scheduling module see "Jobs & Scheduling" in the nav. */
+  scheduling?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -99,7 +102,9 @@ function AppWindow({
                     />
                   )}
                   <Icon weight={on ? "fill" : "regular"} className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">{item.label}</span>
+                  <span className="truncate">
+                    {scheduling && item.id === "jobs" ? "Jobs & Scheduling" : item.label}
+                  </span>
                 </div>
               );
             })}
@@ -130,7 +135,7 @@ function AppWindow({
   );
 }
 
-function PageTitle({ title, sub }: { title: string; sub?: string }) {
+export function PageTitle({ title, sub }: { title: string; sub?: string }) {
   return (
     <div className="mb-4">
       <div className="text-[15px] font-bold tracking-tight">{title}</div>
@@ -240,7 +245,7 @@ export function SendMock() {
 
 /* --------------------------- Accept & Sign --------------------------- */
 
-export function SignMock() {
+export function SignMock({ signed = true }: { signed?: boolean }) {
   return (
     <div className="h-full min-h-[440px] rounded-xl overflow-hidden bg-[#f9fafb] text-[#1a1a1a] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)] ring-1 ring-white/10 flex flex-col">
       <div className="h-10 shrink-0 bg-white border-b flex items-center gap-2 px-4" style={{ borderColor: B }}>
@@ -259,7 +264,10 @@ export function SignMock() {
           from — compare them below.
         </div>
         <div className="grid sm:grid-cols-2 gap-3 mt-4">
-          <div className="rounded-xl border bg-white p-3.5 shadow-sm opacity-60" style={{ borderColor: B }}>
+          <div
+            className={`rounded-xl border bg-white p-3.5 shadow-sm ${signed ? "opacity-60" : ""}`}
+            style={{ borderColor: B }}
+          >
             <div className="text-[11px] font-semibold">10kW Solar</div>
             <div className="text-[9.5px] text-[#737373]">Q-1042</div>
             <div className="text-xl font-extrabold mt-1.5 tabular-nums" style={{ color: PRIMARY }}>
@@ -268,16 +276,22 @@ export function SignMock() {
             <div className="mt-3 h-20 rounded-md bg-[#f5f5f5] border flex items-center justify-center text-[9.5px] text-[#737373]" style={{ borderColor: B }}>
               Page 1 preview
             </div>
-            <div className="mt-3 text-[10px] font-medium text-[#737373]">Not selected</div>
+            <div className="mt-3 text-[10px] font-medium text-[#737373]">
+              {signed ? "Not selected" : "Option 1"}
+            </div>
           </div>
-          <div className="rounded-xl border-2 bg-white p-3.5 shadow-sm" style={{ borderColor: PRIMARY }}>
+          <div
+            className="rounded-xl border-2 bg-white p-3.5 shadow-sm"
+            style={{ borderColor: signed ? PRIMARY : B }}
+          >
             <div className="text-[11px] font-semibold">10kW Solar + 10kWh Battery</div>
             <div className="text-[9.5px] text-[#737373]">Q-1043</div>
             <div className="text-xl font-extrabold mt-1.5 tabular-nums" style={{ color: PRIMARY }}>
               $20,640
             </div>
             <div className="mt-3 rounded-xl border-2 border-dashed bg-[#f9fafb] h-20 flex items-center justify-center" style={{ borderColor: "#d4d4d4" }}>
-              <svg viewBox="0 0 190 46" className="h-10" fill="none" aria-hidden>
+              {!signed && <span className="text-[10px] text-[#a3a3a3]">Sign here to accept</span>}
+              <svg viewBox="0 0 190 46" className={signed ? "h-10" : "hidden"} fill="none" aria-hidden>
                 <path
                   d="M6 34c8-14 16-26 22-26 5 0 1 14-3 24-2 6 6-10 14-12 5-1 2 8 6 8 5 0 8-10 14-10 4 0 2 9 7 9 6 0 9-16 16-22 4-3 3 10-1 20-2 5 8-9 15-9 5 0 3 8 9 8 9 0 22-6 40-12"
                   stroke="#1a1a1a"
@@ -287,12 +301,21 @@ export function SignMock() {
                 />
               </svg>
             </div>
-            <div className="mt-3 flex items-center gap-1.5 rounded-md bg-emerald-50 text-emerald-800 px-2 py-1.5 text-[10px]">
-              <Check weight="bold" className="w-3 h-3 shrink-0" />
-              <span>
-                Accepted — signed by <b>Sarah Mitchell</b>
-              </span>
-            </div>
+            {signed ? (
+              <div className="mt-3 flex items-center gap-1.5 rounded-md bg-emerald-50 text-emerald-800 px-2 py-1.5 text-[10px]">
+                <Check weight="bold" className="w-3 h-3 shrink-0" />
+                <span>
+                  Accepted — signed by <b>Sarah Mitchell</b>
+                </span>
+              </div>
+            ) : (
+              <div
+                className="mt-3 rounded-md px-2 py-1.5 text-center text-[10px] font-semibold text-white"
+                style={{ background: PRIMARY }}
+              >
+                Accept &amp; Sign
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-4 flex items-center justify-between text-[9.5px] text-[#737373]">

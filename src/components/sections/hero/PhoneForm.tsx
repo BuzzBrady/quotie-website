@@ -16,12 +16,12 @@ import {
  * colours. Sample fields only. Update this when the app screen changes.
  */
 
-const B = "#e6e6e6"; // app border
-const MUTED = "#f5f5f5"; // app muted
-const MUTED_FG = "#737373";
-const PRIMARY = "#2563eb";
+export const B = "#e6e6e6"; // app border
+export const MUTED = "#f5f5f5"; // app muted
+export const MUTED_FG = "#737373";
+export const PRIMARY = "#2563eb";
 
-function Pill({
+export function Pill({
   children,
   active,
   tapped,
@@ -46,13 +46,16 @@ function Pill({
   );
 }
 
-function Section({
+export function Section({
   title,
   done,
+  count,
   children,
 }: {
   title: string;
   done: boolean;
+  /** Answered/total label; defaults to a single-question section. */
+  count?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -63,7 +66,7 @@ function Section({
           className="text-[10.5px] tabular-nums transition-colors duration-300"
           style={{ color: done ? PRIMARY : MUTED_FG }}
         >
-          {done ? "1/1" : "0/1"}
+          {count ?? (done ? "1/1" : "0/1")}
         </span>
       </div>
       {children}
